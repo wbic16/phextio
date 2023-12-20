@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>phext.io - open-source knowledge</title>
+<style type="text/css">
+body {
+  background: black;
+  color: white;
+  font-family: sans-serif;
+}
+#phext {
+  width: 400px;
+  min-height: 320px;
+}
+textarea {
+  font-family: monospace;
+}
+#hyperJump {
+  width: 80px;
+  height: 23px;
+}
+#coordsX,
+#coordsY,
+#coordsZ,
+#pscrollbreak,
+#psectionbreak,
+#pchapterbreak,
+#pbookbreak,
+#pvolumebreak,
+#pcollectionbreak,
+#pseriesbreak,
+#pshelfbreak,
+#plibrarybreak {
+  font-family: monospace;
+}
+</style>
+<script type="text/javascript">
+
+const LINE_BREAK       = '\n';   // 2nd (Newline)
+const SCROLL_BREAK     = '\x17'; // 3rd
+const SECTION_BREAK    = '\x18'; // 4th
+const CHAPTER_BREAK    = '\x19'; // 5th
+const BOOK_BREAK       = '\x1A'; // 6th
+const VOLUME_BREAK     = '\x1C'; // 7th
+const COLLECTION_BREAK = '\x1D'; // 8th
+const SERIES_BREAK     = '\x1E'; // 9th
+const SHELF_BREAK      = '\x1F'; // 10th
+const LIBRARY_BREAK    = '\x01'; // 11th
+
+var DimensionBreaks = new Array(
+  SCROLL_BREAK,
+  SECTION_BREAK,
+  CHAPTER_BREAK,
+  BOOK_BREAK,
+  VOLUME_BREAK,
+  COLLECTION_BREAK,
+  SERIES_BREAK,
+  SHELF_BREAK,
+  LIBRARY_BREAK
+);
+function defaultCoordinates() {
+  var coordinates = new Array();
+  coordinates[LINE_BREAK] = 1;
+  coordinates[SCROLL_BREAK] = 1;
+  coordinates[SECTION_BREAK] = 1;
+  coordinates[CHAPTER_BREAK] = 1;
+  coordinates[BOOK_BREAK] = 1;
+  coordinates[VOLUME_BREAK] = 1;
+  coordinates[COLLECTION_BREAK] = 1;
+  coordinates[SERIES_BREAK] = 1;
+  coordinates[SHELF_BREAK] = 1;
+  coordinates[LIBRARY_BREAK] = 1;
+  return coordinates;
+}
+
+var ta = false;
+var cs = false;
+var ls = false;
+var cx = false;
+var cy = false;
+var cz = false;
+var phextCoordinate = "1.1.1/1.1.1/1.1.1";
+
+function loadVars() {
+  if (!ta) {
+    ta = document.getElementById("scroll");
+  }
+  if (!cs) {
+    cs = document.getElementById("coords");
+  }
+  if (!ls) {
+    ls = document.getElementById("subspace");
+  }
+  if (!cx) {
+    cx = document.getElementById("coordsX");
+  }
+  if (!cy) {
+    cy = document.getElementById("coordsY");
+  }
+  if (!cz) {
+    cz = document.getElementById("coordsZ");
+  }
+}
+
+function updateCoordinate() {
+  phextCoordinate = cx.value + "/" + cy.value + "/" + cz.value;
+}
+
+var coordLibrary = 1;
+var coordShelf = 1;
+var coordSeries = 1;
+var coordCollection = 1;
+var coordVolume = 1;
+var coordBook = 1;
+var coordChapter = 1;
+var coordSection = 1;
+var coordScroll = 1;
+
+function grabScroll() {
+  if (ls.value.trim().length > 0) {
+    raw = ls.value;
+  } else {
+    ls.value = raw;
+  }
+  var libs = raw.split(LIBRARY_BREAK);
+  libs.forEach((library) => processLibrary(library));
+}
+
+function processLibrary(library) {
+  var shelves = library.split(SHELF_BREAK);
+  shelves.forEach((shelf) => processShelf(shelf));
+  ++coordLibrary;
+}
+
+function processShelf(shelf) {
+  var series = shelf.split(SERIES_BREAK);
+  series.forEach((seri) => processSeries(seri));
+  ++coordShelf;
+}
+
+  var series;
+  var collections;
+  var volumes;
+  var books;
+  var chapters;
+  var sections;
+  var scrolls;
+}
+
+function jump() {
+  loadVars();
+  updateCoordinate();
+  grabScroll();
+  ls.value = raw;
+}
+
+var raw = "<html>\n<head>\n<title>Reference Phext Document</title>\n</head>\n<body>\n\nYou are currently at 1.1.1/1.1.1/1.1.1.\nWe are aware of the following nodes:\n\n<a href='phext://1.1.1/1.1.1/1.1.2'>Scroll #2</a>\n<a href='phext://1.1.1/1.1.1/1.1.3'>Scroll #3</a>\n<a href='phext://1.1.1/1.1.1/1.1.4'>Scroll #4</a>\n\n</body>\n</html>Scroll #2\n---------\nThis happens to be a MarkDown file.\n\nScroll #3: Just a line of text.<html>\n<head>\n<title>Scroll #4</title>\n</head>\n<body>\n<a href='phext://1.1.1/1.1.1/1.1.1'>Return Home</a>\n\n<h1>Scroll #4</h1>\n</body>\n</html>";
+
+function loadPhextHelper() {
+  document.getElementById("pscrollbreak").value = SCROLL_BREAK;
+  document.getElementById("psectionbreak").value = SECTION_BREAK;
+  document.getElementById("pchapterbreak").value = CHAPTER_BREAK;
+  document.getElementById("pbookbreak").value = BOOK_BREAK;
+  document.getElementById("pvolumebreak").value = VOLUME_BREAK;
+  document.getElementById("pcollectionbreak").value = COLLECTION_BREAK;
+  document.getElementById("pseriesbreak").value = SERIES_BREAK;
+  document.getElementById("pshelfbreak").value = SHELF_BREAK;
+  document.getElementById("plibrarybreak").value = LIBRARY_BREAK;
+}
+
+</script>
+</head>
+<body onload="loadPhextHelper();">
+
+<div id="root">
+Welcome to phext: you can jump to a scroll you wish to view using the jump button.<br />
+Make changes in subspace as you see fit.<br />
+If your font doesn't render phext breaks yet, you can use the table below to copy/paste from.
+<table>
+  <tr><th>Scroll</th><td><input id="pscrollbreak" type="text" value="" size="1" /></td>
+  <th>Section</th><td><input id="psectionbreak" type="text" value="" size="1" /></td>
+  <th>Chapter</th><td><input id="pchapterbreak" type="text" value="" size="1" /></td></tr>
+
+  <tr><th>Book</th><td><input id="pbookbreak" type="text" value="" size="1" /></td>
+  <th>Volume</th><th><input id="pvolumebreak" type="text" value="" size="1" /></td>
+  <th>Collection</th><td><input id="pcollectionbreak" type="text" value="" size="1" /></td></tr>
+
+  <tr><th>Series</th><td><input id="pseriesbreak" type="text" value="" size="1" /></td>
+  <th>Shelf</th><td><input id="pshelfbreak" type="text" value="" size="1" /></td>
+  <th>Library</th><td><input id="plibrarybreak" type="text" value="" size="1" /></td></tr>
+</table>
+</div>
+
+<div id="phext">
+<ul>
+  <li>Location:
+    <input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" />/
+    <input type="text" id="coordsY" name="coordsY" value="1.1.1" size="8" />/
+    <input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" />
+  </li>
+</ul>
+<input id="hyperJump" type="button" onclick="jump();" value="Jump" />
+  <h1>Scroll</h1>
+  <textarea id="scroll" name="scroll" rows="10" cols="110">Hello World</textarea>
+ 
+  <h1>Subspace</h1>
+  <textarea id="subspace" name="subspace" rows="30" cols="110">
+  </textarea>
+</div>
+
+</body>
+</html>
