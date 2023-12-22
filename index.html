@@ -30,11 +30,47 @@ textarea {
 #pcollectionbreak,
 #pseriesbreak,
 #pshelfbreak,
-#plibrarybreak {
+#plibrarybreak,
+#targetCoordinates {
   font-family: monospace;
+}
+#targetCoordinates {
+  font-size: 1.6em;
+}
+#redPill {
+  background: red;
+  color: white;
+  font-weight: bold;
+  border-radius: 12px;
+  padding: 12px;
+}
+#bluePill {
+  background: blue;
+  color: white;
+  font-weight: bold;
+  border-radius: 12px;
+  padding: 12px;
+}
+a, a:visited {
+  color: white;
+  font-size: 2em;
+}
+#linker {
+  margin: 8px;
+  background-color: #171742;
+  padding: 8px;
+  margin-bottom: 32px;
 }
 </style>
 <script type="text/javascript">
+
+<!-- paste your phext data here -->
+
+var raw = "<html>\n<head>\n<title>Reference Phext Document</title>\n</head>\n<body>\n\nYou are currently at 1.1.1/1.1.1/1.1.1.\nWe are aware of the following nodes:\n\n<a href='phext://1.1.1/1.1.1/1.1.2'>Scroll #2</a>\n<a href='phext://1.1.1/1.1.1/1.1.3'>Scroll #3</a>\n<a href='phext://1.1.1/1.1.1/1.1.4'>Scroll #4</a>\n\n</body>\n</html>Scroll #2\n---------\nThis happens to be a MarkDown file.\n\nScroll #3: Just a line of text.<html>\n<head>\n<title>Scroll #4</title>\n</head>\n<body>\n<a href='phext://1.1.1/1.1.1/1.1.1'>Return Home</a>\n\n<h1>Scroll #4</h1>\n</body>\n</html>";
+
+
+<!-- changes below here might break the renderer -->
+
 
 const LINE_BREAK       = '\n';   // 2nd (Newline)
 const SCROLL_BREAK     = '\x17'; // 3rd
@@ -79,6 +115,8 @@ var ls = false;
 var cx = false;
 var cy = false;
 var cz = false;
+var wr = false;
+var st = false;
 var phextCoordinate = "1.1.1/1.1.1/1.1.1";
 
 function loadVars() {
@@ -100,6 +138,12 @@ function loadVars() {
   if (!cz) {
     cz = document.getElementById("coordsZ");
   }
+  if (!wr) {
+    wr = document.getElementById("whiterabbit");
+  }
+  if (!st) {
+    st = document.getElementById("subspaceTitle");
+  }
 }
 
 function updateCoordinate() {
@@ -107,6 +151,8 @@ function updateCoordinate() {
 }
 
 var coords = defaultCoordinates();
+var target = defaultCoordinates();
+var scrollFound = false;
 
 function grabScroll() {
   if (ls.value.trim().length > 0) {
@@ -115,8 +161,25 @@ function grabScroll() {
     ls.value = raw;
   }
   coords = defaultCoordinates();
+  var gz = cz.value.split('.');
+  var gy = cy.value.split('.');
+  var gx = cx.value.split('.');
+  if (gz.length >= 1) { target[LIBRARY_BREAK] = gz[0]; }
+  if (gz.length >= 2) { target[SHELF_BREAK] = gz[1]; }
+  if (gz.length >= 3) { target[SERIES_BREAK] = gz[2]; }
+  if (gy.length >= 1) { target[COLLECTION_BREAK] = gy[0]; }
+  if (gy.length >= 2) { target[VOLUME_BREAK] = gy[1]; }
+  if (gy.length >= 3) { target[BOOK_BREAK] = gy[2]; }
+  if (gx.length >= 1) { target[CHAPTER_BREAK] = gx[0]; }
+  if (gx.length >= 2) { target[SECTION_BREAK] = gx[1]; }
+  if (gx.length >= 3) { target[SCROLL_BREAK] = gx[2]; }
+
+  scrollFound = false;
   var libs = raw.split(LIBRARY_BREAK);
   libs.forEach((library) => processLibrary(library));
+  if (!scrollFound) {
+    ta.value = "";
+  }
 }
 
 function processLibrary(library) {
@@ -162,33 +225,60 @@ function processChapter(chapter) {
 }
 
 function processSection(section) {
-  var sections = section.split(SECTION_BREAK);
+  var sections = section.split(SCROLL_BREAK);
   sections.forEach((scroll) => processScroll(scroll));
   ++coords[SECTION_BREAK];
 }
 
-function processScroll(scroll) {
-  ta.value = "Processing Library=" + coords[LIBRARY_BREAK] +
-             ", Shelf=" + coords[SHELF_BREAK] +
-             ", Series=" + coords[SERIES_BREAK] +
-             ", Collection=" + coords[COLLECTION_BREAK] +
-             ", Volume=" + coords[VOLUME_BREAK] +
-             ", Book=" + coords[BOOK_BREAK] +
-             ", Chapter=" + coords[CHAPTER_BREAK] +
-             ", Section=" + coords[SECTION_BREAK] +
-             ", Scroll=" + coords[SCROLL_BREAK];
-   ++coords[SCROLL_BREAK];
+function coordinatesMatch(a, b) {
+  return a[SCROLL_BREAK]     == b[SCROLL_BREAK] &&
+         a[SECTION_BREAK]    == b[SECTION_BREAK] &&
+         a[CHAPTER_BREAK]    == b[CHAPTER_BREAK] &&
+         a[BOOK_BREAK]       == b[BOOK_BREAK] &&
+         a[VOLUME_BREAK]     == b[VOLUME_BREAK] &&
+         a[COLLECTION_BREAK] == b[COLLECTION_BREAK] &&
+         a[SERIES_BREAK]     == b[SERIES_BREAK] &&
+         a[SHELF_BREAK]      == b[SHELF_BREAK] &&
+         a[LIBRARY_BREAK]    == b[LIBRARY_BREAK];
 }
 
+function processScroll(scroll) {
+  if (coordinatesMatch(target, coords))
+  {
+    ta.value = scroll;
+    scrollFound = true;
+    var lineCount = scroll.split('\n').length;
+    if (lineCount < 100) { ta.rows = lineCount; }
+    else { ta.rows = 100; }
+  }
+  ++coords[SCROLL_BREAK];
+}
 
 function jump() {
-  loadVars();
+  ls.value = raw;
+  st.innerHTML = "Follow the White Rabbit.";
+  wr.style.display = 'block';
+  ta.style.display = 'block';
+
   updateCoordinate();
   grabScroll();
   ls.value = raw;
+
+  document.getElementById("linker").href = "?q=" + encodeURIComponent(raw) + "#RedPill";
 }
 
-var raw = "<html>\n<head>\n<title>Reference Phext Document</title>\n</head>\n<body>\n\nYou are currently at 1.1.1/1.1.1/1.1.1.\nWe are aware of the following nodes:\n\n<a href='phext://1.1.1/1.1.1/1.1.2'>Scroll #2</a>\n<a href='phext://1.1.1/1.1.1/1.1.3'>Scroll #3</a>\n<a href='phext://1.1.1/1.1.1/1.1.4'>Scroll #4</a>\n\n</body>\n</html>Scroll #2\n---------\nThis happens to be a MarkDown file.\n\nScroll #3: Just a line of text.<html>\n<head>\n<title>Scroll #4</title>\n</head>\n<body>\n<a href='phext://1.1.1/1.1.1/1.1.1'>Return Home</a>\n\n<h1>Scroll #4</h1>\n</body>\n</html>";
+function load() {
+  wr.style.display = 'none';
+  ta.style.display = 'none';
+
+  ta.value = raw;
+  ta.rows = raw.split('\n').length;
+
+  st.innerHTML = "Believe";
+  ta.value = raw;
+
+  document.getElementById("linker").href = "?q=" + encodeURIComponent(raw) + "#BluePill";
+}
 
 function loadPhextHelper() {
   document.getElementById("pscrollbreak").value = SCROLL_BREAK;
@@ -200,16 +290,22 @@ function loadPhextHelper() {
   document.getElementById("pseriesbreak").value = SERIES_BREAK;
   document.getElementById("pshelfbreak").value = SHELF_BREAK;
   document.getElementById("plibrarybreak").value = LIBRARY_BREAK;
-}
+  loadVars();
 
+  var urlSearchParams = new URLSearchParams(window.location.search);
+  var params = Object.fromEntries(urlSearchParams.entries());
+  if (params.q) {
+    raw = params.q;
+  }
+
+  ls.value = raw;
+}
 </script>
 </head>
 <body onload="loadPhextHelper();">
 
 <div id="root">
-Welcome to phext: you can jump to a scroll you wish to view using the jump button.<br />
-Make changes in subspace as you see fit.<br />
-If your font doesn't render phext breaks yet, you can use the table below to copy/paste from.
+<h1>Phext</h1>
 <table>
   <tr><th>Scroll</th><td><input id="pscrollbreak" type="text" value="" size="1" /></td>
   <th>Section</th><td><input id="psectionbreak" type="text" value="" size="1" /></td>
@@ -228,17 +324,21 @@ If your font doesn't render phext breaks yet, you can use the table below to cop
 <div id="phext">
 <ul>
   <li>Location:
-    <input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" />/
+    <input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" />/
     <input type="text" id="coordsY" name="coordsY" value="1.1.1" size="8" />/
-    <input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" />
+    <input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" />
   </li>
 </ul>
-<input id="hyperJump" type="button" onclick="jump();" value="Jump" />
-  <h1>Scroll</h1>
-  <textarea id="scroll" name="scroll" rows="10" cols="110">Hello World</textarea>
+<input id="redPill" type="button" onclick="jump();" value="Red Pill" />
+<input id="bluePill" type="button" onclick="load();" value="Blue Pill" />
+
+
+  <h1 id="whiterabbit">Scroll</h1>
+  <a id="linker" href="#WhiteRabbit">Share This Phext</a>
+  <textarea id="scroll" name="scroll" rows="5" cols="110">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
  
-  <h1>Subspace</h1>
-  <textarea id="subspace" name="subspace" rows="30" cols="110">
+  <h1 id="subspaceTitle">Subspace</h1>
+  <textarea id="subspace" name="subspace" rows="30" cols="200">
   </textarea>
 </div>
 
