@@ -106,15 +106,7 @@ function updateCoordinate() {
   phextCoordinate = cx.value + "/" + cy.value + "/" + cz.value;
 }
 
-var coordLibrary = 1;
-var coordShelf = 1;
-var coordSeries = 1;
-var coordCollection = 1;
-var coordVolume = 1;
-var coordBook = 1;
-var coordChapter = 1;
-var coordSection = 1;
-var coordScroll = 1;
+var coords = defaultCoordinates();
 
 function grabScroll() {
   if (ls.value.trim().length > 0) {
@@ -122,6 +114,7 @@ function grabScroll() {
   } else {
     ls.value = raw;
   }
+  coords = defaultCoordinates();
   var libs = raw.split(LIBRARY_BREAK);
   libs.forEach((library) => processLibrary(library));
 }
@@ -129,23 +122,64 @@ function grabScroll() {
 function processLibrary(library) {
   var shelves = library.split(SHELF_BREAK);
   shelves.forEach((shelf) => processShelf(shelf));
-  ++coordLibrary;
+  ++coords[LIBRARY_BREAK];
 }
 
 function processShelf(shelf) {
   var series = shelf.split(SERIES_BREAK);
   series.forEach((seri) => processSeries(seri));
-  ++coordShelf;
+  ++coords[SHELF_BREAK];
 }
 
-  var series;
-  var collections;
-  var volumes;
-  var books;
-  var chapters;
-  var sections;
-  var scrolls;
+function processSeries(seri) {
+  var collections = seri.split(COLLECTION_BREAK);
+  collections.forEach((collection) => processCollection(collection));
+  ++coords[SERIES_BREAK];
 }
+
+function processCollection(collection) {
+  var volumes = collection.split(VOLUME_BREAK);
+  volumes.forEach((volume) => processVolume(volume));
+  ++coords[COLLECTION_BREAK];
+}
+
+function processVolume(volume) {
+  var books = volume.split(BOOK_BREAK);
+  books.forEach((book) => processBook(book));
+  ++coords[VOLUME_BREAK];
+}
+
+function processBook(book) {
+  var chapters = book.split(CHAPTER_BREAK);
+  chapters.forEach((chapter) => processChapter(chapter));
+  ++coords[BOOK_BREAK];
+}
+
+function processChapter(chapter) {
+  var sections = chapter.split(SECTION_BREAK);
+  sections.forEach((section) => processSection(section));
+  ++coords[CHAPTER_BREAK];
+}
+
+function processSection(section) {
+  var sections = section.split(SECTION_BREAK);
+  sections.forEach((scroll) => processScroll(scroll));
+  ++coords[SECTION_BREAK];
+}
+
+function processScroll(scroll) {
+  ta.value = "Processing Library=" + coords[LIBRARY_BREAK] +
+             ", Shelf=" + coords[SHELF_BREAK] +
+             ", Series=" + coords[SERIES_BREAK] +
+             ", Collection=" + coords[COLLECTION_BREAK] +
+             ", Volume=" + coords[VOLUME_BREAK] +
+             ", Book=" + coords[BOOK_BREAK] +
+             ", Chapter=" + coords[CHAPTER_BREAK] +
+             ", Section=" + coords[SECTION_BREAK] +
+             ", Scroll=" + coords[SCROLL_BREAK];
+   ++coords[SCROLL_BREAK];
+}
+
 
 function jump() {
   loadVars();
