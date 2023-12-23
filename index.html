@@ -113,7 +113,13 @@ a#linker:visited:hover {
 <!-- ------------------------------------------------------------- -->
 <script type="text/javascript">
 
-var raw = "<html>\n<head>\n<title>Reference Phext Document</title>\n</head>\n<body>\n\nYou are currently at 1.1.1/1.1.1/1.1.1.\nWe are aware of the following nodes:\n\n<a href='phext://1.1.1/1.1.1/1.1.2'>Scroll #2</a>\n<a href='phext://1.1.1/1.1.1/1.1.3'>Scroll #3</a>\n<a href='phext://1.1.1/1.1.1/1.1.4'>Scroll #4</a>\n\n</body>\n</html>Scroll #2\n---------\nThis happens to be a MarkDown file.\n\nScroll #3: Just a line of text.<html>\n<head>\n<title>Scroll #4</title>\n</head>\n<body>\n<a href='phext://1.1.1/1.1.1/1.1.1'>Return Home</a>\n\n<h1>Scroll #4</h1>\n</body>\n</html>";
+
+var raw;
+if (localStorage.raw.length > 0) {
+  raw = localStorage.raw;
+} else {
+  raw = "<html>\n<head>\n<title>Reference Phext Document</title>\n</head>\n<body>\n\nYou are currently at 1.1.1/1.1.1/1.1.1.\nWe are aware of the following nodes:\n\n<a href='phext://1.1.1/1.1.1/1.1.2'>Scroll #2</a>\n<a href='phext://1.1.1/1.1.1/1.1.3'>Scroll #3</a>\n<a href='phext://1.1.1/1.1.1/1.1.4'>Scroll #4</a>\n\n</body>\n</html>Scroll #2\n---------\nThis happens to be a MarkDown file.\n\nScroll #3: Just a line of text.<html>\n<head>\n<title>Scroll #4</title>\n</head>\n<body>\n<a href='phext://1.1.1/1.1.1/1.1.1'>Return Home</a>\n\n<h1>Scroll #4</h1>\n</body>\n</html>";
+}
 
 var phextMode = 'n'; // newbie
 
@@ -431,7 +437,7 @@ function getPhextUrl(x, y, z) {
 // -----------------------------------------------------------------------------------------------------------
 // @fn redpill
 // -----------------------------------------------------------------------------------------------------------
-function redpill() {
+function redpill(store) {
   phextMode = 'r';
   st.innerHTML = "Follow the White Rabbit.";
   wr.style.display = 'block';
@@ -442,6 +448,10 @@ function redpill() {
   updateCoordinate();
   loadPhext();
   lk.href = getPhextUrl(cx.value, cy.value, cz.value) + "#RedPill";
+
+  if (store) {
+    localStorage.raw = raw;
+  }
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -491,10 +501,13 @@ function loadPhextHelper() {
     cx.value = params.cx;
   }
 
+  raw = localStorage.raw;
+  ls.value = raw;
+
   if (params.r) {
     raw = params.r.replaceAll("%27", "'");
     ls.value = raw;
-    redpill();
+    redpill(false);
   }
   if (params.b) {
     raw = params.b.replaceAll("%27", "'");
@@ -584,7 +597,7 @@ function toggle(editor) {
   <a id="linker" href="#WhiteRabbit">Share Phext</a>
 
 <div id="phext">
-<input id="redPill" type="button" onclick="redpill();" value="RED PILL" />
+<input id="redPill" type="button" onclick="redpill(false);" value="RED PILL" />
 <input id="bluePill" type="button" onclick="bluepill();" value="BLUE PILL" />
 
 <table id="coordinatePlate">
@@ -598,19 +611,19 @@ function toggle(editor) {
     <th>Library</th><td><input id="plibrarybreak" type="text" value="" size="1" /></td>
     <th>Shelf</th><td><input id="pshelfbreak" type="text" value="" size="1" /></td>
     <th>Series</th><td><input id="pseriesbreak" type="text" value="" size="1" /></td>
-    <td><input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" onchange="redpill();" /></td>
+    <td><input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" onchange="redpill(false);" /></td>
   </tr>
   <tr>
     <th>Collection</th><td><input id="pcollectionbreak" type="text" value="" size="1" /></td>
     <th>Volume</th><th><input id="pvolumebreak" type="text" value="" size="1" /></td>
     <th>Book</th><td><input id="pbookbreak" type="text" value="" size="1" /></td>
-    <td><input type="text" id="coordsY" name="coordsY" value="1.1.1" size="8" onchange="redpill();" /></td>
+    <td><input type="text" id="coordsY" name="coordsY" value="1.1.1" size="8" onchange="redpill(false);" /></td>
   </tr>
   <tr>
     <th>Chapter</th><td><input id="pchapterbreak" type="text" value="" size="1" /></td>
     <th>Section</th><td><input id="psectionbreak" type="text" value="" size="1" /></td>
     <th>Scroll</th><td><input id="pscrollbreak" type="text" value="" size="1" /></td>
-    <td><input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" onchange="redpill();" /></td>
+    <td><input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" onchange="redpill(false);" /></td>
   </tr>
 </table>
 
@@ -635,7 +648,7 @@ function toggle(editor) {
 <input id="CB1_11" type="button" onClick="setEnterType(1, 11, LIBRARY_BREAK);" value="Library" />
 <input id="disabler1" type="button" onclick="toggle(1);" value="Disable" />
 </div>
-<textarea id="subspace" rows="25" cols="160" onkeyup="redpill();" onkeydown="phextMods(1, event);">
+<textarea id="subspace" rows="25" cols="160" onkeyup="redpill(true);" onkeydown="phextMods(1, event);">
 Hello, traveler.
 You can change your stars by pressing F1 - F10.
 Click on 'Disable' to re-enable your browser's default function keys.
