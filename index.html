@@ -4,10 +4,37 @@
 <title>phext.io - open-source knowledge</title>
 <style type="text/css">
 body {
-  background: black;
+  background-color: #101419;
   color: white;
   font-family: sans-serif;
 }
+
+.CommandBar {
+  break: both;
+}
+#console {
+  float: left;
+  width: 50%;
+  height: 1000px;
+  border: 1px solid grey;
+  color: #e0ffe0;
+}
+.CommandBar input {
+  border: 2px solid white;
+  border-radius: 1px;
+  padding: 4px;
+  margin: 1px;
+  margin-bottom: 4px;
+}
+.coordinates {
+  font-style: italic;
+  color: #8fef62;
+}
+.number {
+  font-weight: bold;
+  color: #8f8fd7;
+}
+
 #phext {
   width: 400px;
   min-height: 320px;
@@ -53,24 +80,42 @@ textarea {
 }
 a, a:visited {
   color: white;
-  font-size: 2em;
+  font-size: 1.6em;
 }
 #linker {
+  display: block;
   margin: 8px;
-  background-color: #171742;
+  background-color: #000000;
   padding: 8px;
-  margin-bottom: 32px;
+  border: 2px solid white;
+  border-radius: 3px;
+  width: 300px;
+  text-align: center;
+}
+a#linker:hover,
+a#linker:visited:hover {
+  color: #6a6aff;
+  background: #babad0;
+}
+#coordinatePlate,
+#subspaceArea,
+#whiterabbit,
+#scroll {
+  display: none;
+}
+#populated {
+  position: absolute;
+  top: 200px;
+  right: 100px;
+  width: 300px;
 }
 </style>
+<!-- ------------------------------------------------------------- -->
 <script type="text/javascript">
-
-<!-- paste your phext data here -->
 
 var raw = "<html>\n<head>\n<title>Reference Phext Document</title>\n</head>\n<body>\n\nYou are currently at 1.1.1/1.1.1/1.1.1.\nWe are aware of the following nodes:\n\n<a href='phext://1.1.1/1.1.1/1.1.2'>Scroll #2</a>\n<a href='phext://1.1.1/1.1.1/1.1.3'>Scroll #3</a>\n<a href='phext://1.1.1/1.1.1/1.1.4'>Scroll #4</a>\n\n</body>\n</html>Scroll #2\n---------\nThis happens to be a MarkDown file.\n\nScroll #3: Just a line of text.<html>\n<head>\n<title>Scroll #4</title>\n</head>\n<body>\n<a href='phext://1.1.1/1.1.1/1.1.1'>Return Home</a>\n\n<h1>Scroll #4</h1>\n</body>\n</html>";
 
-
-<!-- changes below here might break the renderer -->
-
+var phextMode = 'n'; // newbie
 
 const LINE_BREAK       = '\n';   // 2nd (Newline)
 const SCROLL_BREAK     = '\x17'; // 3rd
@@ -83,6 +128,23 @@ const SERIES_BREAK     = '\x1E'; // 9th
 const SHELF_BREAK      = '\x1F'; // 10th
 const LIBRARY_BREAK    = '\x01'; // 11th
 
+const F1_KEY = 112;
+const F2_KEY = 113;
+const F3_KEY = 114;
+const F4_KEY = 115;
+const F5_KEY = 116;
+const F6_KEY = 117;
+const F7_KEY = 118;
+const F8_KEY = 119;
+const F9_KEY = 120;
+const F10_KEY = 121;
+const F11_KEY = 122;
+const F12_KEY = 123;
+
+var enterKey = LINE_BREAK;
+var replacementDescription = "ENTER";
+var priorButton = false;
+
 var DimensionBreaks = new Array(
   SCROLL_BREAK,
   SECTION_BREAK,
@@ -94,6 +156,8 @@ var DimensionBreaks = new Array(
   SHELF_BREAK,
   LIBRARY_BREAK
 );
+
+// -----------------------------------------------------------------------------------------------------------
 function defaultCoordinates() {
   var coordinates = new Array();
   coordinates[LINE_BREAK] = 1;
@@ -117,35 +181,34 @@ var cy = false;
 var cz = false;
 var wr = false;
 var st = false;
+var lk = false;
+var cp = false;
+var sa = false;
+var pd = false;
 var phextCoordinate = "1.1.1/1.1.1/1.1.1";
 
-function loadVars() {
-  if (!ta) {
-    ta = document.getElementById("scroll");
-  }
-  if (!cs) {
-    cs = document.getElementById("coords");
-  }
-  if (!ls) {
-    ls = document.getElementById("subspace");
-  }
-  if (!cx) {
-    cx = document.getElementById("coordsX");
-  }
-  if (!cy) {
-    cy = document.getElementById("coordsY");
-  }
-  if (!cz) {
-    cz = document.getElementById("coordsZ");
-  }
-  if (!wr) {
-    wr = document.getElementById("whiterabbit");
-  }
-  if (!st) {
-    st = document.getElementById("subspaceTitle");
-  }
+// -----------------------------------------------------------------------------------------------------------
+function dgid(id) {
+  return document.getElementById(id);
 }
 
+// -----------------------------------------------------------------------------------------------------------
+function loadVars() {
+  if (!ta) { ta = dgid("scroll"); }
+  if (!cs) { cs = dgid("coords"); }
+  if (!ls) { ls = dgid("subspace"); }
+  if (!cx) { cx = dgid("coordsX"); }
+  if (!cy) { cy = dgid("coordsY"); }
+  if (!cz) { cz = dgid("coordsZ"); }
+  if (!wr) { wr = dgid("whiterabbit"); }
+  if (!st) { st = dgid("subspaceTitle"); }
+  if (!lk) { lk = dgid("linker"); }
+  if (!cp) { cp = dgid("coordinatePlate"); }
+  if (!sa) { sa = dgid("subspaceArea"); }
+  if (!pd) { pd = dgid("populated"); }
+}
+
+// -----------------------------------------------------------------------------------------------------------
 function updateCoordinate() {
   phextCoordinate = cx.value + "/" + cy.value + "/" + cz.value;
 }
@@ -154,12 +217,9 @@ var coords = defaultCoordinates();
 var target = defaultCoordinates();
 var scrollFound = false;
 
-function grabScroll() {
-  if (ls.value.trim().length > 0) {
-    raw = ls.value;
-  } else {
-    ls.value = raw;
-  }
+// -----------------------------------------------------------------------------------------------------------
+function loadPhext() {
+  raw = ls.value;
   coords = defaultCoordinates();
   var gz = cz.value.split('.');
   var gy = cy.value.split('.');
@@ -175,61 +235,149 @@ function grabScroll() {
   if (gx.length >= 3) { target[SCROLL_BREAK] = gx[2]; }
 
   scrollFound = false;
+  pd.innerHTML = "<h2>Scroll Index</h2><ul>";
   var libs = raw.split(LIBRARY_BREAK);
   libs.forEach((library) => processLibrary(library));
+  pd.innerHTML += "</ul>";
   if (!scrollFound) {
     ta.value = "";
   }
 }
 
+// -----------------------------------------------------------------------------------------------------------
+// @fn dimensionBreak
+// -----------------------------------------------------------------------------------------------------------
+function dimensionBreak(type) {
+  if (type == LIBRARY_BREAK) {
+    ++coords[LIBRARY_BREAK];
+    coords[SHELF_BREAK] = 1;
+    coords[SERIES_BREAK] = 1;
+    coords[COLLECTION_BREAK] = 1;
+    coords[VOLUME_BREAK] = 1;
+    coords[BOOK_BREAK] = 1;
+    coords[CHAPTER_BREAK] = 1;
+    coords[SECTION_BREAK] = 1;
+    coords[SCROLL_BREAK] = 1;
+  }
+
+  if (type == SHELF_BREAK) {
+    ++coords[SHELF_BREAK];
+    coords[SERIES_BREAK] = 1;
+    coords[COLLECTION_BREAK] = 1;
+    coords[VOLUME_BREAK] = 1;
+    coords[BOOK_BREAK] = 1;
+    coords[CHAPTER_BREAK] = 1;
+    coords[SECTION_BREAK] = 1;
+    coords[SCROLL_BREAK] = 1;
+  }
+
+  if (type == SERIES_BREAK) {
+    ++coords[SERIES_BREAK];
+    coords[COLLECTION_BREAK] = 1;
+    coords[VOLUME_BREAK] = 1;
+    coords[BOOK_BREAK] = 1;
+    coords[CHAPTER_BREAK] = 1;
+    coords[SECTION_BREAK] = 1;
+    coords[SCROLL_BREAK] = 1;
+  }
+
+  if (type == COLLECTION_BREAK) {
+    ++coords[COLLECTION_BREAK];
+    coords[VOLUME_BREAK] = 1;
+    coords[BOOK_BREAK] = 1;
+    coords[CHAPTER_BREAK] = 1;
+    coords[SECTION_BREAK] = 1;
+    coords[SCROLL_BREAK] = 1;
+  }
+
+  if (type == VOLUME_BREAK) {
+    ++coords[VOLUME_BREAK];
+    coords[BOOK_BREAK] = 1;
+    coords[CHAPTER_BREAK] = 1;
+    coords[SECTION_BREAK] = 1;
+    coords[SCROLL_BREAK] = 1;
+  }
+
+  if (type == BOOK_BREAK) {
+    ++coords[BOOK_BREAK];
+    coords[CHAPTER_BREAK] = 1;
+    coords[SECTION_BREAK] = 1;
+    coords[SCROLL_BREAK] = 1;
+  }
+
+  if (type == CHAPTER_BREAK) {
+    ++coords[CHAPTER_BREAK];
+    coords[SECTION_BREAK] = 1;
+    coords[SCROLL_BREAK] = 1;
+  }
+
+  if (type == SECTION_BREAK) {
+    ++coords[SECTION_BREAK];
+    coords[SCROLL_BREAK] = 1;
+  }
+
+  if (type == SCROLL_BREAK) {
+    ++coords[SCROLL_BREAK];
+  }
+}
+
+// -----------------------------------------------------------------------------------------------------------
 function processLibrary(library) {
   var shelves = library.split(SHELF_BREAK);
   shelves.forEach((shelf) => processShelf(shelf));
-  ++coords[LIBRARY_BREAK];
+  dimensionBreak(LIBRARY_BREAK);
 }
 
+// -----------------------------------------------------------------------------------------------------------
 function processShelf(shelf) {
   var series = shelf.split(SERIES_BREAK);
   series.forEach((seri) => processSeries(seri));
-  ++coords[SHELF_BREAK];
+  dimensionBreak(SHELF_BREAK);
 }
 
+// -----------------------------------------------------------------------------------------------------------
 function processSeries(seri) {
   var collections = seri.split(COLLECTION_BREAK);
   collections.forEach((collection) => processCollection(collection));
-  ++coords[SERIES_BREAK];
+  dimensionBreak(SERIES_BREAK);
 }
 
+// -----------------------------------------------------------------------------------------------------------
 function processCollection(collection) {
   var volumes = collection.split(VOLUME_BREAK);
   volumes.forEach((volume) => processVolume(volume));
-  ++coords[COLLECTION_BREAK];
+  dimensionBreak(COLLECTION_BREAK);
 }
 
+// -----------------------------------------------------------------------------------------------------------
 function processVolume(volume) {
   var books = volume.split(BOOK_BREAK);
   books.forEach((book) => processBook(book));
-  ++coords[VOLUME_BREAK];
+  dimensionBreak(VOLUME_BREAK);
 }
 
+// -----------------------------------------------------------------------------------------------------------
 function processBook(book) {
   var chapters = book.split(CHAPTER_BREAK);
   chapters.forEach((chapter) => processChapter(chapter));
-  ++coords[BOOK_BREAK];
+  dimensionBreak(BOOK_BREAK);
 }
 
+// -----------------------------------------------------------------------------------------------------------
 function processChapter(chapter) {
   var sections = chapter.split(SECTION_BREAK);
   sections.forEach((section) => processSection(section));
-  ++coords[CHAPTER_BREAK];
+  dimensionBreak(CHAPTER_BREAK);
 }
 
+// -----------------------------------------------------------------------------------------------------------
 function processSection(section) {
   var sections = section.split(SCROLL_BREAK);
   sections.forEach((scroll) => processScroll(scroll));
-  ++coords[SECTION_BREAK];
+  dimensionBreak(SECTION_BREAK);
 }
 
+// -----------------------------------------------------------------------------------------------------------
 function coordinatesMatch(a, b) {
   return a[SCROLL_BREAK]     == b[SCROLL_BREAK] &&
          a[SECTION_BREAK]    == b[SECTION_BREAK] &&
@@ -242,34 +390,69 @@ function coordinatesMatch(a, b) {
          a[LIBRARY_BREAK]    == b[LIBRARY_BREAK];
 }
 
+// -----------------------------------------------------------------------------------------------------------
+function coordinateHit(coords) {
+
+  var chz = coords[LIBRARY_BREAK] + "." + coords[SHELF_BREAK] + "." + coords[SERIES_BREAK];
+  var chy = coords[COLLECTION_BREAK] + "." + coords[VOLUME_BREAK] + "." + coords[BOOK_BREAK];
+  var chx = coords[CHAPTER_BREAK] + "." + coords[SECTION_BREAK] + "." + coords[SCROLL_BREAK];
+
+  return "<li><a href='" + getPhextUrl(chx, chy, chz) + "'>@" + chz + "/" + chy + "/" + chx + "</a></li>";
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// @fn processScroll
+// -----------------------------------------------------------------------------------------------------------
 function processScroll(scroll) {
-  if (coordinatesMatch(target, coords))
-  {
+  if (coordinatesMatch(target, coords)) {
     ta.value = scroll;
     scrollFound = true;
     var lineCount = scroll.split('\n').length;
     if (lineCount < 100) { ta.rows = lineCount; }
     else { ta.rows = 100; }
   }
-  ++coords[SCROLL_BREAK];
+  if (scroll.length > 0) {
+    pd.innerHTML += coordinateHit(coords);
+  }
+  dimensionBreak(SCROLL_BREAK);
 }
 
-function jump() {
-  ls.value = raw;
+// -----------------------------------------------------------------------------------------------------------
+function safeEncode(text) {
+  if (!text || text.length < 1) { return ""; }
+  return encodeURIComponent(text.replaceAll("'", "%27"));
+}
+
+// -----------------------------------------------------------------------------------------------------------
+function getPhextUrl(x, y, z) {
+  return "?cz=" + safeEncode(z) + "&cy=" + safeEncode(y) + "&cx=" + safeEncode(x) + "&" + phextMode + "=" + safeEncode(raw);
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// @fn redpill
+// -----------------------------------------------------------------------------------------------------------
+function redpill() {
+  phextMode = 'r';
   st.innerHTML = "Follow the White Rabbit.";
   wr.style.display = 'block';
   ta.style.display = 'block';
+  cp.style.display = 'block';
+  sa.style.display = 'block';
 
   updateCoordinate();
-  grabScroll();
-  ls.value = raw;
-
-  document.getElementById("linker").href = "?q=" + encodeURIComponent(raw) + "#RedPill";
+  loadPhext();
+  lk.href = getPhextUrl(cx.value, cy.value, cz.value) + "#RedPill";
 }
 
-function load() {
+// -----------------------------------------------------------------------------------------------------------
+// @fn bluepill
+// -----------------------------------------------------------------------------------------------------------
+function bluepill() {
+  phextMode = 'b';
   wr.style.display = 'none';
   ta.style.display = 'none';
+  cp.style.display = 'none';
+  sa.style.display = 'block';
 
   ta.value = raw;
   ta.rows = raw.split('\n').length;
@@ -277,69 +460,198 @@ function load() {
   st.innerHTML = "Believe";
   ta.value = raw;
 
-  document.getElementById("linker").href = "?q=" + encodeURIComponent(raw) + "#BluePill";
+  dgid("linker").href = getPhextUrl(cx.value, cy.value, cz.value) + "#BluePill";
 }
 
+// -----------------------------------------------------------------------------------------------------------
+// @fn loadPhextHelper
+// -----------------------------------------------------------------------------------------------------------
 function loadPhextHelper() {
-  document.getElementById("pscrollbreak").value = SCROLL_BREAK;
-  document.getElementById("psectionbreak").value = SECTION_BREAK;
-  document.getElementById("pchapterbreak").value = CHAPTER_BREAK;
-  document.getElementById("pbookbreak").value = BOOK_BREAK;
-  document.getElementById("pvolumebreak").value = VOLUME_BREAK;
-  document.getElementById("pcollectionbreak").value = COLLECTION_BREAK;
-  document.getElementById("pseriesbreak").value = SERIES_BREAK;
-  document.getElementById("pshelfbreak").value = SHELF_BREAK;
-  document.getElementById("plibrarybreak").value = LIBRARY_BREAK;
+  dgid("pscrollbreak").value = SCROLL_BREAK;
+  dgid("psectionbreak").value = SECTION_BREAK;
+  dgid("pchapterbreak").value = CHAPTER_BREAK;
+  dgid("pbookbreak").value = BOOK_BREAK;
+  dgid("pvolumebreak").value = VOLUME_BREAK;
+  dgid("pcollectionbreak").value = COLLECTION_BREAK;
+  dgid("pseriesbreak").value = SERIES_BREAK;
+  dgid("pshelfbreak").value = SHELF_BREAK;
+  dgid("plibrarybreak").value = LIBRARY_BREAK;
   loadVars();
 
   var urlSearchParams = new URLSearchParams(window.location.search);
   var params = Object.fromEntries(urlSearchParams.entries());
-  if (params.q) {
-    raw = params.q;
+
+  if (params.cz) {
+    cz.value = params.cz;
+  }
+  if (params.cy) {
+    cy.value = params.cy;
+  }
+  if (params.cx) {
+    cx.value = params.cx;
   }
 
-  ls.value = raw;
+  if (params.r) {
+    raw = params.r.replaceAll("%27", "'");
+    ls.value = raw;
+    redpill();
+  }
+  if (params.b) {
+    raw = params.b.replaceAll("%27", "'");
+    ls.value = raw;
+    bluepill();
+  }
 }
+
+// -----------------------------------------------------------------------------------------------------------
+// @fn setEnterType
+// -----------------------------------------------------------------------------------------------------------
+function setEnterType(number, dimension, replacement) {
+  enterKey = replacement;
+  var handle = dgid("CB" + number + "_" + dimension);
+  if (!handle) { return; }
+  if (priorButton) {
+    priorButton.style.borderStyle = '';
+    priorButton.style.backgroundColor = '';
+  }
+  handle.style.borderStyle = 'inset';
+  handle.style.backgroundColor = 'orange';
+  replacementDescription = '&lt;' + handle.value + '&gt;';
+  priorButton = handle;
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// @fn phextMods
+// -----------------------------------------------------------------------------------------------------------
+function phextMods(editor, e) {
+  if (!remapFunctionKeys[editor]) {
+    return;
+  }
+  for (var i = F1_KEY; i <= F10_KEY; ++i)
+  {
+    if (e.keyCode == i) {
+      e.preventDefault();
+      var button = dgid("CB" + editor + "_" + (e.keyCode - F1_KEY + 2));
+      if (button) {
+        button.click();
+      }
+      continue;
+    }
+  }
+  if (!(e.key === "Enter")) {
+    return;
+  }
+  e.preventDefault();
+  var console = ls;
+  var el = document.activeElement;
+
+  const start = el.selectionStart;
+  const before = el.value.substring(0, start);
+  const after  = el.value.substring(el.selectionEnd, el.value.length);
+
+  const sequence = (enterKey == LINE_BREAK) ? enterKey : enterKey + LINE_BREAK;
+  el.value = (before + sequence + after);
+  el.selectionStart = el.selectionEnd = start + 1;
+  el.focus();
+}
+
+var remapFunctionKeys = new Array();
+remapFunctionKeys[1] = true;
+remapFunctionKeys[2] = true;
+
+// -----------------------------------------------------------------------------------------------------------
+// @fn toggle
+// -----------------------------------------------------------------------------------------------------------
+function toggle(editor) {
+  var toggleButton = dgid("disabler" + editor);
+  if (!toggleButton) { return; }
+  const enabled = toggleButton.value === "Disable";
+  toggleButton.value = enabled ? "Enable" : "Disable";
+  remapFunctionKeys[editor] = enabled;
+}
+
+
 </script>
 </head>
 <body onload="loadPhextHelper();">
 
 <div id="root">
 <h1>Phext</h1>
-<table>
-  <tr><th>Scroll</th><td><input id="pscrollbreak" type="text" value="" size="1" /></td>
-  <th>Section</th><td><input id="psectionbreak" type="text" value="" size="1" /></td>
-  <th>Chapter</th><td><input id="pchapterbreak" type="text" value="" size="1" /></td></tr>
-
-  <tr><th>Book</th><td><input id="pbookbreak" type="text" value="" size="1" /></td>
-  <th>Volume</th><th><input id="pvolumebreak" type="text" value="" size="1" /></td>
-  <th>Collection</th><td><input id="pcollectionbreak" type="text" value="" size="1" /></td></tr>
-
-  <tr><th>Series</th><td><input id="pseriesbreak" type="text" value="" size="1" /></td>
-  <th>Shelf</th><td><input id="pshelfbreak" type="text" value="" size="1" /></td>
-  <th>Library</th><td><input id="plibrarybreak" type="text" value="" size="1" /></td></tr>
-</table>
+<p>Welcome, Traveler. Below are two options on your journey into the #exocortex. Unfortunately, no one can be told what phext is ... you have to experience it for yourself.</p>
+<p>If you take the <span style="color: #8080ff; background-color: #000;">BLUE PILL</span>, you'll move on with your life and believe whatever you want to believe.</p>
+<p>If you take the <span style="color: red;">RED PILL</span>, I show you how to initiate dimensional jumps through 11D hyperspace - and then we'll see just how far the rabbit hole goes.</p>
 </div>
+  <a id="linker" href="#WhiteRabbit">Share Phext</a>
 
 <div id="phext">
-<ul>
-  <li>Location:
-    <input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" />/
-    <input type="text" id="coordsY" name="coordsY" value="1.1.1" size="8" />/
-    <input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" />
-  </li>
-</ul>
-<input id="redPill" type="button" onclick="jump();" value="Red Pill" />
-<input id="bluePill" type="button" onclick="load();" value="Blue Pill" />
+<input id="redPill" type="button" onclick="redpill();" value="RED PILL" />
+<input id="bluePill" type="button" onclick="bluepill();" value="BLUE PILL" />
 
+<table id="coordinatePlate">
+  <tr>
+    <th colspan="2">Coord 1</th>
+    <th colspan="2">Coord 2</th>
+    <th colspan="2">Coord 3</th>
+    <th>Location</th>
+  </tr>
+  <tr>
+    <th>Library</th><td><input id="plibrarybreak" type="text" value="" size="1" /></td>
+    <th>Shelf</th><td><input id="pshelfbreak" type="text" value="" size="1" /></td>
+    <th>Series</th><td><input id="pseriesbreak" type="text" value="" size="1" /></td>
+    <td><input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" onchange="redpill();" /></td>
+  </tr>
+  <tr>
+    <th>Collection</th><td><input id="pcollectionbreak" type="text" value="" size="1" /></td>
+    <th>Volume</th><th><input id="pvolumebreak" type="text" value="" size="1" /></td>
+    <th>Book</th><td><input id="pbookbreak" type="text" value="" size="1" /></td>
+    <td><input type="text" id="coordsY" name="coordsY" value="1.1.1" size="8" onchange="redpill();" /></td>
+  </tr>
+  <tr>
+    <th>Chapter</th><td><input id="pchapterbreak" type="text" value="" size="1" /></td>
+    <th>Section</th><td><input id="psectionbreak" type="text" value="" size="1" /></td>
+    <th>Scroll</th><td><input id="pscrollbreak" type="text" value="" size="1" /></td>
+    <td><input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" onchange="redpill();" /></td>
+  </tr>
+</table>
 
-  <h1 id="whiterabbit">Scroll</h1>
-  <a id="linker" href="#WhiteRabbit">Share This Phext</a>
-  <textarea id="scroll" name="scroll" rows="5" cols="110">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
- 
+<h1 id="whiterabbit">Scroll</h1>
+<textarea id="scroll" name="scroll" rows="5" cols="110">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
+
+<div id="populated"></div>
+
+<div id="subspaceArea">
   <h1 id="subspaceTitle">Subspace</h1>
-  <textarea id="subspace" name="subspace" rows="30" cols="200">
-  </textarea>
+    <div id="segment1_1">
+<div class="CommandBar">
+<input id="CB1_2" type="button" onClick="setEnterType(1, 2, LINE_BREAK);" value="Enter" />
+<input id="CB1_3" type="button" onClick="setEnterType(1, 3, SCROLL_BREAK);" value="Scroll" />
+<input id="CB1_4" type="button" onClick="setEnterType(1, 4, SECTION_BREAK);" value="Section" />
+<input id="CB1_5" type="button" onClick="setEnterType(1, 5, CHAPTER_BREAK);" value="Chapter" />
+<input id="CB1_6" type="button" onClick="setEnterType(1, 6, BOOK_BREAK);" value="Book" />
+<input id="CB1_7" type="button" onClick="setEnterType(1, 7, VOLUME_BREAK);" value="Volume" />
+<input id="CB1_8" type="button" onClick="setEnterType(1, 8, COLLECTION_BREAK);" value="Collection" />
+<input id="CB1_9" type="button" onClick="setEnterType(1, 9, SERIES_BREAK);" value="Series" />
+<input id="CB1_10" type="button" onClick="setEnterType(1, 10, SHELF_BREAK);" value="Shelf" />
+<input id="CB1_11" type="button" onClick="setEnterType(1, 11, LIBRARY_BREAK);" value="Library" />
+<input id="disabler1" type="button" onclick="toggle(1);" value="Disable" />
+</div>
+<textarea id="subspace" rows="25" cols="160" onkeyup="redpill();" onkeydown="phextMods(1, event);">
+Hello, traveler.
+You can change your stars by pressing F1 - F10.
+Click on 'Disable' to re-enable your browser's default function keys.
+Click on 'Enable' to re-visit the Terse-verse!
+
+This remaps your <ENTER> key to act as a higher-dimension break.
+Try it out now!
+.
+.
+.
+Place your cursor here _ and press <F2> followed by <ENTER>.
+Place your cursor here _ and press <F3> followed by <ENTER>.
+
+What you type here will be rendered in 11-dimensional space on the right - nested tabs upon tabs.
+</textarea></div>
+
 </div>
 
 </body>
