@@ -115,10 +115,11 @@ a#linker:visited:hover {
 
 
 var raw;
-if (localStorage.raw.length > 0) {
+if (localStorage.raw && localStorage.raw.length > 0) {
   raw = localStorage.raw;
 } else {
   raw = "<html>\n<head>\n<title>Reference Phext Document</title>\n</head>\n<body>\n\nYou are currently at 1.1.1/1.1.1/1.1.1.\nWe are aware of the following nodes:\n\n<a href='phext://1.1.1/1.1.1/1.1.2'>Scroll #2</a>\n<a href='phext://1.1.1/1.1.1/1.1.3'>Scroll #3</a>\n<a href='phext://1.1.1/1.1.1/1.1.4'>Scroll #4</a>\n\n</body>\n</html>Scroll #2\n---------\nThis happens to be a MarkDown file.\n\nScroll #3: Just a line of text.<html>\n<head>\n<title>Scroll #4</title>\n</head>\n<body>\n<a href='phext://1.1.1/1.1.1/1.1.1'>Return Home</a>\n\n<h1>Scroll #4</h1>\n</body>\n</html>";
+  localStorage.raw = raw;
 }
 
 var phextMode = 'n'; // newbie
@@ -501,7 +502,9 @@ function loadPhextHelper() {
     cx.value = params.cx;
   }
 
-  raw = localStorage.raw;
+  if (localStorage.raw) {
+    raw = localStorage.raw;
+  }
   ls.value = raw;
 
   if (params.r) {
