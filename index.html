@@ -67,13 +67,16 @@ textarea {
 #redPill {
   background: red;
   color: white;
-  font-weight: bold;
-  border-radius: 12px;
-  padding: 12px;
 }
 #bluePill {
   background: blue;
   color: white;
+}
+#whitePill {
+  background: white;
+  color: black;
+}
+#redPill, #bluePill, #whitePill {
   font-weight: bold;
   border-radius: 12px;
   padding: 12px;
@@ -112,7 +115,7 @@ a#linker:visited:hover {
 </style>
 <!-- ------------------------------------------------------------- -->
 <script type="text/javascript">
-
+var upstream = 'https://github.com/wbic16/phextio';
 
 var raw;
 if (localStorage.raw && localStorage.raw.length > 0) {
@@ -475,6 +478,13 @@ function bluepill() {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn whitepill
+// -----------------------------------------------------------------------------------------------------------
+function whitepill() {
+  window.open(upstream);
+}
+
+// -----------------------------------------------------------------------------------------------------------
 // @fn loadPhextHelper
 // -----------------------------------------------------------------------------------------------------------
 function loadPhextHelper() {
@@ -602,6 +612,7 @@ function toggle(editor) {
 <div id="phext">
 <input id="redPill" type="button" onclick="redpill(false);" value="RED PILL" />
 <input id="bluePill" type="button" onclick="bluepill();" value="BLUE PILL" />
+<input id="whitePill" type="button" onclick="whitepill();" value="WHITE PILL" />
 
 <table id="coordinatePlate">
   <tr>
