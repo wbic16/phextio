@@ -241,7 +241,6 @@ function loadVars() {
   if (!cp) { cp = dgid("coordinatePlate"); }
   if (!sa) { sa = dgid("subspaceArea"); }
   if (!vr) { vr = dgid("visualizer"); }
-  var qrdim = 640;
   if (!qrui) { qrui = dgid("qrcode"); }
 }
 
@@ -462,7 +461,10 @@ function safeEncode(text) {
 
 function updateQR() {
   if (qrd == 0) {
-    if (!qr) { qr = new QRCode(document.getElementById("qrcode"), {text: "https://wbic16.github.io/phextio/index.html", width: qrdim, height: qrdim}); }
+    if (!qr) {
+      qr = new QRCode(document.getElementById("qrcode"), {text: "https://wbic16.github.io/phextio/index.html", width: 640, height: 640});
+      qrui.style.background = '#000';
+    }
     qr.clear();
     qr.makeCode(qurl);
   }
@@ -487,6 +489,7 @@ function redpill(store) {
   ta.style.display = 'block';
   cp.style.display = 'block';
   sa.style.display = 'block';
+  vr.style.display = 'block';
   qrui.style.display = 'block';
 
   updateCoordinate();
@@ -507,6 +510,7 @@ function bluepill() {
   ta.style.display = 'none';
   cp.style.display = 'none';
   sa.style.display = 'block';
+  vr.style.display = 'none';
   qrui.style.display = 'none';
 
   ta.value = raw;
