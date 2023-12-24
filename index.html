@@ -8,7 +8,13 @@ body {
   color: white;
   font-family: sans-serif;
 }
-
+#copyright {
+  padding: 8px;
+  position: absolute;
+  top: 10px;
+  right: 100px;
+  z-index: 0;
+}
 .CommandBar {
   break: both;
   min-width: 720px;
@@ -106,6 +112,10 @@ a#linker:visited:hover {
 #whiterabbit,
 #scroll {
   display: none;
+}
+#subspace {
+  position: relative;
+  z-index: 1;
 }
 #populated {
   position: absolute;
@@ -681,6 +691,8 @@ What you type here will be rendered in 11-dimensional space on the right - neste
 </textarea></div>
 
 </div>
+
+<div id="copyright">Copyright 2023 Will Bickford. License: MIT.</div>
 
 </body>
 </html>
