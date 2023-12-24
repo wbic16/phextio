@@ -4,9 +4,12 @@
 <title>phext.io - open-source knowledge</title>
 <style type="text/css">
 body {
-  background-color: #101419;
+  background: #101419;
   color: white;
   font-family: sans-serif;
+}
+#root {
+
 }
 #copyright {
   padding: 8px;
@@ -117,14 +120,21 @@ a#linker:visited:hover {
   position: relative;
   z-index: 1;
 }
-#populated {
+#visualizer {
   position: absolute;
   top: 200px;
   right: 100px;
   width: 300px;
 }
+#qrcode {
+  border: 32px solid yellow;
+  width: 640px;
+  height: 640px;
+  background: url(phextio.gif) top left no-repeat;
+  z-index: 2;
 </style>
 <!-- ------------------------------------------------------------- -->
+<script type="text/javascript" src="qrcode.js"></script>
 <script type="text/javascript">
 var upstream = 'https://github.com/wbic16/phextio';
 
@@ -205,7 +215,11 @@ var st = false;
 var lk = false;
 var cp = false;
 var sa = false;
-var pd = false;
+var vr = false;
+var qr = false;
+var qrui = false;
+var qrd = 0;
+var qurl = "";
 var phextCoordinate = "1.1.1/1.1.1/1.1.1";
 
 // -----------------------------------------------------------------------------------------------------------
@@ -226,7 +240,9 @@ function loadVars() {
   if (!lk) { lk = dgid("linker"); }
   if (!cp) { cp = dgid("coordinatePlate"); }
   if (!sa) { sa = dgid("subspaceArea"); }
-  if (!pd) { pd = dgid("populated"); }
+  if (!vr) { vr = dgid("visualizer"); }
+  var qrdim = 640;
+  if (!qrui) { qrui = dgid("qrcode"); }
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -256,10 +272,10 @@ function loadPhext() {
   if (gx.length >= 3) { target[SCROLL_BREAK] = gx[2]; }
 
   scrollFound = false;
-  pd.innerHTML = "<h2>Scroll Index</h2><ul>";
+  vr.innerHTML = "<h2>Scroll Index</h2><ul>";
   var libs = raw.split(LIBRARY_BREAK);
   libs.forEach((library) => processLibrary(library));
-  pd.innerHTML += "</ul>";
+  vr.innerHTML += "</ul>";
   if (!scrollFound) {
     ta.value = "";
   }
@@ -433,7 +449,7 @@ function processScroll(scroll) {
     else { ta.rows = 100; }
   }
   if (scroll.length > 0) {
-    pd.innerHTML += coordinateHit(coords);
+    vr.innerHTML += coordinateHit(coords);
   }
   dimensionBreak(SCROLL_BREAK);
 }
@@ -444,9 +460,21 @@ function safeEncode(text) {
   return encodeURIComponent(text.replaceAll("'", "%27"));
 }
 
+function updateQR() {
+  if (qrd == 0) {
+    if (!qr) { qr = new QRCode(document.getElementById("qrcode"), {text: "https://wbic16.github.io/phextio/index.html", width: qrdim, height: qrdim}); }
+    qr.clear();
+    qr.makeCode(qurl);
+  }
+  qrd = 1;
+}
+
 // -----------------------------------------------------------------------------------------------------------
 function getPhextUrl(x, y, z) {
-  return "?cz=" + safeEncode(z) + "&cy=" + safeEncode(y) + "&cx=" + safeEncode(x) + "&" + phextMode + "=" + safeEncode(raw);
+  qurl = "https://wbic16.github.io/phextio/index.html?cz=" + safeEncode(z) + "&cy=" + safeEncode(y) + "&cx=" + safeEncode(x) + "&" + phextMode + "=" + safeEncode(raw);
+  setTimeout(updateQR, 1000);  
+  qrd = 0;
+  return qurl;
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -459,6 +487,7 @@ function redpill(store) {
   ta.style.display = 'block';
   cp.style.display = 'block';
   sa.style.display = 'block';
+  qrui.style.display = 'block';
 
   updateCoordinate();
   loadPhext();
@@ -478,6 +507,7 @@ function bluepill() {
   ta.style.display = 'none';
   cp.style.display = 'none';
   sa.style.display = 'block';
+  qrui.style.display = 'none';
 
   ta.value = raw;
   ta.rows = raw.split('\n').length;
@@ -652,10 +682,12 @@ function toggle(editor) {
   </tr>
 </table>
 
-<h1 id="whiterabbit">Scroll</h1>
-<textarea id="scroll" name="scroll" rows="5" cols="110">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
 
-<div id="populated"></div>
+
+<h1 id="whiterabbit">Scroll</h1>
+<textarea id="scroll" name="scroll" rows="5" cols="80">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
+
+<div id="visualizer"></div>
 
 <div id="subspaceArea">
   <h1 id="subspaceTitle">Subspace</h1>
@@ -691,6 +723,8 @@ What you type here will be rendered in 11-dimensional space on the right - neste
 </textarea></div>
 
 </div>
+
+<div id="qrcode"></div>
 
 <div id="copyright">Copyright 2023 Will Bickford. License: MIT.</div>
 
