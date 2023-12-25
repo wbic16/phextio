@@ -132,6 +132,10 @@ a#linker:visited:hover {
   height: 640px;
   background: url(phextio.gif) top left no-repeat;
   z-index: 2;
+}
+#linkArea {
+  padding: 8px;
+}
 </style>
 <!-- ------------------------------------------------------------- -->
 <script type="text/javascript" src="qrcode.js"></script>
@@ -217,6 +221,8 @@ var cp = false;
 var sa = false;
 var vr = false;
 var qr = false;
+var lt = false;
+var lts = false;
 var qrui = false;
 var qrd = 0;
 var qurl = "";
@@ -241,6 +247,8 @@ function loadVars() {
   if (!cp) { cp = dgid("coordinatePlate"); }
   if (!sa) { sa = dgid("subspaceArea"); }
   if (!vr) { vr = dgid("visualizer"); }
+  if (!lt) { lt = dgid("linkerText"); }
+  if (!lts) { lts = dgid("linkerStatus"); }
   if (!qrui) { qrui = dgid("qrcode"); }
 }
 
@@ -474,8 +482,10 @@ function updateQR() {
 // -----------------------------------------------------------------------------------------------------------
 function getPhextUrl(x, y, z) {
   qurl = "https://wbic16.github.io/phextio/index.html?cz=" + safeEncode(z) + "&cy=" + safeEncode(y) + "&cx=" + safeEncode(x) + "&" + phextMode + "=" + safeEncode(raw);
+  lt.value = qurl;
   setTimeout(updateQR, 1000);  
   qrd = 0;
+  lts.innerHTML = "";
   return qurl;
 }
 
@@ -527,6 +537,14 @@ function bluepill() {
 // -----------------------------------------------------------------------------------------------------------
 function whitepill() {
   window.open(upstream);
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// @fn copyUrl
+// -----------------------------------------------------------------------------------------------------------
+function copyUrl() {
+  navigator.clipboard.writeText(qurl);
+  lts.innerHTML = "URL copied!";
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -652,7 +670,13 @@ function toggle(editor) {
 <p>If you take the <span style="color: #8080ff; background-color: #000;">BLUE PILL</span>, you'll move on with your life and believe whatever you want to believe.</p>
 <p>If you take the <span style="color: red;">RED PILL</span>, I show you how to initiate dimensional jumps through 11D hyperspace - and then we'll see just how far the rabbit hole goes.</p>
 </div>
-  <a id="linker" href="#WhiteRabbit">Share Phext</a>
+
+<div id="linkArea">
+<a id="linker" href="#WhiteRabbit">Share Phext</a>
+<input type="text" id="linkerText" name="linkerText" value="" size="60" />
+<input type="button" id="copy" name="copy" value="Copy" onclick="copyUrl();" />
+<span id="linkerStatus"></span>
+</div>
 
 <div id="phext">
 <input id="redPill" type="button" onclick="redpill(false);" value="RED PILL" />
