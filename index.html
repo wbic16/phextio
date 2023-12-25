@@ -134,7 +134,18 @@ a#linker:visited:hover {
   z-index: 2;
 }
 #linkArea {
-  padding: 8px;
+  padding: 16px;
+}
+#seed {
+  padding: 4px;
+  margin: 4px;
+}
+#seeds {
+  padding: 4px;
+  margin: 4px;
+  font-size: 1em;
+  font-weight: bold;
+  width: 250px;
 }
 </style>
 <!-- ------------------------------------------------------------- -->
@@ -143,6 +154,7 @@ a#linker:visited:hover {
 var upstream = 'https://github.com/wbic16/phextio';
 
 var raw;
+var phexts = {};
 if (localStorage.raw && localStorage.raw.length > 0) {
   raw = localStorage.raw;
 } else {
@@ -222,6 +234,8 @@ var sa = false;
 var vr = false;
 var qr = false;
 var lt = false;
+var sd = false;
+var se = false;
 var lts = false;
 var qrui = false;
 var qrd = 0;
@@ -248,8 +262,14 @@ function loadVars() {
   if (!sa) { sa = dgid("subspaceArea"); }
   if (!vr) { vr = dgid("visualizer"); }
   if (!lt) { lt = dgid("linkerText"); }
+  if (!sd) { sd = dgid("seed"); }
+  if (!se) { se = dgid("seeds"); }
   if (!lts) { lts = dgid("linkerStatus"); }
   if (!qrui) { qrui = dgid("qrcode"); }
+
+  if (localStorage.seed) {
+    sd.value = localStorage.seed;
+  }
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -481,7 +501,7 @@ function updateQR() {
 
 // -----------------------------------------------------------------------------------------------------------
 function getPhextUrl(x, y, z) {
-  qurl = "https://wbic16.github.io/phextio/index.html?cz=" + safeEncode(z) + "&cy=" + safeEncode(y) + "&cx=" + safeEncode(x) + "&" + phextMode + "=" + safeEncode(raw);
+  qurl = "https://wbic16.github.io/phextio/index.html?seed=" + safeEncode(sd.value) + "&cz=" + safeEncode(z) + "&cy=" + safeEncode(y) + "&cx=" + safeEncode(x) + "&" + phextMode + "=" + safeEncode(raw);
   lt.value = qurl;
   setTimeout(updateQR, 1000);  
   qrd = 0;
@@ -507,8 +527,28 @@ function redpill(store) {
   lk.href = getPhextUrl(cx.value, cy.value, cz.value) + "#RedPill";
 
   if (store) {
-    localStorage.raw = raw;
+    saveContent();
   }
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// @fn saveContent
+// -----------------------------------------------------------------------------------------------------------
+function saveContent() {
+  localStorage.raw = ls.value;
+  if (!sd.value || sd.value.trim().length == 0) {
+    sd.value = "holiday";
+  }
+  if (!phexts[sd.value]) {
+    var opt = document.createElement('option');
+    opt.value = sd.value;
+    opt.innerHTML = sd.value;
+    opt.selected = true;
+    se.appendChild(opt);
+  }
+  phexts[sd.value] = ls.value;
+  localStorage.seed = sd.value;
+  localStorage.phexts = JSON.stringify(phexts);
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -543,14 +583,16 @@ function whitepill() {
 // @fn copyUrl
 // -----------------------------------------------------------------------------------------------------------
 function copyUrl() {
+  getPhextUrl();
+  saveContent();
   navigator.clipboard.writeText(qurl);
   lts.innerHTML = "URL copied!";
 }
 
 // -----------------------------------------------------------------------------------------------------------
-// @fn loadPhextHelper
+// @fn startup
 // -----------------------------------------------------------------------------------------------------------
-function loadPhextHelper() {
+function startup() {
   dgid("pscrollbreak").value = SCROLL_BREAK;
   dgid("psectionbreak").value = SECTION_BREAK;
   dgid("pchapterbreak").value = CHAPTER_BREAK;
@@ -575,9 +617,29 @@ function loadPhextHelper() {
     cx.value = params.cx;
   }
 
+  if (params.seed) {
+    localStorage.seed = params.seed;
+    sd.value = params.seed;
+  }
+
+  if (localStorage.phexts) {
+    phexts = JSON.parse(localStorage.phexts);
+    Object.keys(phexts).forEach((key) => {
+      var opt = document.createElement('option');
+      opt.value = key;
+      opt.innerHTML = key;
+      if (key == sd.value) { opt.selected = true; }
+      se.appendChild(opt);
+    });
+  }
+
+  if (phexts && phexts[params.seed]) {
+    localStorage.raw = localStorage.phexts[params.seed];
+  }
   if (localStorage.raw) {
     raw = localStorage.raw;
   }
+
   ls.value = raw;
 
   if (params.r) {
@@ -659,10 +721,34 @@ function toggle(editor) {
   remapFunctionKeys[editor] = enabled;
 }
 
+// -----------------------------------------------------------------------------------------------------------
+// @fn chooseSeed
+// -----------------------------------------------------------------------------------------------------------
+function chooseSeed(seed) {
+  sd.value = seed.value;
+  ls.value = phexts[seed.value];
+}
 
+// -----------------------------------------------------------------------------------------------------------
+// @fn removeSeed
+// -----------------------------------------------------------------------------------------------------------
+function removeSeed() {
+  if (!phexts[sd.value]) {
+    return;
+  }
+  delete phexts[sd.value];
+  Object.keys(se.options).forEach((key) => {
+    if (se.options[key] && se.options[key].value == sd.value) {
+      se.options.remove(key);
+    }
+  });
+  sd.value = se.options[se.selectedIndex].value;
+  localStorage.seed = sd.value;
+  localStorage.phexts = JSON.stringify(phexts);
+}
 </script>
 </head>
-<body onload="loadPhextHelper();">
+<body onload="startup();">
 
 <div id="root">
 <h1>Phext</h1>
@@ -684,6 +770,18 @@ function toggle(editor) {
 <input id="whitePill" type="button" onclick="whitepill();" value="WHITE PILL" />
 
 <table id="coordinatePlate">
+  <tr>
+    <th>Seed</th>
+    <td colspan="6">
+      <input type="text" id="seed" name="seed" size="50" value="" />
+      <select name="seeds" id="seeds" onchange="chooseSeed(this);">
+      </select>
+      <input type="button" id="removeseed" name="removeseed" onclick="removeSeed();" value="Delete" />
+    </td>
+  </tr>
+  <tr>
+    <td colspan="7">You can explore other phexts by providing the multiversal seed. You can also quick jump by setting coordinates manually.</td>
+  </tr>
   <tr>
     <th colspan="2">Coord 1</th>
     <th colspan="2">Coord 2</th>
