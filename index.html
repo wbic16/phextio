@@ -238,7 +238,7 @@ var sd = false;
 var se = false;
 var lts = false;
 var qrui = false;
-var qrd = 0;
+var qrd = false;
 var qurl = "";
 var phextCoordinate = "1.1.1/1.1.1/1.1.1";
 
@@ -488,23 +488,23 @@ function safeEncode(text) {
 }
 
 function updateQR() {
-  if (qrd == 0) {
-    if (!qr) {
-      qr = new QRCode(document.getElementById("qrcode"), {text: "https://wbic16.github.io/phextio/index.html", width: 640, height: 640});
-      qrui.style.background = '#000';
-    }
-    qr.clear();
-    qr.makeCode(qurl);
+  if (!qr) {
+    qr = new QRCode(document.getElementById("qrcode"), {text: "https://wbic16.github.io/phextio/index.html", width: 640, height: 640});
+    qrui.style.background = '#000';
   }
-  qrd = 1;
+  qr.clear();
+  qr.makeCode(qurl);
 }
 
 // -----------------------------------------------------------------------------------------------------------
+var timeoutDelay = 1000;
 function getPhextUrl(x, y, z) {
   qurl = "https://wbic16.github.io/phextio/index.html?seed=" + safeEncode(sd.value) + "&cz=" + safeEncode(z) + "&cy=" + safeEncode(y) + "&cx=" + safeEncode(x) + "&" + phextMode + "=" + safeEncode(raw);
   lt.value = qurl;
-  setTimeout(updateQR, 1000);  
-  qrd = 0;
+  if (qrd) {
+    clearTimeout(qrd);
+  }
+  qrd = setTimeout(updateQR, timeoutDelay);
   lts.innerHTML = "";
   return qurl;
 }
