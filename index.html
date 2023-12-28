@@ -52,6 +52,16 @@ body {
 textarea {
   font-family: monospace;
 }
+.coordheader {
+  text-align: right;
+  width: 120px;
+}
+th {
+  text-align: right;
+  padding: 0;
+}
+.locationheader {
+}
 #hyperJump {
   width: 80px;
   height: 23px;
@@ -70,6 +80,10 @@ textarea {
 #plibrarybreak,
 #targetCoordinates {
   font-family: monospace;
+  margin: 0;
+  padding: 0;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 #targetCoordinates {
   font-size: 1.6em;
@@ -95,25 +109,12 @@ a, a:visited {
   color: white;
   font-size: 1.6em;
 }
-#linker {
-  display: block;
-  margin: 8px;
-  background-color: #000000;
-  padding: 8px;
-  border: 2px solid white;
-  border-radius: 3px;
-  width: 300px;
-  text-align: center;
-}
-a#linker:hover,
-a#linker:visited:hover {
-  color: #6a6aff;
-  background: #babad0;
-}
 #coordinatePlate,
 #subspaceArea,
 #whiterabbit,
-#scroll {
+#scroll,
+#helparea,
+#qrlabel {
   display: none;
 }
 #subspace {
@@ -230,6 +231,7 @@ var wr = false;
 var st = false;
 var lk = false;
 var cp = false;
+var ha = false;
 var sa = false;
 var vr = false;
 var qr = false;
@@ -239,6 +241,7 @@ var se = false;
 var lts = false;
 var qrui = false;
 var qrd = false;
+var qrl = false;
 var qurl = "";
 var phextCoordinate = "1.1.1/1.1.1/1.1.1";
 
@@ -257,8 +260,8 @@ function loadVars() {
   if (!cz) { cz = dgid("coordsZ"); }
   if (!wr) { wr = dgid("whiterabbit"); }
   if (!st) { st = dgid("subspaceTitle"); }
-  if (!lk) { lk = dgid("linker"); }
   if (!cp) { cp = dgid("coordinatePlate"); }
+  if (!ha) { ha = dgid("helparea"); }
   if (!sa) { sa = dgid("subspaceArea"); }
   if (!vr) { vr = dgid("visualizer"); }
   if (!lt) { lt = dgid("linkerText"); }
@@ -266,6 +269,7 @@ function loadVars() {
   if (!se) { se = dgid("seeds"); }
   if (!lts) { lts = dgid("linkerStatus"); }
   if (!qrui) { qrui = dgid("qrcode"); }
+  if (!qrl) { qrl = dgid("qrlabel"); }
 
   if (localStorage.seed) {
     sd.value = localStorage.seed;
@@ -518,13 +522,15 @@ function redpill(store) {
   wr.style.display = 'block';
   ta.style.display = 'block';
   cp.style.display = 'block';
+  ha.style.display = 'block';
   sa.style.display = 'block';
   vr.style.display = 'block';
   qrui.style.display = 'block';
+  qrl.style.display = 'block';
 
   updateCoordinate();
   loadPhext();
-  lk.href = getPhextUrl(cx.value, cy.value, cz.value) + "#RedPill";
+  var ignored = getPhextUrl(cx.value, cy.value, cz.value) + "#RedPill";
 
   if (store) {
     saveContent();
@@ -559,9 +565,11 @@ function bluepill() {
   wr.style.display = 'none';
   ta.style.display = 'none';
   cp.style.display = 'none';
+  ha.style.display = 'none';
   sa.style.display = 'block';
   vr.style.display = 'none';
   qrui.style.display = 'none';
+  qrl.style.display = 'none';
 
   ta.value = raw;
   ta.rows = raw.split('\n').length;
@@ -751,14 +759,13 @@ function removeSeed() {
 <body onload="startup();">
 
 <div id="root">
-<h1>Phext</h1>
+<h1>Phext v2.1.1</h1>
 <p>Welcome, Traveler. Below are two options on your journey into the #exocortex. Unfortunately, no one can be told what phext is ... you have to experience it for yourself.</p>
 <p>If you take the <span style="color: #8080ff; background-color: #000;">BLUE PILL</span>, you'll move on with your life and believe whatever you want to believe.</p>
 <p>If you take the <span style="color: red;">RED PILL</span>, I show you how to initiate dimensional jumps through 11D hyperspace - and then we'll see just how far the rabbit hole goes.</p>
 </div>
 
-<div id="linkArea">
-<a id="linker" href="#WhiteRabbit">Share Phext</a>
+<div id="linkArea"><h2>Permanent URL</h2>
 <input type="text" id="linkerText" name="linkerText" value="" size="60" />
 <input type="button" id="copy" name="copy" value="Copy" onclick="copyUrl();" />
 <span id="linkerStatus"></span>
@@ -769,7 +776,7 @@ function removeSeed() {
 <input id="bluePill" type="button" onclick="bluepill();" value="BLUE PILL" />
 <input id="whitePill" type="button" onclick="whitepill();" value="WHITE PILL" />
 
-<table id="coordinatePlate">
+<table class="coordinatePlate" id="coordinatePlate">
   <tr>
     <th>Seed</th>
     <td colspan="6">
@@ -780,38 +787,35 @@ function removeSeed() {
     </td>
   </tr>
   <tr>
-    <td colspan="7">You can explore other phexts by providing the multiversal seed. You can also quick jump by setting coordinates manually.</td>
+    <th class="coordheader">Cortical</th><td></td>
+    <td colspan="5"></td>
+    <th class="locationheader">Location</th>
   </tr>
-  <tr>
-    <th colspan="2">Coord 1</th>
-    <th colspan="2">Coord 2</th>
-    <th colspan="2">Coord 3</th>
-    <th>Location</th>
-  </tr>
-  <tr>
+<tr>
+    <th>Z</th>
     <th>Library</th><td><input id="plibrarybreak" type="text" value="" size="1" /></td>
     <th>Shelf</th><td><input id="pshelfbreak" type="text" value="" size="1" /></td>
     <th>Series</th><td><input id="pseriesbreak" type="text" value="" size="1" /></td>
-    <td><input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" onchange="redpill(false);" /></td>
+    <td class="coordcell"><input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" onchange="redpill(false);" /></td>
   </tr>
   <tr>
+    <th>Y</th>
     <th>Collection</th><td><input id="pcollectionbreak" type="text" value="" size="1" /></td>
     <th>Volume</th><th><input id="pvolumebreak" type="text" value="" size="1" /></td>
     <th>Book</th><td><input id="pbookbreak" type="text" value="" size="1" /></td>
-    <td><input type="text" id="coordsY" name="coordsY" value="1.1.1" size="8" onchange="redpill(false);" /></td>
+    <td class="coordcell"><input type="text" id="coordsY" name="coordsY" value="1.1.1" size="8" onchange="redpill(false);" /></td>
   </tr>
   <tr>
+    <th>X</th>
     <th>Chapter</th><td><input id="pchapterbreak" type="text" value="" size="1" /></td>
     <th>Section</th><td><input id="psectionbreak" type="text" value="" size="1" /></td>
     <th>Scroll</th><td><input id="pscrollbreak" type="text" value="" size="1" /></td>
-    <td><input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" onchange="redpill(false);" /></td>
+    <td class="coordcell"><input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" onchange="redpill(false);" /></td>
   </tr>
 </table>
 
-
-
 <h1 id="whiterabbit">Scroll</h1>
-<textarea id="scroll" name="scroll" rows="5" cols="80">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
+<textarea id="scroll" name="scroll" rows="5" cols="100">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
 
 <div id="visualizer"></div>
 
@@ -850,6 +854,28 @@ What you type here will be rendered in 11-dimensional space on the right - neste
 
 </div>
 
+<div id="helparea">
+<h2>Help</h2>
+<p>You can explore other phexts by providing the multiversal seed. You can also quick jump by setting coordinates manually. Phext addresses are of this form:</p>
+<p>
+&lt;LB&gt;.&lt;SF&gt;.&lt;SR&gt;/&lt;CN&gt;.&lt;VM&gt;.&lt;BK&gt;/&lt;CH&gt;.&lt;SN&gt;.&lt;SC&gt;</p>
+<p>
+Where:
+<ul>
+  <li>LB = Library</li>
+  <li>SF = Shelf</li>
+  <li>SR = Series</li>
+  <li>CN = Collection</li>
+  <li>VM = Volume</li>
+  <li>BK = Book</li>
+  <li>CH = Chapter</li>
+  <li>SN = Section</li>
+  <li>SC = Scroll</li>
+</ul>
+</p>
+</div>
+
+<h2 id="qrlabel">QR Code</h2>
 <div id="qrcode"></div>
 
 <div id="copyright">Copyright 2023 Will Bickford. License: MIT.</div>
