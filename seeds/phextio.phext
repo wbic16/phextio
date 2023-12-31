@@ -28,3 +28,17 @@ This happens to be a MarkDown file.
 <h1>Scroll #4</h1>
 </body>
 </html>
+Roadmap
+V4 - Twitter OAuth and P2P Network
+V5 - IRC Interface
+
+version history
+3.3.0 - 
+3.2.0 - Enter the White Rabbit (12/30)
+3.1.0 - Added User Adoption Progress Bar (12/29)
+3.0.0 - Seed API (12/29)
+2.1.1 - Performance/UX Tweaks (12/27)
+2.1.0 - Seeds and Local Storage Forks (12/25)
+2.0.1 - Live Edit and QR Code Sharing (12/24)
+1.0.0 - Initial Baseline (12/19)
+
