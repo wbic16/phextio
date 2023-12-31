@@ -95,7 +95,6 @@ function begin(token) {
   if (token == "phexter") {
     if (attempts == 0) {
       re.innerHTML = "Perfect! A Phexter is spot on!";
-      localStorage.nuggets = nuggets;
     }
     else {
       re.innerHTML = "Phexter is Correct! You may proceed.";
@@ -103,6 +102,7 @@ function begin(token) {
 
     if (!localStorage.completed) {
       ++nuggets;
+      localStorage.nuggets = nuggets;
       localStorage.completed = true;
     }
   }
