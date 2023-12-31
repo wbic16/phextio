@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>phext.io | White Rabbit</title>
+<link rel="StyleSheet" href="phext.css?rev=1" />
+<style type="text/css">
+#rabbit {
+  font-family: monospace;
+  padding-top: 20px;
+}
+body {
+  font-size: 1.6em;
+  margin-left: 40px;
+}
+#breadcrumbs {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+#banner {
+  height: 40px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 720px;
+  border-bottom: 2px solid white;
+}
+#score {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 150px;
+  height: 40px;
+  background: #223243;
+}
+#coins {
+  position: absolute;
+  top: 4px;
+  left: 20px;
+  color: yellow;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+#questbox {
+  width: 720px;
+  height: 400px;
+}
+</style>
+<script type="text/javascript">
+var re = false;
+var co = false;
+var ss = false;
+var qb = false;
+var attempts = 0;
+var nuggets = 0;
+var spheres = 0;
+
+if (localStorage.attempts) {
+  attempts = localStorage.attempts;
+}
+if (localStorage.nuggets) {
+  nuggets = localStorage.nuggets;
+}
+if (localStorage.spheres) {
+  spheres = localStorage.spheres;
+}
+
+function loadVars() {
+  if (!re) {
+    re = document.getElementById("response");
+  }
+  if (!co) {
+    co = document.getElementById("coins");
+  }
+  if (!ss) {
+    ss = document.getElementById("spheres");
+  }
+  if (!qb) {
+    qb = document.getElementById("questbox");
+  }
+}
+
+function begin(token) {
+  loadVars();
+  if (token == "cortical") {
+    re.innerHTML = "Incorrect, a Cortical is someone who writes source code for the exocortex. Try again.";
+  }
+  if (token == "lurker") {
+    re.innerHTML = "Incorrect, a Lurker is someone who just doesn't understand Phext yet. Try again.";
+  }
+  if (token == "progress") {
+    re.innerHTML = "Incorrect, a Progress is someone who is just watching from a distance. Try again.";
+  }
+  if (token == "phexter") {
+    if (attempts == 0) {
+      re.innerHTML = "Perfect! A Phexter is spot on!";
+      localStorage.nuggets = nuggets;
+    }
+    else {
+      re.innerHTML = "Phexter is Correct! You may proceed.";
+    }
+
+    if (!localStorage.completed) {
+      ++nuggets;
+      localStorage.completed = true;
+    }
+  }
+  ++attempts;
+  ++spheres;
+  localStorage.attempts = attempts;  
+  localStorage.spheres = spheres;
+  updateScore();
+}
+
+function updateScore() {
+  co.innerHTML = nuggets + " 🐔 " + spheres + " 📍";
+}
+
+var questText = "";
+function render() {
+  loadVars();
+  updateScore();
+  
+  questText  = "<p<strong>level 0:</strong><br />";
+  questText += "which <strong>term</strong> accurately describes someone who studies knowledge via phext?</p>";
+  questText += "<input type='button' value='phexter' onclick='begin(\"phexter\");' />";
+  questText += "<input type='button' value='lurker' onclick='begin(\"lurker\");' />";
+  questText += "<input type='button' value='cortical' onclick='begin(\"cortical\");' />";
+  questText += "<input type='button' value='progress' onclick='begin(\"progress\");' />";
+  questText += "<p>Answer: <span id='response'></span></p>";
+
+  qb.innerHTML = questText;
+}
+</script>
+</head>
+<body onload="render();">
+
+<div id="banner">
+  <div id="score">
+    <div id="coins"></div>
+  </div>
+</div>
+
+<div id="rabbit">
+  <p>
+  hi, i am 🐇 answer my query for a neural nugget 🐔!<br />
+  </p>
+
+  <div id="breadcrumbs"><a href="index.html">Back to phext.io</a></div>
+  <div id="questbox"></div>
+</div>
+
+</body>
+</html>

@@ -2,12 +2,8 @@
 <html>
 <head>
 <title>phext.io - open-source knowledge</title>
+<link rel="stylesheet" href="phext.css?rev=1" />
 <style type="text/css">
-body {
-  background: #101419;
-  color: white;
-  font-family: sans-serif;
-}
 #root {
 
 }
@@ -29,22 +25,6 @@ body {
   border: 1px solid grey;
   color: #e0ffe0;
 }
-.CommandBar input {
-  border: 2px solid white;
-  border-radius: 1px;
-  padding: 4px;
-  margin: 1px;
-  margin-bottom: 4px;
-}
-.coordinates {
-  font-style: italic;
-  color: #8fef62;
-}
-.number {
-  font-weight: bold;
-  color: #8f8fd7;
-}
-
 #phext {
   width: 400px;
   min-height: 320px;
@@ -110,9 +90,8 @@ th {
   padding: 12px;
   margin-bottom: 20px;
 }
-a, a:visited {
-  color: white;
-  font-size: 1.6em;
+#subspaceTitle {
+  min-width: 200px;
 }
 #coordinatePlate,
 #subspaceArea,
@@ -523,7 +502,7 @@ function getPhextUrl(x, y, z) {
 // -----------------------------------------------------------------------------------------------------------
 function redpill(store) {
   phextMode = 'r';
-  st.innerHTML = "Follow the White Rabbit.";
+  st.innerHTML = "Follow the <a class='small' href='white-rabbit.html'>White Rabbit</a>.";
   wr.style.display = 'block';
   ta.style.display = 'block';
   cp.style.display = 'block';
@@ -764,7 +743,7 @@ function removeSeed() {
 <body onload="startup();">
 
 <div id="root">
-<h1>Phext v3.1.0</h1>
+<h1>Phext v3.2.0</h1>
 <p>Welcome, Traveler. Below are two options on your journey into the #exocortex. Unfortunately, no one can be told what phext is ... you have to experience it for yourself.</p>
 <p>If you take the <span style="color: #8080ff; background-color: #000;">BLUE PILL</span>, you'll move on with your life and believe whatever you want to believe.</p>
 <p>If you take the <span style="color: red;">RED PILL</span>, I show you how to initiate dimensional jumps through 11D hyperspace - and then we'll see just how far the rabbit hole goes.</p>
