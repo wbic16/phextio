@@ -29,11 +29,20 @@ This happens to be a MarkDown file.
 </body>
 </html>
 Roadmap
-V4 - Twitter OAuth and P2P Network
-V5 - IRC Interface
+Features from this list are selected in random order unless you message @wbic16 with a request.
+
+make the jump
+phext navigation
+scroll write api
+storage manager
+security/login
+twitter login
+p2p phext transfer
+irc interface
+ux improvements
+command phext interface
 
 version history
-3.3.0 - 
 3.2.0 - Enter the White Rabbit (12/30)
 3.1.0 - Added User Adoption Progress Bar (12/29)
 3.0.0 - Seed API (12/29)
