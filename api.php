@@ -36,6 +36,7 @@ if ($coordinate) {
   if ($do_update) {
     echo "Working on uploading your phext...";
   } else {
+?>
 
 <form method="POST" action="api.php">
 <input type="hidden" name="seed" id="seed" value="<?php echo $seed; ?>" />
@@ -45,7 +46,7 @@ You may update your own phext by clicking the browse button above.
 <input type="submit" name="update" id="update" value="Update" />
 </form>
 
-  <?php
+<?php
   }
 }
 require_once("phext.inc.php");
