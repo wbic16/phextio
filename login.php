@@ -6,24 +6,14 @@ $ready = array_key_exists("username", $_POST) &&
          !array_key_exists("username", $_GET);
 
 if ($ready) {
-  $username = $_POST["username"];
+  $username = phext_sanitize_text($_POST["username"]);
   if (! array_key_exists("token", $_POST)) {
     header("Location: /login.php?retry=" + $username);
     exit(0);
   }
-  $token = password_hash(trim($_POST["token"]), PASSWORD_DEFAULT);
-  $creds = file_get_contents($PHEXT_SECURITY_FILE);
-  $scrolls = explode($SCROLL_BREAK, $creds);
-  $authorized = $scrolls[0];
-  foreach ($authorized as $line) {
-    $parts = explode(',', $line, 2);
-    $test = $parts[0];
-    $expected = trim($parts[1]);
-    if ($username == $test) {
-      if ($expected == $token) {
-        header("Location: /api.php");
-      }
-    }
+  $token = phext_sanitize_text($_POST["token"]);
+  if (phext_authorize_user($username, $token)) {
+    header("Location: /api.php");
   }
 
   $url = "Location: /index.html?seed=login-failure&cz=1.1.1&cy=1.1.1&cx=1.1.1&r=Auth+Failure+for+$username";

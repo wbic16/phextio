@@ -40,4 +40,33 @@ function phext_sanitize_text($text) {
   $output = str_replace($LIBRARY_BREAK,    "", $output);
   return $output;
 }
+
+session_start();
+function phext_authorize_user($username, $token) {
+  $token_hash = password_hash($token, PASSWORD_DEFAULT);
+
+  $security = file_get_contents($PHEXT_SECURITY_FILE);
+  $security = explode($LINE_BREAK, $security);
+
+  foreach ($security as $line) {
+    if (! str_contains($line, ",")) {
+      continue;
+    }
+    $parts = explode(',', $line);
+    if (count($parts) != 2) {
+      continue;
+    }
+    $test = $parts[0];
+    $expected = trim($parts[1]);
+    if (str_starts_with($test, $username)) {
+      if (password_verify($token, $expected)) {
+        $_SESSION["username"] = $username;
+        return true;
+      }
+    }
+  }
+
+  $_SESSION["username"] = "";
+  return false;
+}
 ?>
