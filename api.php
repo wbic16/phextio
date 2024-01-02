@@ -3,7 +3,7 @@ session_start();
 $LIMIT = 100 * 1024 * 1024;
 
 $do_update = false;
-if (array_key_exists("file", $_POST)) {
+if (array_key_exists("phext", $_POST)) {
   $do_update = array_key_exists("username", $_SESSION);
 }
 
@@ -37,6 +37,7 @@ if ($coordinate) {
 <?php
   if ($do_update) {
     echo "Working on uploading your phext...";
+
   } else {
 ?>
 
