@@ -10,7 +10,7 @@ $seed = array_key_exists('seed', $_GET) ? $_GET['seed'] : "";
 if (array_key_exists('s', $_GET)) {
   $seed = $_GET['s'];
 }
-if (!seed && array_key_exists("username", $_SESSION)) {
+if (!$seed && array_key_exists("username", $_SESSION)) {
   $seed = $_SESSION["username"];
 }
 $coordinate = array_key_exists('coordinate', $_GET) ? $_GET['coordinate'] : "";
