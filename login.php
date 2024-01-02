@@ -32,6 +32,9 @@ else
   if (array_key_exists("validated", $_GET)) {
     $validated = true;
   }
+  if (array_key_exists("added", $_GET)) {
+    $validated = true;
+  }
 
 ?>
 <!DOCTYPE html>
