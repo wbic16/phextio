@@ -94,12 +94,12 @@ foreach ($known_seeds as $k => $p) {
 }
 
 if (array_key_exists("username", $_SESSION)) {
-  if (strlen($seed) == 0) {
+  if (strlen($seed) == 0 || !$seed_ok) {
     $seed = $_SESSION["username"];
     $seed_ok = true;
-    $write_access = true;
-    $authenticated = true;
   }
+  $write_access = true;
+  $authenticated = true;
 }
 
 if (! $seed_ok) {
