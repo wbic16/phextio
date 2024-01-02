@@ -118,9 +118,9 @@ function response($seed, $coordinate) {
     return;
   }
   $size = filesize($seed_file);
-  $limit = 1024 * 1024;
+  $limit = 100 * 1024 * 1024;
   if ($size > $limit) {
-    echo "Segment too large";
+    echo "Phext too large";
     return;
   }
   global $TLB, $TSF, $TSR, $TCN, $TVM, $TBK, $TCH, $TSN, $TSC;

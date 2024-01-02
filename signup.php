@@ -10,6 +10,7 @@ if ($ready) {
   $security = file_get_contents($PHEXT_SECURITY_FILE);
   $security = explode($LINE_BREAK, $security);
 
+  $output = "";
   foreach ($security as $line) {
     if (! str_contains($line, ",")) {
       continue;
@@ -28,10 +29,12 @@ if ($ready) {
       header("Location: signup.php?retry=" . $username . "&reason=mismatch");
       exit(0);
     }
+    output .= "\n$test,$expected";
   }
 
-  $security .= "\n$username,$token_hash";
-  file_put_contents($PHEXT_SECURITY_FILE, $security);
+  
+  $output .= "\n$username,$token_hash";
+  file_put_contents($PHEXT_SECURITY_FILE, $output);
   header("Location: login.php?username=" . $username . "&added=1");
   exit(0);
 
