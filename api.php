@@ -166,8 +166,9 @@ function response($seed, $coordinate) {
   global $LIMIT, $SEED_FILE;
 
   if (! file_exists($SEED_FILE)) {
-    $your_scroll = "Blank Phext$SCROLL_BREAK\nSecond Scroll Here\n";
-    file_put_contents($SEED_FILE, $your_scroll);
+    #$your_scroll = "Blank Phext$SCROLL_BREAK\nSecond Scroll Here\n";
+    echo "Please messge @phextio on twitter to get started.";
+    return;
   }
   $size = filesize($SEED_FILE);
   $limit = $LIMIT;
