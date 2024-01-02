@@ -37,9 +37,9 @@ else
   if (array_key_exists("username", $_GET)) {
     $username = $_GET["username"];
   }
-  $validated = $false
+  $validated = $false;
   if (array_key_exists("validated", $_GET)) {
-    $validated = $true
+    $validated = $true;
   }
 
 ?>
