@@ -11,6 +11,9 @@ if ($ready) {
   $security = explode($LINE_BREAK, $security);
 
   foreach ($security as $line) {
+    if (! str_contains($line, ",")) {
+      continue;
+    }
     $parts = explode(',', $line);
     $test = $parts[0];
     $expected = $parts[1].trim();
