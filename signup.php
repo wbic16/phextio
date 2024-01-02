@@ -12,17 +12,18 @@ if ($ready) {
 
   foreach ($security as $line) {
     $parts = explode(',', $line);
-    if (str_starts_with($parts[0], $username)) {
-      if (password_verify($token, $parts[1])) {
+    $test = $parts[0];
+    $expected = $parts[1].trim();
+    if (str_starts_with($test, $username)) {
+      if (password_verify($token, $expected)) {
         header("Location: login.php?username=" . $username . "&validated=1");
         exit(0);
       }
-      header("Location: signup.php?retry=" . $username);
+      header("Location: signup.php?retry=" . $username . "&reason=mismatch");
       exit(0);
     }
   }
 
-  // still here, so insert the new entry
   $security .= "\n$username,$token_hash";
   file_put_contents($PHEXT_SECURITY_FILE, $security);
   header("Location: login.php?username=" . $username . "&added=1");
