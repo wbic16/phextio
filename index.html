@@ -26,7 +26,7 @@
   color: #e0ffe0;
 }
 #phext {
-  width: 400px;
+  width: 420px;
   min-height: 320px;
 }
 textarea {
@@ -84,7 +84,11 @@ th {
   background: purple;
   color: white;
 }
-#redPill, #bluePill, #whitePill, #purplePill {
+#orangePill {
+  background: orange;
+  color: black;
+}
+#redPill, #bluePill, #whitePill, #purplePill, #orangePill {
   font-weight: bold;
   border-radius: 12px;
   padding: 12px;
@@ -115,7 +119,7 @@ th {
   border: 32px solid yellow;
   width: 640px;
   height: 640px;
-  background: url(phextio.gif) top left no-repeat;
+  background: url(v3.3-launch.webp) top left no-repeat;
   z-index: 2;
 }
 #linkArea {
@@ -743,7 +747,7 @@ function removeSeed() {
 <body onload="startup();">
 
 <div id="root">
-<h1>Phext v3.2.0</h1>
+<h1>Phext v3.3.0</h1>
 <p>Welcome, Traveler. Below are two options on your journey into the #exocortex. Unfortunately, no one can be told what phext is ... you have to experience it for yourself.</p>
 <p>If you take the <span style="color: #8080ff; background-color: #000;">BLUE PILL</span>, you'll move on with your life and believe whatever you want to believe.</p>
 <p>If you take the <span style="color: red;">RED PILL</span>, I show you how to initiate dimensional jumps through 11D hyperspace - and then we'll see just how far the rabbit hole goes.</p>
@@ -760,6 +764,7 @@ function removeSeed() {
 <input id="bluePill" type="button" onclick="bluepill();" value="Lurker" />
 <input id="whitePill" type="button" onclick="whitepill();" value="Cortical" />
 <input id="purplePill" type="button" onclick="window.open('progress.html');" value="Progress" />
+<input id="orangePill" type="button" onclick="window.open('login.php');" value="LOGIN" />
 
 <table class="coordinatePlate" id="coordinatePlate">
   <tr>
