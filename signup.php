@@ -29,7 +29,7 @@ if ($ready) {
       header("Location: signup.php?retry=" . $username . "&reason=mismatch");
       exit(0);
     }
-    output = "$output\n$test,$expected";
+    $output = "$output\n$test,$expected";
   }
 
   
