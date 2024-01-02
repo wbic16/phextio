@@ -477,7 +477,7 @@ function safeEncode(text) {
 
 function updateQR() {
   if (!qr) {
-    qr = new QRCode(document.getElementById("qrcode"), {text: "https://wbic16.github.io/phextio/index.html", width: 640, height: 640});
+    qr = new QRCode(document.getElementById("qrcode"), {text: "https://phext.io/index.html", width: 640, height: 640});
     qrui.style.background = '#000';
   }
   qr.clear();
@@ -487,7 +487,7 @@ function updateQR() {
 // -----------------------------------------------------------------------------------------------------------
 var timeoutDelay = 1000;
 function getPhextUrl(x, y, z) {
-  qurl = "https://wbic16.github.io/phextio/index.html?seed=" + safeEncode(sd.value) + "&cz=" + safeEncode(z) + "&cy=" + safeEncode(y) + "&cx=" + safeEncode(x) + "&" + phextMode + "=" + safeEncode(raw);
+  qurl = "https://phext.io/index.html?seed=" + safeEncode(sd.value) + "&cz=" + safeEncode(z) + "&cy=" + safeEncode(y) + "&cx=" + safeEncode(x) + "&" + phextMode + "=" + safeEncode(raw);
   lt.value = qurl;
   if (qrd) {
     clearTimeout(qrd);
