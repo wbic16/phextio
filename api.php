@@ -17,7 +17,20 @@ if (array_key_exists('t', $_GET)) {
 if ($coordinate) {
   header("Content-Type:application/json");
 } else {
-  echo "<html><head><title>phext.io api server</title><head><body><a href='/index.html'>Back to Homepage</a>";
+  ?><html>
+<head>
+<title>phext.io api server</title>
+<head>
+<body>
+<a href="/index.html">Back to Homepage</a>
+
+<form method="POST" action="api.php">
+Phext Upload: <input type="file" name="phext" id="phext" />
+
+You may update your own phext by clicking the browse button above.
+</form>
+
+<?php
 }
 require_once("phext.inc.php");
 
