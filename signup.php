@@ -6,22 +6,25 @@ if ($ready) {
   $username = phext_sanitize_text($_POST["username"]);
   $token = password_hash(phext_sanitize_text($_POST["token"]), PASSWORD_DEFAULT);
 
-  $accounts = file_get_contents($PHEXT_SECURITY_FILE);
-  $accounts = $accounts . $SCROLL_BREAK;
-  $security = explode($SCROLL_BREAK, $accounts, 2);  
+  $security = file_get_contents($PHEXT_SECURITY_FILE);
+  $security = explode($LINE_BREAK, $security);
 
-  foreach ($security[0] as $line) {
+  foreach ($security as $line) {
     $parts = explode(',', $line);
-    if ($parts[0] == $username) {
+    if (str_starts_with($parts[0], $username)) {
+      if ($parts[1] == $token) {
+        header("Location: login.php?username=" . $username . "&validated=1");
+        exit(0);
+      }
       header("Location: signup.php?retry=" . $username);
       exit(0);
     }
   }
 
   // still here, so insert the new entry
-  $accounts .= "\n$username,$token";
-  file_put_contents($PHEXT_SECURITY_FILE, $accounts);
-  header("Location: login.php?username=" + $username);
+  $security .= "\n$username,$token";
+  file_put_contents($PHEXT_SECURITY_FILE, $security);
+  header("Location: login.php?username=" . $username . "&added=1");
   exit(0);
 
 } else {
