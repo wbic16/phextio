@@ -1,5 +1,4 @@
 <?php
-session_start();
 header("Content-Type:application/json");
 require_once("phext.inc.php");
 
@@ -83,7 +82,7 @@ foreach ($known_seeds as $k => $p) {
 }
 
 if (array_key_exists("username", $_SESSION)) {
-  if (length($seed) == 0) {
+  if (strlen($seed) == 0) {
     $seed = $_SESSION["username"];
     $seed_ok = true;
     $write_access = true;
