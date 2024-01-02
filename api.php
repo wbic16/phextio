@@ -178,6 +178,7 @@ function response($seed, $coordinate) {
                       }
                     }
                     if ($mode == "toc") {
+                      $coordinate = "$LB.$SF.$SR/$CN.$VM.$BK/$CH.$SN.$SC";
                       $lines = explode("\n", $scroll);
                       if (count($lines) > 0) {
                         $line = substr($lines[0], 0, 100);
