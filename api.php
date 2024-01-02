@@ -39,7 +39,10 @@ $TBK = 1;
 $TCH = 1;
 $TSN = 1;
 $TSC = 1;
+
+$mode = "toc";
 if ($coordinate) {
+  $mode = "node";
   $parts = explode('/', $coordinate, 3);
   if (! validate_triplet("Cortical", $parts)) {
     exit(0);
@@ -131,54 +134,81 @@ function response($seed, $coordinate) {
   $raw = file_get_contents($seed_file);
   $libs = explode($LIBRARY_BREAK, $raw);
   $LB = 1;
+  echo "<ul>\n";
   foreach ($libs as $lib) {
     $shelves = explode($SHELF_BREAK, $lib);
     $SF = 1;
+    echo "<ul>\n";
     foreach ($shelves as $shelf) {
       $series = explode($SERIES_BREAK, $shelf);
       $SR = 1;
+      echo "<ul>\n";
       foreach ($series as $seri) {
         $collections = explode($COLLECTION_BREAK, $seri);
         $CN = 1;
+        echo "<ul>\n";
         foreach ($collections as $collection) {
           $volumes = explode($VOLUME_BREAK, $collection);
           $VM = 1;
+          echo "<ul>\n";
           foreach ($volumes as $volume) {
             $books = explode($BOOK_BREAK, $volume);
             $BK = 1;
+            echo "<ul>\n";
             foreach ($books as $book) {
               $chapters = explode($CHAPTER_BREAK, $book);
               $CH = 1;
+              echo "<ul>\n";
               foreach ($chapters as $chapter) {
                 $sections = explode($SECTION_BREAK, $chapter);
                 $SN = 1;
+                echo "<ul>\n";
                 foreach ($sections as $section) {
                   $SC = 1;
                   $scrolls = explode($SCROLL_BREAK, $section);
                   foreach ($scrolls as $scroll) {
-                    if ($TLB == $LB && $TSF == $SF && $TSR == $SR &&
-                        $TCN == $CN && $TVM == $VM && $TBK == $BK &&
-                        $TCH == $CH && $TSN == $SN && $TSC == $SC) {
-                      echo $scroll;
+                    if ($mode == "node") {
+                      if ($TLB == $LB && $TSF == $SF && $TSR == $SR &&
+                          $TCN == $CN && $TVM == $VM && $TBK == $BK &&
+                          $TCH == $CH && $TSN == $SN && $TSC == $SC) {
+                        echo $scroll;
+                      }
+                    }
+
+                    if ($mode == "toc") {
+                      $lines = explode("\n", $scroll);
+                      if (count($lines) > 0) {
+                        $line = substr($lines[0], 0, 100);
+                        echo "<li><a href=\"api.php?s=$seed&t=$token&c=$coordinate\">Scroll #$SC: $line</a></li>";
+                      }
                     }
                     ++$SC;
                   }
+                  echo "</ul>\n"; // scrolls
                   ++$SN;
                 }
+                echo "</ul>\n"; // sections
                 ++$CH;
               }
+              echo "</ul>\n"; // chapters
               ++$BK;
             }
+            echo "</ul>\n"; // books
             ++$VM;
           }
+          echo "</ul>\n"; // volumes
           ++$CN;
         }
+        echo "</ul>\n"; // collections
         ++$SR;
       }
+      echo "</ul>"; // series
       ++$SF;
     }
+    echo "</ul>\n"; // shelves
     ++$LB;
   }
+  echo "</ul>\n"; // libraries
 }
 
 response($seed, $coordinate);
