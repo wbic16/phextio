@@ -1,7 +1,10 @@
 <?php
 require_once("phext.inc.php");
 
-$ready = array_key_exists("username", $_POST) && !array_key_exists("retry", $_GET);
+$ready = array_key_exists("username", $_POST) &&
+         !array_key_exists("retry", $_GET) &&
+         !array_key_exists("username", $_GET);
+
 if ($ready) {
   $username = $_POST["username"];
   if (! array_key_exists("token", $_POST)) {
@@ -29,6 +32,16 @@ if ($ready) {
 }
 else
 {
+
+  $username = "";
+  if (array_key_exists("username", $_GET)) {
+    $username = $_GET["username"];
+  }
+  $validated = $false
+  if (array_key_exists("validated", $_GET)) {
+    $validated = $true
+  }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,6 +74,12 @@ function load()
 
 <a href="index.html">Back to Homepage</a>
 
+<?php
+if ($validated) {
+  echo "<p>Your login is currently active. You may proceed to the <a href='api.php'>api</a>.";
+}
+?>
+
 <h1>Welcome, Phexter</h1>
 <form action="login.php" method="POST">
 
@@ -68,7 +87,7 @@ function load()
 <table>
   <tr>
     <th>Username</th>
-    <td><input type="text" name="username" id="username" />
+    <td><input type="text" name="username" id="username" value="<?php echo $username; ?>" />
     <br /><label><input type="checkbox" checked name="remember" id="remember" /> Remember Me</label>
     </td>
   </tr>
