@@ -16,7 +16,7 @@ if ($ready) {
   $scrolls = explode($SCROLL_BREAK, $creds);
   $authorized = $scrolls[0];
   foreach ($authorized as $line) {
-    $parts = explode(',', $line 2);
+    $parts = explode(',', $line, 2);
     $test = $parts[0];
     $expected = trim($parts[1]);
     if ($username == $test) {
