@@ -8,7 +8,7 @@ if ($ready) {
     header("Location: /login.php?retry=" + $username);
     exit(0);
   }
-  $token = password_hash($_POST["token"].trim());
+  $token = password_hash($_POST["token"].trim(), PASSWORD_DEFAULT);
   $creds = file_get_contents($PHEXT_SECURITY_FILE);
   $scrolls = explode($SCROLL_BREAK, $creds);
   $authorized = $scrolls[0];

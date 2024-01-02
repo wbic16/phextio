@@ -4,7 +4,7 @@ require_once("phext.inc.php");
 $ready = array_key_exists("username", $_POST) && array_key_exists("token", $_POST) && !array_key_exists("retry", $_GET);
 if ($ready) {
   $username = phext_sanitize_text($_POST["username"]);
-  $token = password_hash(phext_sanitize_text($_POST["token"]));
+  $token = password_hash(phext_sanitize_text($_POST["token"]), PASSWORD_DEFAULT);
 
   $accounts = file_get_contents($PHEXT_SECURITY_FILE);
   $security = explode($SCROLL_BREAK, $accounts, 2);
