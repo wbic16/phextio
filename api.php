@@ -14,6 +14,8 @@ if (array_key_exists('t', $_GET)) {
 
 if ($coordinate) {
   header("Content-Type:application/json");
+} else {
+  echo "<html><head><title>phext.io api server</title><head><body><a href='/index.html'>Back to Homepage</a>";
 }
 require_once("phext.inc.php");
 
@@ -215,4 +217,8 @@ function response($seed, $coordinate) {
 }
 
 response($seed, $coordinate);
+
+if (!$coordinate) {
+  echo "</body></html>";
+}
 ?>
