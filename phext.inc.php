@@ -42,6 +42,7 @@ function phext_sanitize_text($text) {
 }
 
 session_start();
+
 function phext_authorize_user($username, $token) {
   $token_hash = password_hash($token, PASSWORD_DEFAULT);
 
@@ -60,7 +61,7 @@ function phext_authorize_user($username, $token) {
     }
     $test = $parts[0];
     $expected = trim($parts[1]);
-    if (str_starts_with($test, $username)) {
+    if (str_starts_with($test, $username) && strlen($test) == strlen($username)) {
       if (password_verify($token, $expected)) {
         $_SESSION["username"] = $username;
         return true;

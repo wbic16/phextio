@@ -14,6 +14,7 @@ if ($ready) {
   $token = phext_sanitize_text($_POST["token"]);
   if (phext_authorize_user($username, $token)) {
     header("Location: /api.php");
+    exit(0);
   }
 
   $url = "Location: /index.html?seed=login-failure&cz=1.1.1&cy=1.1.1&cx=1.1.1&r=Auth+Failure+for+$username";
