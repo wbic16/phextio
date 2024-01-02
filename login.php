@@ -11,14 +11,14 @@ if ($ready) {
     header("Location: /login.php?retry=" + $username);
     exit(0);
   }
-  $token = password_hash($_POST["token"].trim(), PASSWORD_DEFAULT);
+  $token = password_hash(trim($_POST["token"]), PASSWORD_DEFAULT);
   $creds = file_get_contents($PHEXT_SECURITY_FILE);
   $scrolls = explode($SCROLL_BREAK, $creds);
   $authorized = $scrolls[0];
   foreach ($authorized as $line) {
     $parts = explode(',', $line 2);
     $test = $parts[0];
-    $expected = $parts[1].trim();
+    $expected = trim($parts[1]);
     if ($username == $test) {
       if ($expected == $token) {
         header("Location: /api.php");
