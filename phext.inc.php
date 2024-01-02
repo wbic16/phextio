@@ -45,6 +45,7 @@ session_start();
 function phext_authorize_user($username, $token) {
   $token_hash = password_hash($token, PASSWORD_DEFAULT);
 
+  global $PHEXT_SECURITY_FILE;
   $security = file_get_contents($PHEXT_SECURITY_FILE);
   $security = explode($LINE_BREAK, $security);
 
