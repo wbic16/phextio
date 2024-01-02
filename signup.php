@@ -15,6 +15,9 @@ if ($ready) {
       continue;
     }
     $parts = explode(',', $line);
+    if (count($parts) != 2) {
+      continue;
+    }
     $test = $parts[0];
     $expected = $parts[1].trim();
     if (str_starts_with($test, $username)) {
