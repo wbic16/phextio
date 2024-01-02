@@ -1,6 +1,6 @@
 <?php
 session_start();
-$LIMIT = 100 * 1024 * 1024;
+$LIMIT = 2 * 1024 * 1024; // php is also limiting file uploads to 2 MB on phext.io
 
 $do_update = false;
 if (array_key_exists("phext", $_POST)) {
@@ -11,7 +11,7 @@ $seed = array_key_exists('seed', $_GET) ? $_GET['seed'] : "";
 if (array_key_exists('s', $_GET)) {
   $seed = $_GET['s'];
 }
-if (!$seed && array_key_exists("username", $_SESSION)) {
+if (strlen(trim($seed)) == 0 && array_key_exists("username", $_SESSION)) {
   $seed = $_SESSION["username"];
 }
 $coordinate = array_key_exists('coordinate', $_GET) ? $_GET['coordinate'] : "";
@@ -36,8 +36,9 @@ if ($coordinate) {
 
 <?php
   if ($do_update) {
-    $tmp = $_FILES["phext"]["name"];
+    $tmp = $_FILES["phext"]["tmp_name"];
     echo "Working on uploading your phext...$tmp";
+// move_uploaded_file($tmp, $seed_file);
 
   } else {
 ?>
