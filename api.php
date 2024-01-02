@@ -3,8 +3,17 @@ header("Content-Type:application/json");
 require_once("phext.inc.php");
 
 $seed = array_key_exists('seed', $_GET) ? $_GET['seed'] : "";
+if (array_key_exists('s', $_GET)) {
+  $seed = $_GET['s'];
+}
 $coordinate = array_key_exists('coordinate', $_GET) ? $_GET['coordinate'] : "";
+if (array_key_exists('c', $_GET)) {
+  $coordinate = $_GET['c'];
+}
 $token = array_key_exists('token', $_GET) ? $_GET['token'] : "";
+if (array_key_exists('t', $_GET)) {
+  $token = $_GET['t'];
+}
 
 function validate_triplet($name, $triplet) {
    if (! array_key_exists(0, $triplet)) {
