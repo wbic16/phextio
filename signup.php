@@ -4,7 +4,8 @@ require_once("phext.inc.php");
 $ready = array_key_exists("username", $_POST) && array_key_exists("token", $_POST) && !array_key_exists("retry", $_GET);
 if ($ready) {
   $username = phext_sanitize_text($_POST["username"]);
-  $token = password_hash(phext_sanitize_text($_POST["token"]), PASSWORD_DEFAULT);
+  $token = phext_sanitize_text($_POST["token"]);
+  $token_hash = password_hash($token, PASSWORD_DEFAULT);
 
   $security = file_get_contents($PHEXT_SECURITY_FILE);
   $security = explode($LINE_BREAK, $security);
@@ -12,7 +13,7 @@ if ($ready) {
   foreach ($security as $line) {
     $parts = explode(',', $line);
     if (str_starts_with($parts[0], $username)) {
-      if ($parts[1] == $token) {
+      if (password_verify($token, $parts[1])) {
         header("Location: login.php?username=" . $username . "&validated=1");
         exit(0);
       }
@@ -22,7 +23,7 @@ if ($ready) {
   }
 
   // still here, so insert the new entry
-  $security .= "\n$username,$token";
+  $security .= "\n$username,$token_hash";
   file_put_contents($PHEXT_SECURITY_FILE, $security);
   header("Location: login.php?username=" . $username . "&added=1");
   exit(0);
