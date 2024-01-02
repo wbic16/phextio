@@ -9,11 +9,11 @@ if ($ready) {
     exit(0);
   }
   $token = password_hash($_POST["token"].trim());
-  $creds = file_get_contents("/var/logins/phextio.crp");
-  $scrolls = $creds.split($SCROLL_BREAK);
+  $creds = file_get_contents($PHEXT_SECURITY_FILE);
+  $scrolls = explode($SCROLL_BREAK, $creds);
   $authorized = $scrolls[0];
   foreach ($authorized as $line) {
-    $parts = $line.split(",", 2);
+    $parts = explode(',', $line 2);
     $test = $parts[0];
     $expected = $parts[1].trim();
     if ($username == $test) {
