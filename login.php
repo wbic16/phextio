@@ -26,9 +26,10 @@ if ($ready) {
     }
   }
 
-  $message = "Unable to Authenticate " + $username;
+  $message = "Unable to Authenticate $username";
   $url = "Location: /index.html?seed=login-failure&cz=1.1.1&cy=1.1.1&cx=1.1.1&r=" + urlencode($message);
   header($url);
+  exit(0);
 }
 else
 {
