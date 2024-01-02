@@ -19,7 +19,7 @@ if ($ready) {
       continue;
     }
     $test = $parts[0];
-    $expected = $parts[1].trim();
+    $expected = trim($parts[1]);
     if (str_starts_with($test, $username)) {
       if (password_verify($token, $expected)) {
         header("Location: login.php?username=" . $username . "&validated=1");
