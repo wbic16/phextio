@@ -3,9 +3,7 @@ $LIMIT = 100 * 1024 * 1024;
 
 $do_update = false;
 if (array_key_exists("file", $_POST)) {
-  if ($_SESSION["username"] == $_POST["seed"]) {
-    $do_update = true;
-  }
+  $do_update = array_key_exists("username", $_SESSION);
 }
 
 $seed = array_key_exists('seed', $_GET) ? $_GET['seed'] : "";
