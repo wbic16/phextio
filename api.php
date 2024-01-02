@@ -1,4 +1,5 @@
 <?php
+session_start();
 header("Content-Type:application/json");
 require_once("phext.inc.php");
 
@@ -68,16 +69,28 @@ $known_seeds = array(
   'plan' => 'FFCD27C0444',
   '0x440x46' => '81124211D679D1E'
 );
+
 $authenticated = false;
+$read_access = true;
+$write_access = false;
 $seed_ok = false;
 foreach ($known_seeds as $k => $p) {
   if ($k == $seed) {
-    $seed_ok = true;
     if ($p == $token) {
       $authenticated = true;
     }
   }
 }
+
+if (array_key_exists("username", $_SESSION)) {
+  if (length($seed) == 0) {
+    $seed = $_SESSION["username"];
+    $seed_ok = true;
+    $write_access = true;
+    $authenticated = true;
+  }
+}
+
 if (! $seed_ok) {
   echo "Unknown seed";
   exit(0);
