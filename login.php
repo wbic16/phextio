@@ -76,7 +76,7 @@ function load()
 
 <?php
 if ($validated) {
-  echo "<p>Your login is currently active. You may proceed to the <a href='api.php'>api</a>.";
+  echo "<p>Your login is currently active. You may proceed to the <a href='api.php?seed=$username&coordinate=1.1.1/1.1.1/1.1.1'>api</a>.";
 }
 ?>
 
