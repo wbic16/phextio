@@ -1,6 +1,13 @@
 <?php
 $LIMIT = 100 * 1024 * 1024;
 
+$do_update = false;
+if (array_key_exists("file", $_POST) {
+  if ($_SESSION["username"] == $_POST["seed"]) {
+    $do_update = true;
+  }
+}
+
 $seed = array_key_exists('seed', $_GET) ? $_GET['seed'] : "";
 if (array_key_exists('s', $_GET)) {
   $seed = $_GET['s'];
@@ -21,16 +28,25 @@ if ($coordinate) {
 <head>
 <title>phext.io api server</title>
 <head>
+<link rel="stylesheet" href="phext.css?rev=1" />
 <body>
 <a href="/index.html">Back to Homepage</a>
 
+<?php
+  if ($do_update) {
+    echo "Working on uploading your phext...";
+  } else {
+
 <form method="POST" action="api.php">
+<input type="hidden" name="seed" id="seed" value="<?php echo $seed; ?>" />
 Phext Upload: <input type="file" name="phext" id="phext" />
 
 You may update your own phext by clicking the browse button above.
+<input type="submit" name="update" id="update" value="Update" />
 </form>
 
-<?php
+  <?php
+  }
 }
 require_once("phext.inc.php");
 
