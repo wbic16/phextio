@@ -6,6 +6,12 @@ $do_update = false;
 if (array_key_exists("phext", $_POST)) {
   $do_update = array_key_exists("username", $_SESSION);
 }
+if (isset($_FILES) && count($_FILES) > 0) {
+  $do_update = array_key_exists("username", $_SESSION);
+}
+if (array_key_exists("complete", $_GET)) {
+  $do_update = false;
+}
 
 $seed = array_key_exists('seed', $_GET) ? $_GET['seed'] : "";
 if (array_key_exists('s', $_GET)) {
@@ -14,6 +20,7 @@ if (array_key_exists('s', $_GET)) {
 if (strlen(trim($seed)) == 0 && array_key_exists("username", $_SESSION)) {
   $seed = $_SESSION["username"];
 }
+$SEED_FILE = "/var/data/phextio/seeds/$seed.phext";
 $coordinate = array_key_exists('coordinate', $_GET) ? $_GET['coordinate'] : "";
 if (array_key_exists('c', $_GET)) {
   $coordinate = $_GET['c'];
@@ -37,13 +44,13 @@ if ($coordinate) {
 <?php
   if ($do_update) {
     $tmp = $_FILES["phext"]["tmp_name"];
-    echo "Working on uploading your phext...$tmp";
-// move_uploaded_file($tmp, $seed_file);
-
+    move_uploaded_file($tmp, $SEED_FILE);
+    header("Location: /api.php?complete=1&seed=" . urlencode($seed));
+    exit(0);
   } else {
 ?>
 
-<form method="POST" action="api.php">
+<form method="POST" action="api.php" enctype="multipart/form-data">
 <input type="hidden" name="seed" id="seed" value="<?php echo $seed; ?>" />
 Phext Upload: <input type="file" name="phext" id="phext" />
 
@@ -156,14 +163,13 @@ if (! $authenticated) {
 }
 
 function response($seed, $coordinate) {
-  global $LIMIT;
+  global $LIMIT, $SEED_FILE;
 
-  $seed_file = "/var/data/phextio/seeds/$seed.phext";
-  if (! file_exists($seed_file)) {
+  if (! file_exists($SEED_FILE)) {
     $your_scroll = "Blank Phext$SCROLL_BREAK\nSecond Scroll Here\n";
-    file_put_contents($seed_file, $your_scroll);
+    file_put_contents($SEED_FILE, $your_scroll);
   }
-  $size = filesize($seed_file);
+  $size = filesize($SEED_FILE);
   $limit = $LIMIT;
   if ($size > $limit) {
     echo "Phext too large";
@@ -175,7 +181,7 @@ function response($seed, $coordinate) {
   global $CHAPTER_BREAK, $SECTION_BREAK, $SCROLL_BREAK;
   global $mode, $token, $seed;
 
-  $raw = file_get_contents($seed_file);
+  $raw = file_get_contents($SEED_FILE);
   $libs = explode($LIBRARY_BREAK, $raw);
   $LB = 1;
   if ($mode == "toc") { echo "<ul>\n"; }
