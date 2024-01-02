@@ -36,7 +36,8 @@ if ($coordinate) {
 
 <?php
   if ($do_update) {
-    echo "Working on uploading your phext...";
+    $tmp = $_FILES["phext"]["name"];
+    echo "Working on uploading your phext...$tmp";
 
   } else {
 ?>
