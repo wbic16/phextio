@@ -78,6 +78,8 @@ foreach ($known_seeds as $k => $p) {
   if ($k == $seed) {
     if ($p == $token) {
       $authenticated = true;
+      $seed_ok = true;
+      $read_access = true;
     }
   }
 }
