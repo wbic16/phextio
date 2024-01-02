@@ -1,4 +1,6 @@
 <?php
+$LIMIT = 100 * 1024 * 1024;
+
 $seed = array_key_exists('seed', $_GET) ? $_GET['seed'] : "";
 if (array_key_exists('s', $_GET)) {
   $seed = $_GET['s'];
@@ -121,11 +123,11 @@ if (! $authenticated) {
 function response($seed, $coordinate) {
   $seed_file = "/var/data/phextio/seeds/$seed.phext";
   if (! file_exists($seed_file)) {
-    echo "Missing $seed";
-    return;
+    $your_scroll = "Blank Phext$SCROLL_BREAK\nSecond Scroll Here\n";
+    file_put_contents($seed_file, $your_scroll);
   }
   $size = filesize($seed_file);
-  $limit = 100 * 1024 * 1024;
+  $limit = $LIMIT;
   if ($size > $limit) {
     echo "Phext too large";
     return;
