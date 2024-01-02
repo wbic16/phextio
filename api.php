@@ -132,6 +132,7 @@ function response($seed, $coordinate) {
   global $LIBRARY_BREAK, $SHELF_BREAK, $SERIES_BREAK;
   global $COLLECTION_BREAK, $VOLUME_BREAK, $BOOK_BREAK;
   global $CHAPTER_BREAK, $SECTION_BREAK, $SCROLL_BREAK;
+  global $mode;
 
   $raw = file_get_contents($seed_file);
   $libs = explode($LIBRARY_BREAK, $raw);
