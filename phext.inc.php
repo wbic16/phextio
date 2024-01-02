@@ -41,7 +41,9 @@ function phext_sanitize_text($text) {
   return $output;
 }
 
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 
 function phext_authorize_user($username, $token) {
   $token_hash = password_hash($token, PASSWORD_DEFAULT);
