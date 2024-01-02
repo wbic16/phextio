@@ -1,4 +1,5 @@
 <?php
+session_start();
 $LIMIT = 100 * 1024 * 1024;
 
 $do_update = false;
