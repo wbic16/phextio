@@ -9,6 +9,7 @@ if ($ready) {
   $accounts = file_get_contents($PHEXT_SECURITY_FILE);
   $accounts = $accounts . $SCROLL_BREAK;
   $security = explode($SCROLL_BREAK, $accounts, 2);  
+
   foreach ($security[0] as $line) {
     $parts = explode(',', $line);
     if ($parts[0] == $username) {
@@ -18,9 +19,8 @@ if ($ready) {
   }
 
   // still here, so insert the new entry
-  $security[0] = $security[0].trim() . "\n$username,$token";
-  $phext = implode($SCROLL_BREAK, $security);
-  file_put_contents($PHEXT_SECURITY_FILE, $phext);
+  $accounts .= "\n$username,$token";
+  file_put_contents($PHEXT_SECURITY_FILE, $accounts);
   header("Location: login.php?username=" + $username);
   exit(0);
 
