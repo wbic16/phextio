@@ -29,11 +29,11 @@ if ($ready) {
       header("Location: signup.php?retry=" . $username . "&reason=mismatch");
       exit(0);
     }
-    output .= "\n$test,$expected";
+    output = "$output\n$test,$expected";
   }
 
   
-  $output .= "\n$username,$token_hash";
+  $output = "$output\n$username,$token_hash";
   file_put_contents($PHEXT_SECURITY_FILE, $output);
   header("Location: login.php?username=" . $username . "&added=1");
   exit(0);
