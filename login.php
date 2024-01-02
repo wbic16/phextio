@@ -89,8 +89,8 @@ if ($validated) {
 </table>
 
 <input type="submit" name="whitepill" id="whitepill" value="Login" />
-<input type="button" name="sortinghat" id="sortinghat" value="Sorting Hat" onclick="window.load('/sortinghat.html');" />
-<input type="button" name="signup" id="signup" value="Sign Up" onclick="window.load('/signup.html');" />
+<input type="button" name="sortinghat" id="sortinghat" value="Sorting Hat" onclick="window.open('/sortinghat.html');" />
+<input type="button" name="signup" id="signup" value="Sign Up" onclick="window.open('/signup.php');" />
 </div>
 
 </form>
