@@ -1,7 +1,4 @@
 <?php
-header("Content-Type:application/json");
-require_once("phext.inc.php");
-
 $seed = array_key_exists('seed', $_GET) ? $_GET['seed'] : "";
 if (array_key_exists('s', $_GET)) {
   $seed = $_GET['s'];
@@ -14,6 +11,11 @@ $token = array_key_exists('token', $_GET) ? $_GET['token'] : "";
 if (array_key_exists('t', $_GET)) {
   $token = $_GET['t'];
 }
+
+if ($coordinate) {
+  header("Content-Type:application/json");
+}
+require_once("phext.inc.php");
 
 function validate_triplet($name, $triplet) {
    if (! array_key_exists(0, $triplet)) {
@@ -174,7 +176,6 @@ function response($seed, $coordinate) {
                         echo $scroll;
                       }
                     }
-
                     if ($mode == "toc") {
                       $lines = explode("\n", $scroll);
                       if (count($lines) > 0) {
