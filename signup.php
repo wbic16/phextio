@@ -7,9 +7,7 @@ if ($ready) {
   $token = password_hash(phext_sanitize_text($_POST["token"]), PASSWORD_DEFAULT);
 
   $accounts = file_get_contents($PHEXT_SECURITY_FILE);
-  if (!str_contains($accounts, $SCROLL_BREAK)) {
-    $accounts = $accounts . $SCROLL_BREAK;
-  }
+  $accounts = $accounts . $SCROLL_BREAK;
   $security = explode($SCROLL_BREAK, $accounts, 2);  
   foreach ($security[0] as $line) {
     $parts = explode(',', $line);
