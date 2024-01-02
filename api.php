@@ -150,6 +150,8 @@ if (! $authenticated) {
 }
 
 function response($seed, $coordinate) {
+  global $LIMIT;
+
   $seed_file = "/var/data/phextio/seeds/$seed.phext";
   if (! file_exists($seed_file)) {
     $your_scroll = "Blank Phext$SCROLL_BREAK\nSecond Scroll Here\n";
@@ -165,7 +167,7 @@ function response($seed, $coordinate) {
   global $LIBRARY_BREAK, $SHELF_BREAK, $SERIES_BREAK;
   global $COLLECTION_BREAK, $VOLUME_BREAK, $BOOK_BREAK;
   global $CHAPTER_BREAK, $SECTION_BREAK, $SCROLL_BREAK;
-  global $mode, $LIMIT;
+  global $mode;
 
   $raw = file_get_contents($seed_file);
   $libs = explode($LIBRARY_BREAK, $raw);
