@@ -66,7 +66,8 @@ $known_seeds = array(
   'phextio' => '180090540E71E6',
   'wbic16' => 'AD0683C8FA4DE8',
   'plan' => 'FFCD27C0444',
-  '0x440x46' => '81124211D679D1E'
+  '0x440x46' => '81124211D679D1E',
+  'solutions' => 'twitter'
 );
 
 $authenticated = false;
