@@ -1,6 +1,7 @@
 <?php
 require_once("phext.inc.php");
-$ready = array_key_exists("username", $_POST) && !array_key_exists("retry", $_GET));
+
+$ready = array_key_exists("username", $_POST) && !array_key_exists("retry", $_GET);
 if ($ready) {
   $username = $_POST["username"];
   if (! array_key_exists("token", $_POST)) {
