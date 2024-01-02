@@ -180,7 +180,7 @@ function response($seed, $coordinate) {
                       $lines = explode("\n", $scroll);
                       if (count($lines) > 0) {
                         $line = substr($lines[0], 0, 100);
-                        echo "<li><a href=\"api.php?s=$seed&t=$token&c=$coordinate\">Scroll #$SC: $line</a></li>";
+                        echo "<li><a href=\"api.php?s=$seed&t=$token&c=$coordinate\">Scroll #$SC: $line</a> ($coordinate)</li>";
                       }
                     }
                     ++$SC;
