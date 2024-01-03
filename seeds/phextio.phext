@@ -34,6 +34,7 @@ Features from this list are selected in random order unless you message @wbic16 
 cross-reference community notes - see https://twitter.com/phextio/status/1742082458462359857
 cross-reference https://rosenfeldmedia.com/books/duly-noted-extend-your-mind-through-connected-notes/
 explore 'unexplored deep value in the web'
+write a text to speech vocoder that leverages phext
 make the jump
 phext navigation
 scroll write api
@@ -46,7 +47,7 @@ ux improvements
 command phext interface
 
 version history
-3.3.0 - Added Login, Signup, and Sorting Hat (2024-01-01)
+3.3.0 - Added Login, Signup, and Sorting Hat (2024-01-02)
 3.2.0 - Enter the White Rabbit (2023-12-30)
 3.1.0 - Added User Adoption Progress Bar (2023-12-29)
 3.0.0 - Seed API (2023-12-29)
