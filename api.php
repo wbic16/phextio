@@ -127,7 +127,8 @@ $known_seeds = array(
   'wbic16' => 'AD0683C8FA4DE8',
   'plan' => 'FFCD27C0444',
   '0x440x46' => '81124211D679D1E',
-  'solutions' => 'twitter'
+  'solutions' => 'twitter',
+  'image-to-text' => 'lookup'
 );
 
 $authenticated = false;
@@ -144,7 +145,7 @@ foreach ($known_seeds as $k => $p) {
   }
 }
 
-if (array_key_exists("username", $_SESSION)) {
+if (array_key_exists("username", $_SESSION) && strlen($_SESSION["username"]) > 0) {
   if (strlen($seed) == 0 || !$seed_ok) {
     $seed = $_SESSION["username"];
     $seed_ok = true;
