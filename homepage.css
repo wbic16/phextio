@@ -1,0 +1,126 @@
+#copyright {
+  padding: 8px;
+  position: absolute;
+  top: 10px;
+  right: 100px;
+  z-index: 0;
+}
+.CommandBar {
+  min-width: 720px;
+}
+#console {
+  float: left;
+  width: 50%;
+  height: 1000px;
+  border: 1px solid grey;
+  color: #e0ffe0;
+}
+#phext {
+  width: 420px;
+  min-height: 320px;
+}
+textarea {
+  font-family: monospace;
+}
+.coordheader {
+  text-align: right;
+  width: 120px;
+}
+th {
+  text-align: right;
+  padding: 0;
+}
+#hyperJump {
+  width: 80px;
+  height: 23px;
+}
+#coordsX,
+#coordsY,
+#coordsZ,
+#pscrollbreak,
+#psectionbreak,
+#pchapterbreak,
+#pbookbreak,
+#pvolumebreak,
+#pcollectionbreak,
+#pseriesbreak,
+#pshelfbreak,
+#plibrarybreak,
+#targetCoordinates {
+  font-family: monospace;
+  margin: 0;
+  padding: 0;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+#targetCoordinates {
+  font-size: 1.6em;
+}
+#redPill {
+  background: red;
+  color: white;
+}
+#bluePill {
+  background: blue;
+  color: white;
+}
+#whitePill {
+  background: white;
+  color: black;
+}
+#purplePill {
+  background: purple;
+  color: white;
+}
+#orangePill {
+  background: orange;
+  color: black;
+}
+#redPill, #bluePill, #whitePill, #purplePill, #orangePill {
+  font-weight: bold;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 20px;
+}
+#subspaceTitle {
+  min-width: 200px;
+}
+#coordinatePlate,
+#subspaceArea,
+#whiterabbit,
+#scroll,
+#helparea,
+#qrlabel {
+  display: none;
+}
+#subspace {
+  position: relative;
+  z-index: 1;
+}
+#visualizer {
+  position: absolute;
+  top: 200px;
+  right: 100px;
+  width: 300px;
+}
+#qrcode {
+  border: 32px solid yellow;
+  width: 640px;
+  height: 640px;
+  background: url(v3.4-launch.webp) top left no-repeat;
+  z-index: 2;
+}
+#linkArea {
+  padding: 16px;
+}
+#seed {
+  padding: 4px;
+  margin: 4px;
+}
+#seeds {
+  padding: 4px;
+  margin: 4px;
+  font-size: 1em;
+  font-weight: bold;
+  width: 250px;
+}
