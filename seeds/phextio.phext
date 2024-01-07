@@ -31,6 +31,7 @@ This happens to be a MarkDown file.
 Roadmap
 Features from this list are selected in random order unless you message @wbic16 with a request.
 
+libphext for fast memory-mapped i/o
 image-to-text - blind users would benefit from having LLMs transcribe images into phexts - see https://twitter.com/aaron_stormerr/status/1742596896475185504
 cross-reference community notes - see https://twitter.com/phextio/status/1742082458462359857
 cross-reference https://rosenfeldmedia.com/books/duly-noted-extend-your-mind-through-connected-notes/
@@ -48,6 +49,9 @@ p2p phext transfer
 irc interface
 ux improvements
 command phext interface
+phext url handler
+phext protocol
+phext browser plugin
 
 version history
 3.3.0 - Added Login, Signup, and Sorting Hat (2024-01-02)
