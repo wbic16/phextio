@@ -10,6 +10,7 @@ $BOOK_BREAK       = "" . chr(0x1A);
 $CHAPTER_BREAK    = "" . chr(0x19);
 $SECTION_BREAK    = "" . chr(0x18);
 $SCROLL_BREAK     = "" . chr(0x17);
+$UPLOAD_LIMIT     = 2 * 1024 * 1024;
 
 $PHEXT_SECURITY_FILE = "/var/logins/phextio.crp";
 
@@ -41,10 +42,6 @@ function phext_sanitize_text($text) {
   return $output;
 }
 
-if (!isset($_SESSION)) {
-  session_start();
-}
-
 function phext_authorize_user($username, $token) {
   $token_hash = password_hash($token, PASSWORD_DEFAULT);
 
@@ -74,4 +71,9 @@ function phext_authorize_user($username, $token) {
   $_SESSION["username"] = "";
   return false;
 }
+
+if (!isset($_SESSION)) {
+  session_start();
+}
+
 ?>

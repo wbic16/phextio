@@ -1,0 +1,130 @@
+<mxfile host="app.diagrams.net" modified="2024-01-05T04:30:35.081Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="M_IQdNmU-2xKGh7mr8jh" version="22.1.16" type="device">
+  <diagram name="Page-1" id="bVtOglxRDTdIJFlZDQ3k">
+    <mxGraphModel dx="1430" dy="781" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-1" value="" style="endArrow=none;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="oFJZ7PMcDvXulJSJ4uUZ-8">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="80" y="320" as="sourcePoint" />
+            <mxPoint x="680" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-3" value="Scroll #1&lt;br&gt;(40 bytes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-4" value="Scroll #2&lt;br&gt;(10 bytes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="200" y="320" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-5" value="Scroll #3&lt;br&gt;(15 bytes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="320" y="320" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-6" value="Scroll #4&lt;br&gt;(20 bytes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="440" y="320" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-7" value="&lt;font color=&quot;#feffe3&quot;&gt;Scroll #5&lt;br&gt;(Empty)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#5c5c5c;" vertex="1" parent="1">
+          <mxGeometry x="560" y="320" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-8" value="Scroll #6&lt;br&gt;(25 bytes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="680" y="320" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-9" value="Here&#39;s an outline of a basic 3D phext with a total of 115 bytes, of which 110 bytes (95.6%) are content.&lt;br&gt;There are six scrolls, with 5 scroll break delimiters separating them.&lt;br&gt;Notice that Scroll #5 is empty, and thus consumed &lt;b&gt;just 1 byte &lt;/b&gt;(the delimiter)." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="240" width="680" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-11" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="170" y="365" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-12" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="290" y="365" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-13" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="410" y="365" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-14" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="530" y="365" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-15" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="650" y="365" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-16" value="" style="endArrow=none;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="80" y="600" as="sourcePoint" />
+            <mxPoint x="760" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-17" value="Section #1&lt;br&gt;Scroll #1&lt;br&gt;(300 bytes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="80" y="600" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-18" value="Section #1 Scroll #2&lt;br&gt;(200 bytes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="200" y="600" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-23" value="Here&#39;s an outline of a simple 4D phext with a total of 1,009 bytes.&lt;br&gt;There are 10 scrolls - 6 empty scrolls and 4 populated scrolls. Empty scrolls consume 1 byte each (the delimiter)." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="520" width="680" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-24" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="170" y="645" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-29" value="" style="endArrow=none;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="oFJZ7PMcDvXulJSJ4uUZ-42">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="80" y="770" as="sourcePoint" />
+            <mxPoint x="760" y="770" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-30" value="Section #2 Scroll #1&lt;br&gt;(400 bytes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffcc99;strokeColor=#36393d;" vertex="1" parent="1">
+          <mxGeometry x="80" y="770" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-32" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="170" y="815" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-33" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="290" y="645" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-34" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="410" y="645" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-35" value="Section #1 Scroll #3&lt;br&gt;(Empty)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#696969;" vertex="1" parent="1">
+          <mxGeometry x="320" y="600" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-36" value="Section #1 Scroll #4 (Empty)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#696969;" vertex="1" parent="1">
+          <mxGeometry x="440" y="600" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-37" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="530" y="645" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-38" value="Section #1 Scroll #5 (Empty)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#696969;" vertex="1" parent="1">
+          <mxGeometry x="560" y="600" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-39" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="290" y="815" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-40" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="410" y="815" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-41" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1F96FF;" vertex="1" parent="1">
+          <mxGeometry x="530" y="815" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-42" value="Section #2 Scroll #5&lt;br&gt;(100 bytes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffcc99;strokeColor=#36393d;" vertex="1" parent="1">
+          <mxGeometry x="560" y="770" width="80" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-43" value="Section #2 Scroll #2&lt;br&gt;(Empty)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#878787;" vertex="1" parent="1">
+          <mxGeometry x="200" y="770" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-44" value="Section #2 Scroll #3&lt;br&gt;(Empty)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#878787;" vertex="1" parent="1">
+          <mxGeometry x="320" y="770" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-45" value="Section #1 Scroll #4&lt;br&gt;(Empty)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#878787;" vertex="1" parent="1">
+          <mxGeometry x="440" y="770" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-46" value="Section Break (0x18)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="80" y="730" width="680" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-49" value="subspace: &amp;lt;scroll1&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;scroll2&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;scroll3&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;scroll4&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;scroll6&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="440" width="680" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="oFJZ7PMcDvXulJSJ4uUZ-50" value="subspace: &amp;lt;section1.scroll1&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;section1.scroll2&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;0x18&amp;gt;&amp;lt;section2.scroll1&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;0x17&amp;gt;&amp;lt;section2.scroll2&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="890" width="680" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
