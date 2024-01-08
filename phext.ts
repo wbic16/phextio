@@ -158,6 +158,7 @@ function loadPhext() {
 
   scrollFound = false;
   qt.innerHTML = "";
+  nodes = Array();
   totalScrolls = 1;
   var libs = raw.split(LIBRARY_BREAK);  
   libs.forEach((library) => processLibrary(library));
