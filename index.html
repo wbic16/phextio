@@ -11,21 +11,20 @@
 <body onload="startup();">
 
 <div id="root">
-<h1>Phext v3.4.0</h1>
-<p>
+<h1>Phext v4.0.0</h1>
+<div class="node">
   Welcome to the Phextiverse - we're going to party like it's 1996 all over again!
   <br />Once you've signed up for an account, message @phextio on twitter to claim your phext space.
   <br />We currently have 10 GB of storage available.
-</p>
-<p>
+</div>
+<div class="node">
   Phext is a complete rewrite of your text stack. It's essentially a file system within a file.
   <br />Phext coordinates allow you to precisely select a region of text within the subspace buffer.
   <br />Play around with the API to get a feel for how this all works.
-</p>
-<p>
+</div>
+<div class="node">
   Why do this? Because we're still using text interfaces that are rate-limited to 8 bytes/second.
   <br />But eventually...we will have 100 Mbit/sec <em>phext</em> interfaces that our brains need to interface with.
-</p>
 </div>
 
 <div id="linkArea"><h2>Permanent URL</h2>
@@ -34,7 +33,11 @@
 <span id="linkerStatus"></span>
 </div>
 
+<div id="quest">  
+</div>
+
 <div id="phext">
+
 <input id="redPill" type="button" onclick="redpill(false);" value="Seeker" />
 <input id="bluePill" type="button" onclick="bluepill();" value="Lurker" />
 <input id="whitePill" type="button" onclick="whitepill();" value="Cortical" />
@@ -56,7 +59,7 @@
     <td colspan="5"></td>
     <th class="locationheader">Location</th>
   </tr>
-<tr>
+  <tr>
     <th>Z</th>
     <th>Library</th><td><input id="plibrarybreak" type="text" value="" size="1" /></td>
     <th>Shelf</th><td><input id="pshelfbreak" type="text" value="" size="1" /></td>
@@ -84,8 +87,6 @@
 
 <h1 id="whiterabbit">Scroll</h1>
 <textarea id="scroll" name="scroll" rows="5" cols="100">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
-
-<div id="visualizer"></div>
 
 <div id="subspaceArea">
   <h1 id="subspaceTitle">Subspace</h1>

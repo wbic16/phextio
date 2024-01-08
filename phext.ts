@@ -1,3 +1,9 @@
+// phext.ts
+// this monstrosity of an implementation is basically Will's stream of consciousness
+// if you want to refactor it for clarity, please submit a pr
+// (c) 2023-2024 Will Bickford
+// License: MIT
+
 function dgid(id) {
   return document.getElementById(id);
 }
@@ -92,13 +98,11 @@ var lts = false;
 var qrui = false;
 var qrd = false;
 var qrl = false;
+var qt = false;
+var nodes = Array();
 var qurl = "";
-var phextCoordinate = "1.1.1/1.1.1/1.1.1";
 
-// -----------------------------------------------------------------------------------------------------------
-function dgid(id) {
-  return document.getElementById(id);
-}
+var phextCoordinate = "1.1.1/1.1.1/1.1.1";
 
 // -----------------------------------------------------------------------------------------------------------
 function loadVars() {
@@ -113,13 +117,13 @@ function loadVars() {
   if (!cp) { cp = dgid("coordinatePlate"); }
   if (!ha) { ha = dgid("helparea"); }
   if (!sa) { sa = dgid("subspaceArea"); }
-  if (!vr) { vr = dgid("visualizer"); }
   if (!lt) { lt = dgid("linkerText"); }
   if (!sd) { sd = dgid("seed"); }
   if (!se) { se = dgid("seeds"); }
   if (!lts) { lts = dgid("linkerStatus"); }
   if (!qrui) { qrui = dgid("qrcode"); }
   if (!qrl) { qrl = dgid("qrlabel"); }
+  if (!qt) { qt = dgid("quest"); }
 
   if (localStorage.seed) {
     sd.value = localStorage.seed;
@@ -153,13 +157,14 @@ function loadPhext() {
   if (gx.length >= 3) { target[SCROLL_BREAK] = gx[2]; }
 
   scrollFound = false;
-  vr.innerHTML = "<h2>Scroll Index</h2><ul>";
-  var libs = raw.split(LIBRARY_BREAK);
+  qt.innerHTML = "";
+  totalScrolls = 1;
+  var libs = raw.split(LIBRARY_BREAK);  
   libs.forEach((library) => processLibrary(library));
-  vr.innerHTML += "</ul>";
   if (!scrollFound) {
     ta.value = "";
   }
+  qt.innerHTML = nodes.join("\n");
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -309,19 +314,46 @@ function coordinatesMatch(a, b) {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+function coordToString(coords) {
+  var chz = coords[LIBRARY_BREAK] + "." + coords[SHELF_BREAK] + "." + coords[SERIES_BREAK];
+  var chy = coords[COLLECTION_BREAK] + "." + coords[VOLUME_BREAK] + "." + coords[BOOK_BREAK];
+  var chx = coords[CHAPTER_BREAK] + "." + coords[SECTION_BREAK] + "." + coords[SCROLL_BREAK];
+
+  return chz + "/" + chy + "/" + chx;
+}
+
+// -----------------------------------------------------------------------------------------------------------
 function coordinateHit(coords) {
 
   var chz = coords[LIBRARY_BREAK] + "." + coords[SHELF_BREAK] + "." + coords[SERIES_BREAK];
   var chy = coords[COLLECTION_BREAK] + "." + coords[VOLUME_BREAK] + "." + coords[BOOK_BREAK];
   var chx = coords[CHAPTER_BREAK] + "." + coords[SECTION_BREAK] + "." + coords[SCROLL_BREAK];
 
-  return "<li><a href='" + getPhextUrl(chx, chy, chz) + "'>@" + chz + "/" + chy + "/" + chx + "</a></li>";
+  return "<a href='" + getPhextUrl(chx, chy, chz) + "'>@" + chz + "/" + chy + "/" + chx + "</a>";
+}
+
+// -----------------------------------------------------------------------------------------------------------
+function drawNode(coords, scroll) {
+  var scrollID = coords[SCROLL_BREAK];
+
+  var text = scroll;
+  const sizeLimit = 250;
+  if (scroll.length > sizeLimit)
+  {
+    text = scroll.substring(0, sizeLimit);
+    text += "...";
+  }
+  
+  var node = "<div class='node' onclick='loadNode(" + coordToString(coords) + ");'>" + coordinateHit(coords) + " <input type='button' onclick='editScroll(" + coords + ");' value='Edit' /><br />" + text + "</div>";
+
+  return node;
 }
 
 // -----------------------------------------------------------------------------------------------------------
 // @fn processScroll
 // -----------------------------------------------------------------------------------------------------------
-function processScroll(scroll) {
+var totalScrolls = 1;
+function processScroll(scroll) {  
   if (coordinatesMatch(target, coords)) {
     ta.value = scroll;
     scrollFound = true;
@@ -330,7 +362,8 @@ function processScroll(scroll) {
     else { ta.rows = 100; }
   }
   if (scroll.length > 0) {
-    vr.innerHTML += coordinateHit(coords);
+    nodes[totalScrolls] = drawNode(coords, scroll);
+    ++totalScrolls;
   }
   dimensionBreak(SCROLL_BREAK);
 }
@@ -345,7 +378,7 @@ function updateQR() {
   if (!qr) {
     qr = new QRCode(document.getElementById("qrcode"), {text: "https://phext.io/index.html", width: 640, height: 640});
     qrui.style.background = '#000';
-  }
+  }  
   qr.clear();
   qr.makeCode(qurl);
 }
@@ -374,9 +407,9 @@ function redpill(store) {
   cp.style.display = 'block';
   ha.style.display = 'block';
   sa.style.display = 'block';
-  vr.style.display = 'block';
   qrui.style.display = 'block';
   qrl.style.display = 'block';
+  qt.style.display = 'block';
 
   updateCoordinate();
   loadPhext();
@@ -417,9 +450,9 @@ function bluepill() {
   cp.style.display = 'none';
   ha.style.display = 'none';
   sa.style.display = 'block';
-  vr.style.display = 'none';
   qrui.style.display = 'none';
   qrl.style.display = 'none';
+  qt.style.display = 'none';
 
   ta.value = raw;
   ta.rows = raw.split('\n').length;

@@ -16,7 +16,7 @@
   color: #e0ffe0;
 }
 #phext {
-  width: 420px;
+  width: 480px;
   min-height: 320px;
 }
 textarea {
@@ -112,6 +112,7 @@ th {
 }
 #linkArea {
   padding: 16px;
+  clear: both;
 }
 #seed {
   padding: 4px;
@@ -123,4 +124,36 @@ th {
   font-size: 1em;
   font-weight: bold;
   width: 250px;
+}
+#quest {
+  width: 94%;
+  min-height: 300px;
+  margin: 0 auto;
+  display: none;
+}
+.node {
+  float: left;
+  width: 300px;
+  min-height: 100px;
+  height: 100px;
+  border: 1px solid #dcdcd0;
+  background-color: #202020;
+  border-radius: 4px;
+  margin: 4px;
+  padding: 2px;
+  margin-right: 6px;
+  position: relative;
+  font-size: 0.8em;
+  overflow: auto;
+}
+.node:hover {
+  background-color: #454647;
+  color: #e0e0e0;
+  cursor: hand;
+}
+.node input {
+  display: none;
+  position: absolute;
+  top: 4px;
+  right: 4px;
 }
