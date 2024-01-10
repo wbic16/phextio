@@ -2,42 +2,56 @@
 <html>
 <head>
 <title>phext.io - open-source knowledge</title>
-<link rel="stylesheet" href="phext.css?rev=4" />
-<link rel="stylesheet" href="homepage.css?rev=5" />
+<link rel="stylesheet" href="phext.css?rev=4.0.3" />
+<link rel="stylesheet" href="homepage.css?rev=4.0.3" />
 
 <script type="text/javascript" src="qrcode.js"></script>
-<script type="text/javascript" src="phext.ts?rev=4.0.1"></script>
+<script type="text/javascript" src="phext.ts?rev=4.0.3"></script>
 </head>
 <body onload="startup();">
 
 <div id="root">
-<h1>Phext v4.0.2</h1>
+<h1>Phext v4.0.3</h1>
 
 <div id="goal">
 <strong>Current Goal:</strong>
-3/100 intrafractals found as of January 8, 2024.
+3/100 intrafractals found as of January 10, 2024.
 <br />Reach out to <a href="https://twitter.com/phextio">@phextio</a> or
 <a href="https://twitter.com/wbic16">@wbic16</a> for more info!
+
+<p>
+<input type="button" class="pill" value="#exotots" onclick="window.open('exotots.html');" />
+</p>
+  <!-- pending
+<ul id="upcoming">
+  <li>0% - <a href="https://twitter.com/aaron_stormerr/status/1742596896475185504">image-to-text</a></li>
+  <li>0% - <a href="https://twitter.com/phextio/status/1742082458462359857">community notes cross-refs</a></li>
+  <li>0% - <a href="https://twitter.com/bitcloud/status/1742773042588401834">prospecting rewards</a></li>
+  <li>0% - <a href="https://twitter.com/bznotes/status/1742673114591568096">plagiarism bot</a></li>
+</ul>
+   -->
 </div>
 
-<div class="node">
-  Welcome to the Phextiverse - we're going to party like it's 1996 all over again!
-  <br />Once you've signed up for an account, message @phextio on twitter to claim your phext space.
-  <br />We currently have 10 GB of storage available.
-</div>
-<div class="node">
-  Phext is a complete rewrite of your text stack. It's essentially a file system within a file.
-  <br />Phext coordinates allow you to precisely select a region of text within the subspace buffer.
-  <br />Play around with the API to get a feel for how this all works.
-</div>
-<div class="node">
-  Why do this? Because we're still using text interfaces that are rate-limited to 8 bytes/second.
-  <br />But eventually...we will have 100 Mbit/sec <em>phext</em> interfaces that our brains need to interface with.
+<div id="nodes">
+  <div class="node">
+    Welcome to the Phextiverse - we're going to party like it's 1996 all over again!
+    <br />Once you've signed up for an account, message @phextio on twitter to claim your phext space.
+    <br />We currently have 10 GB of storage available.
+  </div>
+  <div class="node">
+    Phext is a complete rewrite of your text stack. It's essentially a file system within a file.
+    <br />Phext coordinates allow you to precisely select a region of text within the subspace buffer.
+    <br />Play around with the API to get a feel for how this all works.
+  </div>
+  <div class="node">
+    Why do this? Because we're still using text interfaces that are rate-limited to 8 bytes/second.
+    <br />But eventually...we will have 100 Mbit/sec <em>phext</em> interfaces that our brains need to interface with.
+  </div>
 </div>
 
 <div id="linkArea"><h2>Permanent URL</h2>
 <input type="text" id="linkerText" name="linkerText" value="" size="60" />
-<input type="button" id="copy" name="copy" value="Copy" onclick="copyUrl();" />
+<input type="button" class="pill" id="copy" name="copy" value="Copy" onclick="copyUrl();" />
 <span id="linkerStatus"></span>
 </div>
 
@@ -46,11 +60,12 @@
 
 <div id="phext">
 
-<input id="redPill" type="button" onclick="redpill(false);" value="Seeker" />
-<input id="bluePill" type="button" onclick="bluepill();" value="Lurker" />
-<input id="whitePill" type="button" onclick="whitepill();" value="Cortical" />
-<input id="purplePill" type="button" onclick="window.open('progress.html');" value="Progress" />
-<input id="orangePill" type="button" onclick="window.open('login.php');" value="LOGIN" />
+<input id="greyPill" class="pill" type="button" onclick="greypill();" value="Goals" />
+<input id="redPill" class="pill" type="button" onclick="redpill(false);" value="Seeker" />
+<input id="bluePill" class="pill" type="button" onclick="bluepill();" value="Lurker" />
+<input id="whitePill" class="pill" type="button" onclick="whitepill();" value="Cortical" />
+<input id="purplePill" class="pill" type="button" onclick="window.open('progress.html');" value="Progress" />
+<input id="orangePill" class="pill" type="button" onclick="window.open('login.php');" value="LOGIN" />
 
 <table class="coordinatePlate" id="coordinatePlate">
   <tr>

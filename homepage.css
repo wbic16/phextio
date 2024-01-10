@@ -56,6 +56,10 @@ th {
 #targetCoordinates {
   font-size: 1.6em;
 }
+#greyPill {
+  background: grey;
+  color: black;
+}
 #redPill {
   background: red;
   color: white;
@@ -76,7 +80,7 @@ th {
   background: orange;
   color: black;
 }
-#redPill, #bluePill, #whitePill, #purplePill, #orangePill {
+.pill {
   font-weight: bold;
   border-radius: 12px;
   padding: 12px;
@@ -109,6 +113,7 @@ th {
   height: 640px;
   background: url(v3.4-launch.webp) top left no-repeat;
   z-index: 2;
+  display: none;
 }
 #linkArea {
   padding: 16px;
@@ -160,12 +165,18 @@ th {
 #goal {
   border: 3px solid grey;
   border-radius: 3px;
-  width: 450px;
-  height: 42px;
+  width: 480px;
+  height: 110px;
   padding: 16px;
   margin-bottom: 20px;
 }
 #goal a,
 #goal a:visited {
   font-size: 1em;
+}
+#goal ul {
+  padding: 10px;
+}
+#goal li {
+  margin-bottom: 4px;
 }

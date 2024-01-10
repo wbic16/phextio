@@ -77,6 +77,8 @@ function defaultCoordinates() {
   return coordinates;
 }
 
+var gl = false;
+var ns = false;
 var ta = false;
 var cs = false;
 var ls = false;
@@ -106,6 +108,8 @@ var phextCoordinate = "1.1.1/1.1.1/1.1.1";
 
 // -----------------------------------------------------------------------------------------------------------
 function loadVars() {
+  if (!gl) { gl = dgid("goal"); }
+  if (!ns) { ns = dgid("nodes"); }
   if (!ta) { ta = dgid("scroll"); }
   if (!cs) { cs = dgid("coords"); }
   if (!ls) { ls = dgid("subspace"); }
@@ -397,12 +401,28 @@ function getPhextUrl(x, y, z) {
   return qurl;
 }
 
+// @fn greypill
+function greypill() {
+  gl.style.display = 'block';
+  ns.style.display = 'block';
+  wr.style.display = 'none';
+  ta.style.display = 'none';
+  cp.style.display = 'none';
+  ha.style.display = 'none';
+  sa.style.display = 'none';
+  qrui.style.display = 'block';
+  qrl.style.display = 'none';
+  qt.style.display = 'none';
+}
+
 // -----------------------------------------------------------------------------------------------------------
 // @fn redpill
 // -----------------------------------------------------------------------------------------------------------
 function redpill(store) {
   phextMode = 'r';
   st.innerHTML = "Follow the <a class='small' href='white-rabbit.html'>White Rabbit</a>.";
+  gl.style.display = 'none';
+  ns.style.display = 'none';
   wr.style.display = 'block';
   ta.style.display = 'block';
   cp.style.display = 'block';
@@ -446,6 +466,8 @@ function saveContent() {
 // -----------------------------------------------------------------------------------------------------------
 function bluepill() {
   phextMode = 'b';
+  gl.style.display = 'none';
+  ns.style.display = 'none';
   wr.style.display = 'none';
   ta.style.display = 'none';
   cp.style.display = 'none';

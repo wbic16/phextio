@@ -128,7 +128,8 @@ $known_seeds = array(
   'plan' => 'FFCD27C0444',
   '0x440x46' => '81124211D679D1E',
   'solutions' => 'twitter',
-  'image-to-text' => 'lookup'
+  'image-to-text' => 'lookup',
+  'exotots' => 'chappy'
 );
 
 $authenticated = false;
