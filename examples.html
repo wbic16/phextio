@@ -10,7 +10,7 @@
 <style type="text/css">
 body {
     margin: 0 auto;
-    width: 75%;
+    width: 60%;
 }
 table, th, td {
     border: 3px solid grey;
@@ -22,12 +22,21 @@ th {
     text-decoration: underline;
 }
 td {
-    background: #a0a0a0;
-    color: black;
+    background: #17243f;
+    color: white;
+    line-height: 2em;
+}
+.alt {
+    background: #27292e;
 }
 a, a:visited {
     font-size: 1em;
-    color: black;
+    color: whitesmoke;
+}
+.mono {
+    font-family: monospace;
+    font-size: 1.6em;
+    font-weight: bold;
 }
 </style>
 </head>
@@ -45,84 +54,88 @@ a, a:visited {
         <th>phext</th>
     </tr>
     <tr>
-        <td>archives</td>
+        <td class="mono">archives</td>
         <td>zip or tar</td>
-        <td>archives have traditionally been binary files. there's no consensus on how to merge documents of different file types. at least, there wasn't ... until phext came along. phext allows you to encode files easily by placing them into a hierarchy of plain text using an expanding universe of delimiters. take a look at <a href="api.php?seed=archives&token=examples">this reference phext</a>.</td>
+        <td>archives have traditionally been <em>binary</em> files. there's no consensus on how to merge documents of different file types. at least, there wasn't ... until phext came along. phext allows you to encode files easily by placing them into a hierarchy of plain text using an expanding universe of delimiters. take a look at <a href="api.php?seed=archives&token=examples">this reference phext</a>.</td>
     </tr>
     <tr>
-        <td>arguments</td>
-        <td>powershell</td>
-        <td>stdin and stdout have always been the gateway between programs on linux. powershell paved the way with typed buffer streams (outside of research circles). phext expands upon this idea - allowing programs to communicate between each other using arbitrarily large context buffers. if you need to exchange a lot of typed data, phext is more generic than json! Take a look at <a href="api.php?seed=arguments&token=examples">an example</a>.</td>
+        <td class="alt mono">arguments</td>
+        <td class="alt">powershell</td>
+        <td class="alt">
+            stdin and stdout have always been the gateway between programs on linux. powershell paved the way with typed buffer streams (outside of research circles). phext expands upon this idea - allowing programs to communicate between each other using arbitrarily large context buffers. if you need to exchange a lot of typed data, phext is more generic than json! Take a look at <a href="api.php?seed=arguments&token=examples">an example</a>.
+            <br />
+            if you've ever looked into the abyss that is a configure or make command, you know what i mean. i've looked deeply into that abyss, and phext is what came back out.
+        </td>
     </tr>    
     <tr>
-        <td>compression</td>
-        <td></td>
-        <td></td>
+        <td class="mono">compression</td>
+        <td>gzip</td>
+        <td>we don't tend to think of text as being a compression format, but it is! most lines, on average, are fewer than 80 or 100 characters. whenever you insert a line break, you are compressing text. phext takes this idea and extends it from 2D to 11D by adding scrolls, sections, chapters, books, volumes, collections, series, shelves, and libraries to your existing coordinates. These phext coordinates allow us to precisely locate any region of text no matter how large the space. Take a look at this <a href="api.php?seed=compression&token=examples">choose your own adventure</a> example.</td>
     </tr>
     <tr>
-        <td>config files</td>
-        <td>No consensus: .json, .yml, .xml, .ini</td>
-        <td></td>
+        <td class="alt mono">config</td>
+        <td class="alt">No consensus: .json, .yml, .xml, .ini</td>
+        <td class="alt">Configuration files are at the heart of most systems. Our ability to operate systems at scale depends critically upon declarative configuration files. While we may never reach consensus on the ultimate configuration file, phext affords us the capability to dream of a perfect configuration format. Take a look at this <a href="api.php?seed=config&token=examples">monstrosity</a>.</td>
     </tr>
     <tr>
-        <td>diffs</td>
-        <td>unified diff</td>
-        <td></td>
+        <td class="mono">diff</td>
+        <td class="">unified diff</td>
+        <td class=""></td>
     </tr>
     <tr>
-        <td>encoding</td>
-        <td>utf8</td>
-        <td></td>
+        <td class="alt mono">docs</td>
+        <td class="alt"></td>
+        <td class="alt"></td>
     </tr>
     <tr>
-        <td>file systems</td>
-        <td>ntfs, ext3</td>
-        <td></td>
+        <td class="mono">encoding</td>
+        <td class="">utf8</td>
+        <td class=""></td>
     </tr>
     <tr>
-        <td>help / manuals</td>
-        <td></td>
-        <td></td>
+        <td class="alt mono">file systems</td>
+        <td class="alt">ntfs, ext3</td>
+        <td class="alt"></td>
     </tr>
     <tr>
-        <td>indexing</td>
-        <td>b+ tree</td>
-        <td></td>
+        <td class="mono">indexing</td>
+        <td class="">b+ tree</td>
+        <td class=""></td>
     </tr>
     <tr>
-        <td>notes</td>
-        <td>markdown</td>
-        <td></td>
+        <td class="alt mono">notes</td>
+        <td class="alt">markdown</td>
+        <td class="alt"></td>
     </tr>
     <tr>
-        <td>package managers</td>
-        <td>npm</td>
-        <td></td>
+        <td class="mono">packages</td>
+        <td class="">.json</td>
+        <td class=""></td>
     </tr>
     <tr>
-        <td>research</td>
-        <td>.pdf / .latex</td>
-        <td></td>
+        <td class="alt mono">research</td>
+        <td class="alt">.pdf / .latex</td>
+        <td class="alt"></td>
     </tr>
     <tr>
-        <td>source code</td>
-        <td>git repository</td>
-        <td></td>
+        <td class="mono">source code</td>
+        <td class="">git repository</td>
+        <td class=""></td>
     </tr>
     <tr>
-        <td>tabs</td>
-        <td>chrome</td>
-        <td></td>
+        <td class="alt mono">tabs</td>
+        <td class="alt">chrome</td>
+        <td class="alt"></td>
     </tr>
     <tr>
-        <td>translation</td>
-        <td>see: archives</td>
-        <td></td>
+        <td class="mono">translation</td>
+        <td class="">see: archives</td>
+        <td class=""></td>
     </tr>
     <tr>
-        <td>web pages</td>
-        <td>HTML + CSS + JavaScript</td>
-        <td></td>
+        <td class="alt mono">web pages</td>
+        <td class="alt">HTML + CSS + JavaScript</td>
+        <td class="alt"></td>
     </tr>
 </table>
 
