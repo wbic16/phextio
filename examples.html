@@ -43,52 +43,82 @@ a, a:visited {
 <body>
 
 <div id="root">
-<h1>Learn You Phext!</h1>
+<h1>learn phext!</h1>
 
 <p>here are some example phexts to play with! phext is foundational, so many of the abstractions you know and love are enhanced by the dimensional pockets that phext opens up. phext often leans into these tools, enhancing your existing workflows!</p>
+
+<p>I am embarking on a quest to build out the phext ecosystem. I've annotated early progress below.
+    <ul>
+        <li>vapor: early-stage idea that needs a champion</li>
+        <li>versioned: an idea with a working implementation</li>
+        <li>mist: an idea that only needs to be installed in your mind</li>
+    </ul>
+    click on the use case links below to browse an example phext for the concept.
+</p>
 
 <table>
     <tr>
         <th>use case</th>
         <th>prior state of the art</th>
-        <th>phext</th>
+        <th>description</th>
+        <th>status</th>
+        <th>version</th>
     </tr>
     <tr>
-        <td class="mono">archives</td>
+        <td class="mono"><a href="api.php?seed=archives&token=examples">archives</a></td>
         <td>zip or tar</td>
-        <td>archives have traditionally been <em>binary</em> files. there's no consensus on how to merge documents of different file types. at least, there wasn't ... until phext came along. phext allows you to encode files easily by placing them into a hierarchy of plain text using an expanding universe of delimiters. take a look at <a href="api.php?seed=archives&token=examples">this reference phext</a>.</td>
+        <td>archives have traditionally been <em>binary</em> files. there's no consensus on how to merge documents of different file types. at least, there wasn't ... until phext came along. phext allows you to encode files easily by placing them into a hierarchy of plain text using an expanding universe of delimiters. I started working on a tar-like command at the end of 2022 called tersify, but haven't completed it yet. I need to re-visit it using libphext (see below).</td>
+        <td><a href="https://github.com/wbic16/tersify">tersify</a></td>
+        <td>0.0.2</td>
     </tr>
     <tr>
-        <td class="alt mono">arguments</td>
+        <td class="alt mono"><a href="api.php?seed=arguments&token=examples">arguments</a></td>
         <td class="alt">powershell</td>
         <td class="alt">
-            stdin and stdout have always been the gateway between programs on linux. powershell paved the way with typed buffer streams (outside of research circles). phext expands upon this idea - allowing programs to communicate between each other using arbitrarily large context buffers. if you need to exchange a lot of typed data, phext is more generic than json! Take a look at <a href="api.php?seed=arguments&token=examples">an example</a>.
-            <br />
-            if you've ever looked into the abyss that is a configure or make command, you know what i mean. i've looked deeply into that abyss, and phext is what came back out.
+            <p>stdin and stdout have always been the gateway between programs on linux. powershell paved the way with typed buffer streams (outside of research circles). phext expands upon this idea - allowing programs to communicate between each other using arbitrarily large context buffers. if you need to exchange a lot of typed data, phext is more generic than json!
+            </p>
+            <p>if you've ever looked into the abyss that is a configure or make command, you know what i mean. i've looked deeply into that abyss, and phext is what came back out.
+            </p>
         </td>
-    </tr>    
+        <td>vapor</td>
+        <td>0.0</td>
+    </tr>
     <tr>
         <td class="mono">compression</td>
         <td>gzip</td>
-        <td>we don't tend to think of text as being a compression format, but it is! most lines, on average, are fewer than 80 or 100 characters. whenever you insert a line break, you are compressing text. phext takes this idea and extends it from 2D to 11D by adding scrolls, sections, chapters, books, volumes, collections, series, shelves, and libraries to your existing coordinates. These phext coordinates allow us to precisely locate any region of text no matter how large the space. Take a look at this <a href="api.php?seed=compression&token=examples">choose your own adventure</a> example.</td>
+        <td>we don't tend to think of text as being a compression format, but it is! most lines, on average, are fewer than 80 or 100 characters. whenever you insert a line break, you are <em>compressing</em> text. phext takes this idea and extends it from 2d to 11d by adding scrolls, sections, chapters, books, volumes, collections, series, shelves, and libraries to the columns and lines of normal text files. phext coordinates allow us to precisely locate any region of text no matter how large the space. Take a look at this <a href="api.php?seed=compression&token=examples">choose your own adventure</a> example.</td>
+        <td>mist</td>
+        <td>emergent</td>
     </tr>
     <tr>
-        <td class="alt mono">config</td>
+        <td class="alt mono"><a href="api.php?seed=config&token=examples">config</a></td>
         <td class="alt">No consensus: .json, .yml, .xml, .ini</td>
-        <td class="alt">Configuration files are at the heart of most systems. Our ability to operate systems at scale depends critically upon declarative configuration files. While we may never reach consensus on the ultimate configuration file, phext affords us the capability to dream of a perfect configuration format. Take a look at this <a href="api.php?seed=config&token=examples">monstrosity</a>.</td>
+        <td class="alt">
+            <p>Configuration files are at the heart of most systems. Our ability to operate systems at scale depends critically upon declarative configuration files. While we may never reach consensus on the ultimate configuration file, phext affords us the capability to dream of a perfect configuration format.</p>
+            <p>Phext excels at organizing blobs of information. The perfect configuration file doesn't exist yet, but it will be written with phext.</p>
+        </td>
+        <td>vapor</td>
+        <td>0.0</td>
     </tr>
     <tr>
-        <td class="mono">diff</td>
+        <td class="mono"><a href="api.php?seed=diff&token=examples">diff</a></td>
         <td class="">unified diff</td>
-        <td class=""></td>
+        <td class="">Merge conflicts are the bane of most programmers. It is difficult to communicate nuance with our tools because we're using stone-age tech: text. With phext, we have the opportunity to develop context-sensitive diff algorithms that know where in the overall scheme of things a particular change was introduced. This will allow our tools to make more informed decisions when performing automatic merges.</td>
+        <td>vapor</td>
+        <td>0.0</td>
     </tr>
     <tr>
         <td class="alt mono">docs</td>
-        <td class="alt"></td>
-        <td class="alt"></td>
+        <td class="alt">html</td>
+        <td class="alt">
+            <p>there's no dispute that html has driven the majority of progress on the internet over the past 30 years. html falls short of our own encoded memories, however. it is exceedingly difficult to communicate an idea measured in MB or GB using html. phext solves this by ensuring that a vast web of intralinking can take place.</p>
+            <p>while html also allows for in-page links, it does not scale to petabytes of information. web pages simply weren't designed for the agi era. phext was built from the ground up for it.</p>            
+        </td>
+        <td>vapor</td>
+        <td>0.0</td>
     </tr>
     <tr>
-        <td class="mono">encoding</td>
+        <td class="mono"><a href="api.php?seed=encoding&token=examples">encoding</a></td>
         <td class="">utf8</td>
         <td class=""></td>
     </tr>
@@ -113,14 +143,28 @@ a, a:visited {
         <td class=""></td>
     </tr>
     <tr>
-        <td class="alt mono">research</td>
-        <td class="alt">.pdf / .latex</td>
+        <td class="alt mono">regular expressions</td>
+        <td class="alt">regex</td>
         <td class="alt"></td>
     </tr>
     <tr>
-        <td class="mono">source code</td>
-        <td class="">git repository</td>
+        <td class="mono">research</td>
+        <td class="">.pdf / .latex</td>
         <td class=""></td>
+    </tr>
+    <tr>
+        <td class="alt mono">source code</td>
+        <td class="alt">git repository</td>
+        <td class="alt"></td>
+    </tr>
+    <tr>
+        <td class="mono">strings</td>
+        <td class="">char*, std::string</td>
+        <td class="">
+            <p>Strings are a fundamental concept in every programming language. They have allowed us to build amazing tools, but we stopped short when we decided that tab-delimited files were a bad idea. The missing ingredient was phext. By introducing the concept of exponential growth into our delimiter types, we gain tremendous flexibility in encoding information.</p>
+            <p>I've started a C library as the bedrock of phext. This library provides a simple API for extracting text files from a phext archive. Note that most phext editors do not need to extract text - this library is just a stepping stone.</p>
+        </td>
+        <td><a href="https://github.com/wbic16/libphext">libphext</a> - v1.0.1</td>
     </tr>
     <tr>
         <td class="alt mono">tabs</td>
