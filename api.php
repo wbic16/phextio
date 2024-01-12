@@ -1,4 +1,6 @@
 <?php
+$do_download = array_key_exists("action", $_GET) && $_GET["action"] == "download";
+
 session_start();
 $LIMIT = 2 * 1024 * 1024; // php is also limiting file uploads to 2 MB on phext.io
 
@@ -33,6 +35,9 @@ if (array_key_exists('t', $_GET)) {
 if ($coordinate) {
   header("Content-Type:application/json");
 } else {
+
+  if (!$do_download) {
+
   ?><html>
 <head>
 <title>phext.io api server</title>
@@ -42,12 +47,16 @@ if ($coordinate) {
 <a href="/index.html">Back to Homepage</a>
 
 <?php
+  } // $do_download
+
   if ($do_update) {
     $tmp = $_FILES["phext"]["tmp_name"];
     move_uploaded_file($tmp, $SEED_FILE);
     header("Location: /api.php?complete=1&seed=" . urlencode($seed));
     exit(0);
   } else {
+
+    if (!$do_update) {
 ?>
 
 <form method="POST" action="api.php" enctype="multipart/form-data">
@@ -59,7 +68,9 @@ You may update your own phext by clicking the browse button above.
 </form>
 
 <?php
-  }
+
+    } // $do_download
+  } // do_update
 }
 require_once("phext.inc.php");
 
@@ -165,7 +176,7 @@ if (! $authenticated) {
   exit (0);
 }
 
-function response($seed, $coordinate) {
+function response($seed, $coordinate, $download) {
   global $LIMIT, $SEED_FILE;
 
   if (! file_exists($SEED_FILE)) {
@@ -179,6 +190,7 @@ function response($seed, $coordinate) {
     echo "Phext too large";
     return;
   }
+  
   global $TLB, $TSF, $TSR, $TCN, $TVM, $TBK, $TCH, $TSN, $TSC;
   global $LIBRARY_BREAK, $SHELF_BREAK, $SERIES_BREAK;
   global $COLLECTION_BREAK, $VOLUME_BREAK, $BOOK_BREAK;
@@ -186,6 +198,12 @@ function response($seed, $coordinate) {
   global $mode, $token, $seed;
 
   $raw = file_get_contents($SEED_FILE);
+  if ($download)
+  {
+    echo $raw;
+    exit(0);
+  }
+
   $libs = explode($LIBRARY_BREAK, $raw);
   $LB = 1;
   if ($mode == "toc") { echo "<ul>\n"; }
@@ -265,7 +283,7 @@ function response($seed, $coordinate) {
   if ($mode == "toc") { echo "</ul>\n"; } // libraries
 }
 
-response($seed, $coordinate);
+response($seed, $coordinate, $do_download);
 
 if (!$coordinate) {
   echo "</body></html>";

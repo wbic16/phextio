@@ -1,0 +1,130 @@
+phext
+we don't tend to think of text as being a compression format, but it is! most lines, on average, are fewer than 80 or 100 characters. whenever you insert a line break, you are compressing text. phext takes this idea and extends it from 2 dimensions to 11 dimensions by adding scrolls, sections, chapters, books, volumes, collections, series, shelves, and libraries (whew!) to the columns and lines of normal text files. phext coordinates allow us to precisely locate any region of text no matter how large the space.
+
+how large, exactly? well, if you go all out...more data than we have:
+100 KB / scroll x 1000^9 = 10 x 10^16 petabytes 👀subspace
+phext makes use of an 11-dimensional text space that i affectionately call subspace (as a thank you to star trek for expanding my mind as a child). if phext stopped at subspace, it would work quite well for large language models, but not much else. in order for humans to make sense of subspace, we need a mechanism for walking phext spaces.
+
+consider for a moment how 2D text is presented on a screen. as you type characters from subspace, they are rendered in positional order. there are no indexes or offsets to consider - everyone agrees that each byte advances your position by 1 position to the right*.
+
+the humble line break introduced a major design split between the pc industry and mainframes. in the 1970s, computers were very limited in available memory. a computer with 2 KB of memory versus 4 KB of memory might double the cost of your purchase! note that a single page of text is usually 80 columns x 25 characters - about 2 KB.
+
+it turns out that most lines are empty space, though. so unless you're writing war & peace, you can probably get by with 1 KB of memory. this cuts the cost of your early computer by quite a bit!
+
+ok, so back to today: we have terabytes of disk space and gigabytes of memory - why does this matter?coordinates
+
+because every text file you've ever worked with was just at phext coordinate 1.1.1/1.1.1/1.1.1! let's break down what i mean here. consider what happens if you want to encode multiple pages of text. you might think about adding another parameter: a scroll. as you generate new scrolls, you need a way to unique identify each position within subspace.
+
+the first scroll of phext is assigned number 1 - like columns and lines before it. but something interesting happens when you jump from scroll 1 to scroll 2: you need to reset your column and line counters back to 1! this gives us the recipe for extending phext from 3 dimensions up to 11.
+
+repeat the process above while adding more dimensions, and always resetting the lower dimensions to 1 with each new dimension break. what you arrive at is phext: a family of file formats designed for the singularity.
+
+phext addresses are designed to feel familiar - a bit like an IPv4 address. but they are much more flexible - each scroll is an unbounded text file. each dimension is unlimited as well - although you'll quickly run out of disk space if you abuse the coordinate system too much. for this reason, i usually limit my editors to N=100 per dimension.
+
+Z Coordinates   Y Coordinates   X Coordinates
+-------------   -------------   -------------
+Library (11)    Collection (8)  Chapter (5)
+Shelf (10)      Volume (7)      Section (4)
+Series (9)      Book (6)        Scroll (3)
+
+as noted above, each scroll is itself a 2D text document. phext embraces a limited dimensional space that produces a mind-expanding latent space. join me in exploring it!archives
+
+archives have traditionally been binary files. there's no consensus on how to merge documents of different file types. at least, there wasn't ... until phext came along. phext allows you to encode files easily by placing them into a hierarchy of plain text using an expanding universe of delimiters. i started working on a tar-like command at the end of 2022 called tersify, but haven't completed it yet. i need to re-visit it using libphext (see below).
+
+trsi v0.0.2:
+https://github.com/wbic16/tersifyencoding
+
+phext continues the long tradition of ASCII and utf8 text. it is a natural evolution, designed from the ground up to remain as compatible as possible with older text files. a selection of bytes that have not been used widely for several decades was used as the basis for phext. my intention is that phext fits into the gap that has apparently been waiting for it. just like the F2-F10 keys on your keyboard (see terse notepad).
+
+terse notepad is a phext-compliant editor that i wrote back when phext was called terse. a redditor noted that IBM apparently wrote a terse file format back in the 80s, so i ended up renaming terse to phext as a result. it is a c# application that provides access to phext coordinates, but does not group them into the zzz/yyy/xxx format i use these days. i need to go back and update it for phext conventions.
+
+terse notepad v0.2.3:
+https://github.com/wbic16/terse-editornotes
+
+phext lends itself very well to relational data structures - it is possible to encode and link information through both encapsulation as well as composition. an area where phext jumps ahead, however, is in the ability to coordinate multiple document types with ease. phext helps you manage complexity by restricting file types to be set on a per scroll basis. this is mostly a pragmatic design choice - allowing phext files to be split out to normal file system trees easily.
+
+i started on a fork of notepad++ that provides phext editing. i ran into a learning curve with scintilla and notepad++ internals. generally-speaking, we need to port phext to every text editor on the planet.
+
+phext.io v4.1.0:
+https://phext.io/index.html?q=hello+world&seed=1110111strings
+
+strings are a fundamental concept in every programming language. they have allowed us to build amazing tools, but we stopped short when we decided that tab-delimited files were a bad idea. the missing ingredient was phext. by introducing the concept of exponential growth into our delimiter types, we gain tremendous flexibility in encoding information.
+
+i've started a c library as the bedrock of phext. this library provides a simple api for extracting text files from a phext archive. note that most phext editors do not need to extract text - this library is just a stepping stone.
+
+libphext v1.0.1:
+https://github.com/wbic16/libphextarguments
+
+precursor: powershell
+
+stdin and stdout have always been the gateway between programs on linux. powershell paved the way with typed buffer streams (outside of research circles). phext expands upon this idea - allowing programs to communicate between each other using arbitrarily large context buffers. if you need to exchange a lot of typed data, phext is more generic than json!
+
+if you've ever looked into the abyss that is a configure or make command, you know what i mean. i've looked deeply into that abyss, and phext is what came back out.config
+
+precursor: no consensus
+
+configuration files are at the heart of most systems. our ability to operate systems at scale depends critically upon declarative configuration files. while we may never reach consensus on the ultimate configuration file, phext affords us the capability to dream of a perfect configuration format.
+
+phext excels at organizing blobs of information. the perfect configuration file doesn't exist yet, but it will be written with phext.diff
+
+precursor: unified diff
+
+merge conflicts are the bane of most programmers. it is difficult to communicate nuance with our tools because we're using stone-age tech: text. with phext, we have the opportunity to develop context-sensitive diff algorithms that know where in the overall scheme of things a particular change was introduced. this will allow our tools to make more informed decisions when performing automatic merges.docs
+
+precursor: html
+
+there's no dispute that html has driven the majority of progress on the internet over the past 30 years. html falls short of our own encoded memories, however. it is exceedingly difficult to communicate an idea measured in MB or GB using html. phext solves this by ensuring that a vast web of intralinking can take place.
+
+while html also allows for in-page links, it does not scale to petabytes of information. web pages simply weren't designed for the agi era. phext was built from the ground up for it.files
+
+precursor: ext3, ntfs
+
+conceptually, we can imagine phext as a file system within a file. since there are no built-in file size limitations, it is quite easy to expand a phext as needed. you simply inject more bytes into the data stream. a phext is closed once a null byte terminator is reached - just like regular text.
+
+we need to make this idea real by writing a linux file system driver that mounts into a single phext. this would make interacting with phexts simpler, as our existing abstractions for editors and tools would just work.indexing
+
+precursor: b+tree
+
+phext has nice scaling properties for multi-core machines. once you've parsed all of the top-level libraries, for instance, you could envision handing work off to worker threads. this process could be repeated for each dimension break - forking threads early and often in the parsing process.packages
+
+precursor: .json
+
+packages tend to differ from configuration files in how they define and manage dependencies. phext works well for this use case, because it is hierarchical by nature. let's say that you have a list of dependencies for a given software application. for toy apps, a simple .ini or .json file might suffice. but let's say that you want to build a world-class system that represents how the internet works. how might you go about collecting configuration from billions of nodes?
+
+phext will streamline data collection by ensuring that you never have to fully parse data in order to start processing it. each scroll is a stand-alone document - imagine the terror of parsing a multi-petabyte json document by comparison!search
+
+precursor: regex
+
+regular expressions are an extreme form of compression - if you take the time to study them, you can easily 10x or 100x some workflows. modern editors have moved away from regex, due to the cognitive burden and lack of user interest. but i love regular expressions!
+
+this particular use case is aligned with the white-rabbit learning module on this site. given a regular expression, we can imagine a tool that allows anyone in the world to comment and expand upon it. we could build a library of every regex ever used - and help people learn why they are so powerful.research
+
+precursor: .pdf, .latex
+
+research is stuck in the 1970s. we digitized the process, but never fully embraced computing as a substrate. phext solves this by ensuring that all information for a given concept can be bundled together into one cohesive document. where pdf and latex documents fall short is in coordinating the data, metadata, and methods needed to reproduce your research.
+
+phext gives us a window into fully-formed ideas at scale - we can imagine merging many phexts together to build knowledge that simultaneously makes sense to humans and computers. with phext seeds and docker containers at our disposal, i am confident that we can solve the replication crisis in science.source code
+
+precursor: git repository
+
+git makes it easy to track changes to software over time. phext provides a simple path to encoding the structure of software in space. taken together, a git+phext repo is essentially a model of space-time. build systems often make use of this core idea by providing 'unity' builds. this helps reduce overall compile times and points to a core problem with modern software development: the curse of naming things.
+
+naming things is the hardest part of computer science. let's say that you want to fork your class into two parts, because it is now 2,000 lines long. not only do you need to re-factor your files...you also have to pick a new name for the forked-out class.
+
+but what if ... you could simply organize your code into a hierarchy? if a problem is truly complex, don't fight the complexity: just manage it. phext frees you to focus on the problem, not how your project is structured. we need to add phext support to compilers, linkers, and build systems like cmake in order to realize this vision.tabs
+
+precursor: firefox, chrome, notepad++
+
+tabs are awesome! entire meme wars have been fought about tabs. popular web browsers like firefox and chrome really opened up the landscape for multiple document workflows. but they didn't go far enough...
+
+let's say that you're a habitual tab abuser and you've got 1K+ tabs. those are rookie numbers. if you organize your tabs into a 10^3 phext, you'll only need three rows of ten tabs. i plan to port phext support to chrome in two ways: 1. to allow for web delivery over one stream (see below), and 2. to enable users to fully embrace never losing track of their web history ever again.translation
+
+precursor: MS Word change tracking
+
+translating information from one language to another is a difficult process, frought with error. phext makes language translation and review a simple process. scrolls can be organized by language, with commentary and review notes bundles together. we need tools built that help users interact with phexts in simple ways.web
+
+precursor: separate html, css, js files
+
+historically, there's been a heavy burden on our hosting infrastructure due to the lack of multiple-document support in web servers. we've had to shoe-horn requests into concurrent threads because we lacked the proper abstraction to handle it nearly: phext!
+
+i plan to port phext to chome and apache2 so that web servers can eliminate a ton of i/o overhead. there are other efforts already in progress to do this, but phext is much simpler.
