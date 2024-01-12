@@ -47,8 +47,6 @@ if ($coordinate) {
 <a href="/index.html">Back to Homepage</a>
 
 <?php
-  } // $do_download
-
   if ($do_update) {
     $tmp = $_FILES["phext"]["tmp_name"];
     move_uploaded_file($tmp, $SEED_FILE);
@@ -56,7 +54,6 @@ if ($coordinate) {
     exit(0);
   } else {
 
-    if (!$do_update) {
 ?>
 
 <form method="POST" action="api.php" enctype="multipart/form-data">
@@ -68,10 +65,10 @@ You may update your own phext by clicking the browse button above.
 </form>
 
 <?php
-
-    } // $do_download
-  } // do_update
-}
+  
+    } // !$do_update
+  } // !$do_download
+} // !$coordinate
 require_once("phext.inc.php");
 
 function validate_triplet($name, $triplet) {
