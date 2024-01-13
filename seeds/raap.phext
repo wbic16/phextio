@@ -1,0 +1,147 @@
+title: raap - research as a phext
+
+this self-describing document explains the process of writing research with phext.
+
+abstract
+--------
+
+phext research documents are designed to be composable by design. by encoding your research in this format, you contribute to the global knowledge base known as the exocortex [1]. we plan to build gpt4 instances on this research data, enabling faster and more efficient research methods.
+
+this phext is an example phexty that is also self-describing. after studying it, you will understand how to publish your research results in this format.
+
+before studying this paper, you should read about the phext file format [2]. phext is at the most basic level just plain utf8 encoded text. it picks up where we left off in the 1970s, though, and ensures that we have a scalable text platform for the 21st century.
+
+this document has 3 nodes: title, knowledge, and links. they are accessible at scrolls +0, +1, and +2 from here.
+
+intro
+-----
+
+i invented phext, so it is highly unlikely that you have heard of it. below is a summary suitable for the needs of this paper.
+
+the key idea with phext is the introduction of a hierarchy of delimiters of unusual size. each delimiter is larger in scope than the last, and this allows us to break knowledge down into fractal dimensions while maintaining a single encapsulating shell. a single phext document can hold all information currently available on the Internet, and more.
+
+for the purposes of this paper, you only need to understand 6 of the 9 phext dimensions: scrolls (SC), sections (SN), chapters (CH), books (BK), volumes (VM), and collections (CN). a scroll of phext is what you're used to: a normal page of text. a section is an ordered list of scrolls. a chapter is an ordered list of sections. a book is an ordered list of chapters. a volume is an ordered list of books. a collection is an ordered list of volumes.
+
+all research that we will produce prior to reaching kardashev 1.0 status as a civilization will fit into these 6 dimensions. note that phext provides three additional layers of complexity: series, shelves, and libraries. so all of our research fits into a single top-level triplet (1.1.1). please reach out to @wbic16 or @phextio on twitter for more information about phext in general.
+
+in addition to these delimiters, phext introduces the concept of an 11-dimensional subspace that is literally just plain text. each delimiter is a single byte sequence, just like the humble line break. a summary of how each type of dimension break affects your text processing is given below.
+
+phext has made a concerted effort to avoid breaking backwards compatibility with prior formats, when possible. ascii control codes that have fallen out of use have been re-purposed for phext. some of these control codes were early attempts at this sort of organization, but they lacked the perspective of the 2020s Internet for sheer scale needed.
+
+delimiter         value   column   line   Scroll  Section  Chapter  Book  Volume  Collection
+---------         -----   ------   ----   ------  -------  -------  ----  ------  ----------
+line break        0x0A    = 1      + 1                                            
+scroll break      0x17    = 1      = 1    + 1                                     
+section break     0x18    = 1      = 1    = 1     + 1                              
+chapter break     0x19    = 1      = 1    = 1     = 1      + 1                     
+book break        0x1A    = 1      = 1    = 1     = 1      = 1      + 1            
+volume break      0x1C    = 1      = 1    = 1     = 1      = 1      = 1   + 1     
+collection break  0x1D    = 1      = 1    = 1     = 1      = 1      = 1   = 1     + 1
+
+i used 0x1E for series breaks, 0x1F for shelf breaks, and 0x01 for library breaks. we won't be using those in this format, but you can play around with them on phext.io if you're curious.
+
+now, on with the show.
+
+
+methods
+-------
+
+most research papers are 3,000 to 10,000 words - or about 12 to 30 pages of text. so we need 1 scroll for each unit of research, and then additional scrolls for related information. we will thus organize research by section number. this will have benefits when we attempt to de-duplicate and combine research results.
+
+when we consider kardashev-scale knowledge, we must first consider the volume of text produced. if 10 million scientists produce an average of one high-quality paper every 6 months (4x the 2023 research rate of 5 million papers per year), and we build our knowledge tree incrementally, then we can expect to contribute an average of 20 million sections per year.
+
+let's expand that process for 100 years and use that as our baseline unit of knowledge: a century of research and development for a population of 10m 21st century researchers. we expect to produce 2 billion sections of research, of which perhaps 100 million (5%) are salient.
+
+thus, we have a goal: 100 million sections of oracle-level knowledge. how should we divide this space up? let's assume that we won't know which nuggets of knowledge are useful to an oracle, so we must simply generate all 2 billion sections.
+
+if we take a phext space that is 20 x 100^4, we'll only need 6 coordinates, meaning that we need to allocate an entire block of the phext space for research. one of our primary goals will be to assign the proper section, chapter, book, volume, and collection numbers to each piece of research.
+
+this process should be deterministic and fast: a one-way hash function. if two papers hash to the same section, that's not really a problem - we can just append research to the existing entry. this solves a couple of problems: 1. helping people find related research, and 2. helping to de-duplicate research. if your results match prior results, you probably shouldn't publish them - but rather comment on the already-published work (to improve both).
+
+a typical APA-style research paper [5] has the headings listed below. there's deviation from this in the wild, so we will normalize our categories to streamline parsing and validating phext-based research.
+
+* title
+* abstract
+* intro
+* methods
+* results
+* discussion
+* references
+* tables
+* figures
+* appendix
+* citations
+
+let's see if we can summarize a category for each of these research headings.
+knowledge: phext-based-research
+
+first things first - we need to add a category: foundations. this lays the groundwork for new knowledge to be presented in the results block.
+
+foundations
+-----------
+
+first: titles should be written by humans and easily accessible, as they provide a succinct author-chosen name for the blob of research. no other process is going to be better at summarizing the research than this person or group. the title is the first line of the metadata block.
+
+an abstract can be easily generated and helps readers determine if they want to spend time studying the paper in detail. it is clearly just metadata. ideally our gpt4-era tools should synthesize it.
+
+the introduction should establish the context required for understanding it. although important, this is also metadata. we expect authors to insert research in relation to existing results, so our choice of hashing algorithm will be essential.
+
+methods assist other researchers with reproducing the results. in a modern context, this is probably code. if there's no software available for your area of expertise, you should probably be building it.
+
+results are the core output of research, and help the reader understand the impact of what was studied. ideally, all research should extend our knowledge graph. this is the value we seek. we thus call results by a simpler name: knowledge.
+
+discussion helps orient research within the context of related / contemporary work. this could include feedback from reviewers and surveys of the knowledge graph conducted before and after research was done (prior to publishing). as useful as it is, discussion is just metadata.
+
+tables and figures help keep the text stream free of obstacles to parsing and study. in the context of phext, which is a text-only format by design, these categories will often contain hyperlinks to media stored alongside phext. we could potentially use a base64 data encoding for binary information, though. we'll bundle these items as resources.
+
+an appendix helps organize all of the new information presented. new terms and context that is helpful, but not directly related to the research, is given here. we will include the appendix within metadata.
+
+citations are probably the worst part of 1970s era research. with modern hypertext systems, we have the opportunity to do better. the world uses links, so citations will be done via both intralinks within the context of phext and normal hyperlinks to external content. citations become a research for phexters to mine and collect.
+
+thus, we will use the following 3-chunk of scrolls to describe all phext-based research. simply put, this means that we will treat scroll numbers as being written with base-3 indexing. as additional papers are slotted into a section, they will use scrolls in groups of 3 in this order. the particular format of your scrolls is left to you. we may revise this format in the future to standardize processing.
+
+i suggest using something easy to parse, though, which is what this baseline document uses. We need to calculate 6 phext coordinates (A, B, C, D, E, and F). I've annotated which parts of the document are used for this generation process below.
+
+* metadata (0)
+  * title - A
+  * abstract - B
+  * intro
+  * methods - C
+* knowledge (1)
+  * appendix
+  * code - D
+  * results - E
+  * resources - F
+* links (2)
+  * discussion
+  * references
+  * citations
+
+
+code
+----
+file: phexty.ps1
+
+
+
+results
+-------
+
+now that we have a blueprint for research formatting in phext, what we need next is a hashing algorithm that fits the bill. for now, i'm using a simple deterministic process. there is surely a better algorithm, but we don't need phext addresses to have any particular meaning - in fact it may help research to explicitly avoid existing forms of organization (to find novel connections we weren't aware of before).
+
+here is the recipe - encoded in phexty.ps1 (attached).
+
+1. take all the words in each scroll, convert them to lowercase text, and run them through a soundex after correcting for spelling and removing all punctuation and extraneous whitespace.
+2. collapse those symbols into a single soundex by removing the commas and running it again
+3. run this process for each of the main categories listed in the APA style guide.
+4. use that information to generate a coordinate in phext.
+5. place your research there.
+
+QEDlinks: phext-based-research
+
+1. phext: https://phext.io/
+2. phext file format: https://phext.io/examples.html
+3. libphext: https://github.com/wbic16/libphext
+4. terse notepad: https://github.com/wbic16/terse-editor
+5. https://psychology.ucsd.edu/undergraduate-program/undergraduate-resources/academic-writing-resources/writing-research-papers/research-paper-structure.html
+6. https://wordsrated.com/number-of-academic-papers-published-per-year
