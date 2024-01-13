@@ -138,7 +138,8 @@ $known_seeds = array(
   'solutions' => 'twitter',
   'image-to-text' => 'lookup',
   'exotots' => 'chappy',
-  'examples' => 'v4.1.0'
+  'examples' => 'v4.1.0',
+  'raap' => 'research'
 );
 
 $authenticated = false;
