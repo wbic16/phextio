@@ -202,7 +202,7 @@ function response($seed, $coordinate, $download) {
     exit(0);
   }
 
-  echo "<a href='api.php?seed=$seed&token=$token&action=download'>steal this phext</a>"
+  echo "<a href='api.php?seed=$seed&token=$token&action=download'>steal this phext</a>";
   $libs = explode($LIBRARY_BREAK, $raw);
   $LB = 1;
   if ($mode == "toc") { echo "<ul>\n"; }
