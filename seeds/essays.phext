@@ -5,3 +5,80 @@ i think my central 2024 goal is gonna be to encourage my friends to write and pu
 https://twitter.com/visakanv/status/1746968751806005311
 
 this phext contains a selection of essays that were inspired by the post above. if you'd like your essay added, pm <a href="https://twitter.com/wbic16">@wbic16</a>.
+
+some math
+---------
+visakanv has 76.6K followers
+let's say that 1% of them submit essays
+that's 760 essays - let's plan for half that - at 7^3 = 343 essays
+so each essay will be given a number 1.1.1 through 7.7.7
+
+reach out to me on twitter to figure out your scroll index - it's a fractal soundex of your username, your topic, and your essay title. you can also use the powershell script embedded in this phext to compute it. or head on over to https://phext.io/essays.html to generate it.
+
+here's an index for examples
+
+user   hash    essays
+----   ----    ------
+
+@visakanv = 
+@wbic16 = 
+
+essay #1
+--------
+
+title: phext: 11-dimensional subspace
+topic: exocortex
+author: @wbic16
+
+this is a placeholder used to demonstrate how text insertion in phext documents works - this scroll will be updated soon.
+script: visakanv-essay-contest.ps1
+
+param(
+  [string] $user,
+  [string] $topic,
+  [string] $title
+)
+$MAX = 7
+
+function soundex($byte, $lookup, $increment) {
+  for ($i = 0; $i -lt $lookup.Length; ++$i)
+  {
+    if ($byte -eq $lookup[$i]) { return $increment }
+  }
+  return 0
+}
+
+# computes a phext sub-coordinate (recursive soundex modulo $MAX)
+function phexty-soundex-v1($text) {
+  if (-not $text) { return 1 }
+
+  $trim = $text.trim()
+  $max = $trim.Length
+  if ($max -eq 0) { return 1 }
+
+  $lower = $trim.ToLower()
+  $value = 0
+  $letter1 = "bpfv"
+  $letter2 = "cskgjqxz"
+  $letter3 = "dt"
+  $letter4 = "l"
+  $letter5 = "mn"
+  $letter6 = "r"
+  for ($i = 0; $i -lt $max; ++$i) {
+    $byte = $lower[$i]
+    $value += soundex $byte $letter1 1
+    $value += soundex $byte $letter2 2
+    $value += soundex $byte $letter3 3
+    $value += soundex $byte $letter4 4
+    $value += soundex $byte $letter5 5
+    $value += soundex $byte $letter6 6
+  }
+  $value = $value % $MAX
+  return $value
+}
+
+$chapter = phexty-soundex-v1 $user
+$section = phexty-soundex-v1 $topic
+$scroll = phexty-soundex-v1 $title
+
+Write-Host "Your essay contest number: $chapter.$section.$scroll"

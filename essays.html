@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>phext.io - essays</title>
+<link rel="stylesheet" href="phext.css?rev=4.1.0" />
+<link rel="stylesheet" href="homepage.css?rev=4.1.0" />
+
+<script type="text/javascript" src="phextio.ts?rev=4.1.0"></script>
+<script type="text/javascript">
+var author = false;
+var topic = false;
+var title = false;
+var essayCoordinate = false;
+
+function load() {
+  author = dgid("author");
+  topic = dgid("topic");
+  title = dgid("title");
+  essayCoordinate = dgid("essayCoordinate");
+
+  var loaded = false;
+  if (localStorage.author) {
+    author.value = localStorage.author;
+    loaded = true;
+  }
+  if (localStorage.topic) {
+    topic.value = localStorage.topic;
+    loaded = true;
+  }
+  if (localStorage.title) {
+    title.value = localStorage.title;
+    loaded = true;
+  }
+
+  if (loaded) {
+    calculate();
+  }
+}
+
+var soundex_limit = 7;
+
+function soundex(byte, lookup, increment) {
+
+  for (var i = 0; i < lookup.length; ++i) {
+    var test = lookup.charAt(i);
+    if (byte == test) { return increment; }
+  }
+  return 0;
+}
+
+function phextySoundexV1(text) {
+  if (!text) { return 1; }
+
+  max = text.length
+  if (max == 0) { return 1; }
+
+  var lower = text.toLowerCase();
+  var value = 1;
+  var letter1 = "bpfv";
+  var letter2 = "cskgjqxz";
+  var letter3 = "dt";
+  var letter4 = "l";
+  var letter5 = "mn";
+  var letter6 = "r";
+  for (var i = 0; i < max; ++i) {
+    byte = lower.charAt(i);
+    value += soundex(byte, letter1, 1);
+    value += soundex(byte, letter2, 2);
+    value += soundex(byte, letter3, 3);
+    value += soundex(byte, letter4, 4);
+    value += soundex(byte, letter5, 5);
+    value += soundex(byte, letter6, 6);
+  }
+  console.log("Sounded for " + lower + " => " + value);
+  value = (value % soundex_limit) + 1;
+  return value;
+}
+
+function calculate() {
+  var chapter = phextySoundexV1(topic.value);
+  var section = phextySoundexV1(title.value);
+  var scroll = phextySoundexV1(author.value);
+  localStorage.topic = topic.value;
+  localStorage.title = title.value;
+  localStorage.author = author.value;
+
+  essayCoordinate.value = chapter + "." + section + "." + scroll;
+}
+</script>
+<style type="text/css">
+body {
+    margin: 0 auto;
+    width: 80%;
+}
+a, a:visited {
+  font-size: 1em;
+}
+</style>
+</head>
+<body onload="load();">
+
+<div id="root">
+  <a href="index.html">Back to Homepage</a>
+  <p>Take a look at the essay archive here: <a href="api.php?seed=essays&token=visakanv">2024 essays</a>. this page started as my entry - i wanted an easy place where people could publish. DM <a href="https://twitter.com/wbic16">@wbic16</a> on twitter to get your entry listed!</p>
+
+<p>We're using a 7x7x7 coordinate space for this phext. Your name, topic, and title are hashed into a coordinate that will be used as an index.</p>
+
+<table>
+  <tr>
+    <th><label for="topic">topic:</label></th>
+    <td><input size="40" type="text" name="topic" id="topic" value="" /></td>
+  </tr>  
+  <tr>
+    <th><label for="title">title:</label></th>
+    <td><input size="40" type="text" name="title" id="title" value="" /></td>
+  </tr>
+  <tr>
+    <th><label for="author">author (no @ sign):</label></td>
+    <td><input size="40" type="text" name="author" id="author" value="" /></td>
+  </tr>
+  <tr>
+    <th><input type="button" onclick="calculate();" value="update" /></th>
+    <td><input size="20" type="text" name="essayCoordinate" id="essayCoordinate" value="1.1.1" /></td>
+  </tr>
+</table>
+
+</div>
+
+</body>
+</html>
