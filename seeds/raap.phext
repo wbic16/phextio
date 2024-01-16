@@ -1,9 +1,9 @@
-title: raap - research as a phext
+phextv1.title: raap - research as a phext
 
 this self-describing document explains the process of writing research with phext.
 
-abstract
---------
+phextv1.abstract
+----------------
 
 phext research documents are designed to be composable by design. by encoding your research in this format, you contribute to the global knowledge base known as the exocortex [1]. we plan to build gpt4 instances on this research data, enabling faster and more efficient research methods.
 
@@ -13,8 +13,12 @@ before studying this paper, you should read about the phext file format [2]. phe
 
 this document has 3 nodes: title, knowledge, and links. they are accessible at scrolls +0, +1, and +2 from here.
 
-intro
------
+as i add more content here, the hash auto-updates. the beauty of this content hash is that it is both specific and meaningless. it will very likely hash to a different coordinate for different inputs. i encourage researchers to come up with the ultimate hashing algorithm for phext v2.
+
+note: for pragmatic reasons, i have tried to keep phext sub-scroll parsing simple with version 1 - it may be advantageous to explore 1 scroll encoding paradigms. i need to import arxiv.org and run some analysis on how llm models perform using this data set to be sure.
+
+phextv1.intro
+-------------
 
 i invented phext, so it is highly unlikely that you have heard of it. below is a summary suitable for the needs of this paper.
 
@@ -22,7 +26,7 @@ the key idea with phext is the introduction of a hierarchy of delimiters of unus
 
 for the purposes of this paper, you only need to understand 6 of the 9 phext dimensions: scrolls (SC), sections (SN), chapters (CH), books (BK), volumes (VM), and collections (CN). a scroll of phext is what you're used to: a normal page of text. a section is an ordered list of scrolls. a chapter is an ordered list of sections. a book is an ordered list of chapters. a volume is an ordered list of books. a collection is an ordered list of volumes.
 
-all research that we will produce prior to reaching kardashev 1.0 status as a civilization will fit into these 6 dimensions. note that phext provides three additional layers of complexity: series, shelves, and libraries. so all of our research fits into a single top-level triplet (1.1.1). please reach out to @wbic16 or @phextio on twitter for more information about phext in general.
+all research that we will produce prior to reaching kardashev 1.0 status as a civilization will fit into these 6 dimensions. note that phext provides three additional layers of complexity: series, shelves, and libraries. so all of our research fits into a single top-level triplet (1.1.2). please reach out to @wbic16 or @phextio on twitter for more information about phext in general. The 1.1.1 top-level triplet is reserved for phext meta planning.
 
 in addition to these delimiters, phext introduces the concept of an 11-dimensional subspace that is literally just plain text. each delimiter is a single byte sequence, just like the humble line break. a summary of how each type of dimension break affects your text processing is given below.
 
@@ -43,8 +47,8 @@ i used 0x1E for series breaks, 0x1F for shelf breaks, and 0x01 for library break
 now, on with the show.
 
 
-methods
--------
+phextv1.methods
+---------------
 
 most research papers are 3,000 to 10,000 words - or about 12 to 30 pages of text. so we need 1 scroll for each unit of research, and then additional scrolls for related information. we will thus organize research by section number. this will have benefits when we attempt to de-duplicate and combine research results.
 
@@ -73,7 +77,7 @@ a typical APA-style research paper [5] has the headings listed below. there's de
 * citations
 
 let's see if we can summarize a category for each of these research headings.
-knowledge: phext-based-research
+phextv1.knowledge: phext-based-research
 
 first things first - we need to add a category: foundations. this lays the groundwork for new knowledge to be presented in the results block.
 
@@ -117,28 +121,393 @@ i suggest using something easy to parse, though, which is what this baseline doc
   * references
   * citations
 
+this is a reference implementation of phexty.ps1 in the code section of this phext. you can invoke it with the path to your raap file to produce a unique fingerprint of your research.
 
-code
-----
-file: phexty.ps1
+> ./phexty.ps1 rapp.phext
+Input: raap.phext
+Scrolls: 3
+Title: raap - research as a phext
+Phext Address: 1.1.2/31.98.7/44.95.4
 
+Note that you can't refer to a phext address while editing a component that the address depends upon - so that will take some getting used to.
 
+as a reminder, you can edit the following areas of a phext research document without impacting the fingerprint:
+* intro
+* foundations
+* appendix
+* discussion
+* references
+* citations
 
+phextv1.code
+------------
 
-results
--------
+note: you can place comments in the code region prior to the start of a script. they will be ignored.
+once you start extracting files, you should assume that all content will be exported.
+
+# phextv1.file: extract.ps1
+# Copyright: (c) 2024 Will Bickford
+# License: MIT
+# Purpose: extracts scripts from phext research documents
+param(
+  [string] $file,
+  [switch] $force
+)
+if (-not (Test-Path $file)) {
+    Write-Error "Unable to locate $file."
+    exit(1)
+}
+$SCROLL_BREAK = [char]0x17
+$scrolls = (Get-Content -raw $file) -split $SCROLL_BREAK
+if ($scrolls.Count -ne 3) {
+  Write-Error "Invalid phext research file"
+  exit 1
+}
+$scroll1 = $scrolls[1] -split '\n'
+$lines = $scroll1.Count
+Write-Host "Scanning $lines for code..."
+
+if ($lines -gt 1000000) {
+  Write-Error "refusing to parse your spew"
+  exit 1
+}
+
+$parsing = $false
+$script = ""
+$output = @{}
+foreach ($line in $scroll1) {
+  if ($line -match "^phextv1.code$") {
+    $parsing = $true
+  }
+  if ($line -match "^phextv1.results$") {
+    $parsing = $false
+  }
+
+  if ($line -match "^# phextv1.file: ") {
+    $script = $line -replace "^# phextv1\.file: ",""    
+    $output[$script] = @()    
+    continue
+  }
+
+  if ($parsing) {
+    $output[$script] += $line
+    continue
+  }
+}
+
+if ($output.Keys.Count -gt 0) {
+  foreach ($script in $output.Keys|Sort-Object) {    
+    $data = $output[$script]
+    if ($force -or (-not (Test-Path $script))) {
+      $data |Out-File -Encoding utf8 $script
+      Write-Host "Wrote $($data.Count) lines to $script."
+    } else {
+      if (-not $force) {
+        Write-Host "Warning: $script already exists. Use -force to overwrite."
+      }
+    }
+  }
+}
+
+# phextv1.file: phexty.ps1
+# ----------
+# Copyright: (c) 2024 Will Bickford
+# License: MIT
+# Purpose: assists with calculating phext research addresses
+#
+# the phext address space for research is rooted at library=1, shelf=1, and series=1 (1.1.1/yyy.xxx).
+#
+# Dimensions: 1.1.1/A.B.C/D.E.F
+#   A: phext-soundex(title)
+#   B: phext-soundex(abstract)
+#   C: phext-soundex(methods)
+#   D: phext-soundex(code)
+#   E: phext-soundex(results)
+#   F: phext-soundex(resources)
+
+param(
+  [string] $file,
+  [switch] $verbose
+)
+$raap = "1.1.2" # reserved by @wbic16
+$SCROLL_BREAK = [char]0x17
+
+if (-not (Test-Path $file)) {
+    Write-Error "Unable to locate $file."
+    exit(1)
+}
+
+# inspired by https://sites.rootsweb.com/~nedodge/transfer/soundexlist.htm
+function soundex($byte, $lookup, $increment) {
+  for ($i = 0; $i -lt $lookup.Length; ++$i)
+  {
+    if ($byte -eq $lookup[$i]) { return $increment }
+  }
+  return 0
+}
+
+# computes a phext sub-coordinate (recursive soundex modulo 100)
+function phexty-soundex-v1($text) {
+  if (-not $text) { return 1 }
+
+  $trim = $text.trim()
+  $max = $trim.Length
+  if ($max -eq 0) { return 1 }
+
+  $lower = $trim.ToLower()
+  $value = 0
+  $letter1 = "bpfv"
+  $letter2 = "cskgjqxz"
+  $letter3 = "dt"
+  $letter4 = "l"
+  $letter5 = "mn"
+  $letter6 = "r"
+  for ($i = 0; $i -lt $max; ++$i) {
+    $byte = $lower[$i]
+    $value += soundex $byte $letter1 1
+    $value += soundex $byte $letter2 2
+    $value += soundex $byte $letter3 3
+    $value += soundex $byte $letter4 4
+    $value += soundex $byte $letter5 5
+    $value += soundex $byte $letter6 6
+  }
+  $value = $value % 100
+  return $value
+}
+
+$scrolls = (Get-Content -raw $file) -split $SCROLL_BREAK
+$scroll_count = $scrolls.Count
+
+if ($scroll_count -ne 3) {
+    Write-Error "Invalid phext research stream - you must provide exactly 3 scrolls (found: $($scroll.Count))."
+    exit 1;
+}
+
+# ------------------------------------------------------------------------------------------------------------
+
+Write-Host "input: $file"
+Write-Host "scrolls: $scroll_count"
+
+$have_title = $false
+$have_abstract = $false
+$have_methods = $false
+$have_code = $false
+$have_results = $false
+$have_resources = $false
+
+# ------------------------------------------------------------------------------------------------------------
+
+$title = ""
+$abstract = @()
+$methods = @()
+
+$parsing_abstract = 0
+$parsing_intro = 0
+$parsing_methods = 0
+$BLOB_HEADER = "^----"
+
+$scroll0 = $scrolls[0] -split '\n'
+
+foreach ($line in $scroll0) {
+  $trim = $line.trim()
+  if ($trim.Length -eq 0) { continue }
+
+  # parse title
+  if (-not $have_title -and $line -match "^phextv1\.title:") {
+    $have_title = $true
+    $title = $line -replace "^.*title:","" -split '\n'
+    $title = $title[0]
+    continue
+  }
+
+  # parse abstract
+  if (-not $have_abstract) {
+    if ($line -match "^phextv1\.abstract") {
+      $parsing_abstract = 1
+      continue
+    }
+    if ($line -match $BLOB_HEADER) {
+      $parsing_abstract = 2
+      continue
+    }
+
+    if ($line -match "^phextv1\.intro") {
+        $have_abstract = $true
+        $parsing_intro = 1
+        continue
+    }
+
+    if ($parsing_abstract -eq 2) {
+        $abstract += $line
+        continue
+    }
+  }
+
+  # parse methods
+  if (-not $have_methods) {
+    if ($line -match "^phextv1\.methods") {
+        $parsing_methods = 1
+        continue
+    }
+    if ($line -match $BLOB_HEADER) {
+      $parsing_methods = 2
+      continue
+    }
+
+    if ($parsing_methods -eq 2) {
+        $methods += $line
+        continue
+    }
+  }
+}
+$have_methods = $methods.Count -gt 0
+
+# ------------------------------------------------------------------------------------------------------------
+$parsing_code = 0
+$parsing_results = 0
+$parsing_resources = 0
+
+$code = @()
+$results = @()
+$resources = @()
+
+$scroll1 = $scrolls[1] -split '\n'
+foreach ($line in $scroll1) {
+  $trim = $line.trim()
+  if ($trim.Length -eq 0) { continue }
+
+  if (-not $have_code) {
+    if ($line -match "^phextv1\.code") {
+      $parsing_code = 1
+      continue
+    }
+
+    if ($parsing_code -eq 1 -and $line -match $BLOB_HEADER) {
+      $parsing_code = 2
+      continue
+    }
+
+    if ($line -match "^phextv1\.results$") {
+      $have_code = $true
+      $parsing_results = 1
+      continue
+    }
+
+    if ($parsing_code -eq 2) {
+      $code += $line
+      continue
+    }
+  }
+
+  if (-not $have_results) {
+    if ($parsing_results -and $line -match $BLOB_HEADER) {
+      $parsing_results = 2
+      continue
+    }
+
+    if ($line -match "^phextv1\.resources$") {
+      $have_results = $true
+      $parsing_resources = 1
+      continue
+    }
+
+    if ($parsing_results -eq 2) {
+      $results += $line
+    }
+  }
+
+  if (-not $have_resources) {
+    if ($parsing_resources -eq 1 -and $line -match $BLOB_HEADER) {
+        $parsing_resources = 2
+        continue
+    }
+
+    if ($parsing_resources -eq 2) {
+      $resources += $line
+    }
+  }
+}
+$have_results = $results.Count -gt 0
+$have_resources = $resources.Count -gt 0
+
+# phext research addresses are of the form:
+# 1.1.2/collection.volume.book/chapter.section.scroll
+# cn.vm.bk/ch.sn.sc
+$ok = $true
+if (-not $have_title) {
+  Write-Error "missing title"
+  $ok = $false
+}
+if (-not $have_abstract) {
+  Write-Error "missing abstract"
+  $ok = $false
+}
+if (-not $have_methods) {
+  Write-Error "missing methods"
+  $ok = $false
+}
+if (-not $have_code) {
+  Write-Error "missing code"
+  $ok = $false
+}
+if (-not $have_results) {
+  Write-Error "missing results"
+  $ok = $false
+}
+if (-not $have_resources) {
+  Write-Host "warning: no resources found"
+}
+if (-not $ok) {
+  exit 1
+}
+
+$cn = phexty-soundex-v1 $title
+
+$abstract_text = $abstract -join '\n'
+$vm = phexty-soundex-v1 $abstract_text
+
+$book_text = $methods -join '\n'
+$bk = phexty-soundex-v1 $book_text
+
+$code_text = $code -join '\n'
+$ch = phexty-soundex-v1 $code_text
+
+$results_text = $results -join '\n'
+$sn = phexty-soundex-v1 $results_text
+
+$resources_text = $resources -join '\n'
+$sc = phexty-soundex-v1 $resources_text
+
+Write-Host "title: $title"
+Write-Host "phext address: $raap/$cn.$vm.$bk/$ch.$sn.$sc"
+
+if ($verbose) {
+  Write-Host $abstract
+}
+
+phextv1.results
+---------------
 
 now that we have a blueprint for research formatting in phext, what we need next is a hashing algorithm that fits the bill. for now, i'm using a simple deterministic process. there is surely a better algorithm, but we don't need phext addresses to have any particular meaning - in fact it may help research to explicitly avoid existing forms of organization (to find novel connections we weren't aware of before).
 
-here is the recipe - encoded in phexty.ps1 (attached).
+here is the recipe - encoded in phexty.ps1 (above).
 
-1. take all the words in each scroll, convert them to lowercase text, and run them through a soundex after correcting for spelling and removing all punctuation and extraneous whitespace.
-2. collapse those symbols into a single soundex by removing the commas and running it again
+1. take all the words in each scroll, and convert them to lowercase text, then run them through a soundex (after removing all punctuation).
+2. collapse those symbols into a single soundex by removing the commas and running it again (modulo arithmetic)
 3. run this process for each of the main categories listed in the APA style guide.
-4. use that information to generate a coordinate in phext.
+4. use that information to generate a coordinate in phext subspace rooted at 1.1.2/*/*.
 5. place your research there.
 
-QEDlinks: phext-based-research
+note: this reference phext exists in the 1.1.1/*/* root space. as we have not started exocortex construction yet, it is a pre-merged phext.
+
+QED
+
+phextv1.resources
+-----------------
+
+* see phexty.ps1 in the code section for a self-extracting powershell script :)
+
+phextv1.links: phext-based-research
 
 1. phext: https://phext.io/
 2. phext file format: https://phext.io/examples.html
