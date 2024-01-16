@@ -253,7 +253,9 @@ function response($seed, $coordinate, $download) {
                       $lines = explode("\n", $scroll);
                       if (count($lines) > 0) {
                         $line = substr($lines[0], 0, 100);
-                        echo "<li>$coordinate: <a href=\"api.php?s=$seed&t=$token&c=$coordinate\">Scroll #$SC: $line</a></li>";
+                        if (strlen(trim($line)) > 0) {
+                          echo "<li>$coordinate: <a href=\"api.php?s=$seed&t=$token&c=$coordinate\">Scroll #$SC: $line</a></li>";
+                        }
                       }
                     }
                     ++$SC;

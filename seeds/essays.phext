@@ -34,11 +34,11 @@ this is a placeholder used to demonstrate how text insertion in phext documents 
 script: visakanv-essay-contest.ps1
 
 param(
-  [string] $user,
   [string] $topic,
-  [string] $title
+  [string] $title,
+  [string] $author
 )
-$MAX = 7
+$SOUNDEX_V1_LIMIT = 7
 
 function soundex($byte, $lookup, $increment) {
   for ($i = 0; $i -lt $lookup.Length; ++$i)
@@ -57,7 +57,7 @@ function phexty-soundex-v1($text) {
   if ($max -eq 0) { return 1 }
 
   $lower = $trim.ToLower()
-  $value = 0
+  $value = 1
   $letter1 = "bpfv"
   $letter2 = "cskgjqxz"
   $letter3 = "dt"
@@ -73,12 +73,15 @@ function phexty-soundex-v1($text) {
     $value += soundex $byte $letter5 5
     $value += soundex $byte $letter6 6
   }
-  $value = $value % $MAX
+  $value = ($value % $SOUNDEX_V1_LIMIT) + 1
   return $value
 }
 
-$chapter = phexty-soundex-v1 $user
-$section = phexty-soundex-v1 $topic
-$scroll = phexty-soundex-v1 $title
+$chapter = phexty-soundex-v1 $topic
+$section = phexty-soundex-v1 $title
+$scroll = phexty-soundex-v1 $author
 
+Write-Host "topic: $topic"
+Write-Host "title: $title"
+Write-Host "author: $author"
 Write-Host "Your essay contest number: $chapter.$section.$scroll"
