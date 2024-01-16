@@ -139,7 +139,8 @@ $known_seeds = array(
   'image-to-text' => 'lookup',
   'exotots' => 'chappy',
   'examples' => 'v4.1.0',
-  'raap' => 'research'
+  'raap' => 'research',
+  'essays' => 'visakanv'
 );
 
 $authenticated = false;
