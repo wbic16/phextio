@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>phext.io - dice roll</title>
-<link rel="stylesheet" href="homepage.css?rev=4.1.0" />
+<link rel="stylesheet" href="homepage.css?rev=4.2.0" />
 
 <style type="text/css">
 body {
@@ -10,8 +10,24 @@ body {
     width: 80%;
 }
 </style>
+<script type="text/javascript" src="phextio.ts?rev=4.2.0"></script>
+<script type="text/javascript">
+var dice = false;
+var roll = false;
+function setup()
+{
+  dice = dgid("dice");
+  roll = dgid("roll");
+}
+
+function generate()
+{
+  var result = "";
+  
+}
+</script>
 </head>
-<body>
+<body onload="setup();">
 
 <div id="root">
 <a href="index.html">Back to Homepage</a>
@@ -24,7 +40,7 @@ body {
     <td><label># of Players:</td><td><input type="text" name="players" id="players" value="4" /></label></td>  
   </tr>
 </table>
-<input type="button" name="roll" id="roll" value="Roll" />
+<input type="button" name="roll" id="roll" value="Roll" onclick="generate();" />
 
 </div>
 </body>
