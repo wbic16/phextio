@@ -112,6 +112,12 @@ th {
   border-radius: 12px;
   padding: 12px;
   margin-bottom: 20px;
+  transition: transform 0.8s;
+}
+.pill:hover {
+  transform: scale(1.25);
+  cursor: pointer;
+  border-color: grey;
 }
 #subspaceTitle {
   min-width: 200px;
@@ -177,6 +183,15 @@ th {
   position: relative;
   font-size: 0.8em;
   overflow: auto;
+  z-index: 100;
+  transition: transform 1.2s;
+}
+.node:hover {
+  transform: scale(2);
+  min-height: 300px;
+  cursor: pointer;
+  z-index: 101;
+  border-color: yellow;
 }
 .node:hover {
   background-color: #454647;
