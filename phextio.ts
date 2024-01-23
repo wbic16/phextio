@@ -367,6 +367,8 @@ function processScroll(scroll) {
     else { ta.rows = 100; }
   }
   if (scroll.length > 0) {
+    // todo: let's keep nodes as a sparse tree of scrolls with content
+    // that way, we can render tiles in a hierarchy as well, and then zooming makes sense
     nodes[totalScrolls] = drawNode(coords, scroll);
     ++totalScrolls;
   }
