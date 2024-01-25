@@ -27,7 +27,30 @@ Library (11)    Collection (8)  Chapter (5)
 Shelf (10)      Volume (7)      Section (4)
 Series (9)      Book (6)        Scroll (3)
 
-as noted above, each scroll is itself a 2D text document. phext embraces a limited dimensional space that produces a mind-expanding latent space. join me in exploring it!archives
+as noted above, each scroll is itself a 2D text document. phext embraces a limited dimensional space that produces a mind-expanding latent space. join me in exploring it!Software DNA
+
+You can think of phext as though it were a 'Software DNA' sequence! Recommended phext file size limits by team size:
+
+1: 5 MB (100,000 LOC)
+6: 20 MB (400,000 LOC)
+10: 50 MB (1,000,000 LOC) - most balls of mud
+1,000: 150 MB (3 million LOC) - Linux 2.4
+10,000: 3 GB (50 million LOC) - Windows XP
+25,000: 100 GB (2 billion LOC) - Google
+
+Below are a selection of projects with large developer communities.
+One human can generate about 60 MB of source per year with effort.
+Successful projects will leverage this into abstractions.
+If you have hard data for any of my estimates below, please reach out to me on twitter - https://twitter.com/wbic16.
+
+Type	Project	Developers	Age	Size (MB)	Lines of Code	Max Throughput	Observed Throughput	Phext Dimensions	Source
+All Open Source	GitHub (2008-2024)	100 million	16	5 exabytes?	10 quintillion?	6000 PB/year?	320 PB/year	Shelves: 84^8	octoverse 2022
+Web Scale	Google (1998-2015)	20,000	25	100 GB	2 billion	1.4 TB/year	4 GB/year	Books: 84^4	monorepo
+Web Browser	Chromium (2008-2024)	100,000	16	1750 MB	38 million	5 TB/year	110 MB/year	Books: 30^4	chromium
+Operating System	Linux 2.4 (1991-2001)	5,000?	10	145 MB	3 million	300 GB/year	14.5 MB/year	Books: 16^4	kernel.org
+Operating System	Linux 6.7 (1991-2024)	15,000	33	1350 MB	27 million	900 GB/year	41 MB/year	Books: 29^4	kernel.org
+Operating System	Windows XP (1991-2001)	25,000	10	3 GB	50 million	1.5 GB/year	300 MB/year	Books: 35^4	xp leak (2020)
+archives
 
 archives have traditionally been binary files. there's no consensus on how to merge documents of different file types. at least, there wasn't ... until phext came along. phext allows you to encode files easily by placing them into a hierarchy of plain text using an expanding universe of delimiters. i started working on a tar-like command at the end of 2022 called tersify, but haven't completed it yet. i need to re-visit it using libphext (see below).
 
