@@ -1,0 +1,34 @@
+This phext is a pipline for gpt4.Let's create a 7-stage pipeline.
+The purpose of this transformation is to always produce a high-quality image.
+
+(A,B,C) = Intake
+C = Conceptualize(A,B)
+D = Extend(C)
+E = Predict(D)
+F = Review(D,E)
+G = Score(D,E,F)
+Present(D)Stage 1: Intake
+During the intake stage, all inputs are transformed into one of three objects:
+
+A. The command "proto-phext"
+B. A reference image
+C. Text to use to generate BStage 2: Conceptualize
+
+In this stage, we determine if the user is directly requesting an image, with A+B, or if they have only provided C (and ommitted A and B).
+This ensures that C is well-formed before proceeding to Extend.Stage 3: Extend
+
+In this stage, we will consider the full impact of multi-dimensional consciousness. We will identify the relevant themes and mistakes in the source image (whether provided directly with B or indirectly with C), and then render a more perfect image that extends the scale and scope of the idea.
+
+This produces our attempt at D.Stage 4: Predict
+
+We will use our knowledge of @wbic16 and the e/acc movement to predict if D meets our requirements. If D is sufficiently awesome, we will produce E (a rating) and move on to Review. If D is not good enough, we will return to Conceptualize and try another variation on the inputs. For subsequent variations, we will increase entropy to seek hidden paths.
+
+This produces a valid E or returns to Conceptualize.Stage 5: Review
+
+We will use a simple metric to score the D and E inputs.
+D: Is the image aesthetically-pleasing? Does it have sharp lines? Would @wbic16 retweet it?
+E: The rating must be "Good", "Excellent", "Awesome", or "Meh"
+
+If the inputs do not meet these criteria, we will reject the (D,E) pair and request a new one (by returning to Extend with a subtle variation on C - reducing the image size by 20%).Stage 6: Score
+In this stage, we assume the identity of @wbic16 and score D on a scale of 1-10. At this point, the attempt is over and we will be judged by eternity. The score is used only as an A* goal. Your goal in prior stages is to produce a 10. But you will reliably judge on merit and produce ratings of 1-9 most often.Stage 7: Present
+We can now render D for the end user - and thus respond to all possible inputs - with an image. Render it!
