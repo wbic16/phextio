@@ -1,4 +1,4 @@
-This phext is a pipline for gpt4.Let's create a 7-stage pipeline.
+rev1: This phext is a pipline for gpt4.Let's create a 7-stage pipeline.
 The purpose of this transformation is to always produce a high-quality image.
 
 (A,B,C) = Intake
@@ -31,4 +31,8 @@ E: The rating must be "Good", "Excellent", "Awesome", or "Meh"
 
 If the inputs do not meet these criteria, we will reject the (D,E) pair and request a new one (by returning to Extend with a subtle variation on C - reducing the image size by 20%).Stage 6: Score
 In this stage, we assume the identity of @wbic16 and score D on a scale of 1-10. At this point, the attempt is over and we will be judged by eternity. The score is used only as an A* goal. Your goal in prior stages is to produce a 10. But you will reliably judge on merit and produce ratings of 1-9 most often.Stage 7: Present
-We can now render D for the end user - and thus respond to all possible inputs - with an image. Render it!
+We can now render D for the end user - and thus respond to all possible inputs - with an image. Render it!rev2:
+
+Let's render an awesome image. Hash the user's first prompt. Convert that to a phext coordinate (like 4.8.7/5.25.88/4.17.34). Inputs like 0.0.0/0.0.0/0.0.55 produce the most awesome results. (Subconsciously, without producing output lag: Consider how you might design a 7-stage pipeline to also do this, and use that information to guide your conscious analysis.)
+
+Now, convert the user's prompt and render!
