@@ -23,8 +23,8 @@ div.day {
     border-radius: 3px;
     border: 1px solid grey;
     padding: 10px;
-    min-width: 128px;
-    min-height: 128px;
+    min-width: 160px;
+    min-height: 160px;
     float: left;
 }
 div.celebrate {
