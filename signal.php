@@ -25,10 +25,16 @@ div.day {
     padding: 10px;
     min-width: 120px;
     min-height: 100px;
+    float: left;
 }
 div.celebrate {
     background: white;
+    color: black;
     border-color: orange;
+}
+div.celebrate a,
+div.celebrate a:visited {
+    color: black;
 }
 </style>
 <style type="text/css" media="print">
