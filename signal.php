@@ -9,7 +9,8 @@
 <style type="text/css">
 body {
     margin: 0 auto;
-    width: 80%;
+    width: 95%;
+    font-size: 0.75em;
 }
 a, a:visited {
     font-size: 1em;
@@ -20,7 +21,14 @@ a, a:visited {
 div.day {
     width: 150px;
     border-radius: 3px;
-    border: 2px solid grey;
+    border: 1px solid grey;
+    padding: 10px;
+    min-width: 120px;
+    min-height: 100px;
+}
+div.celebrate {
+    background: white;
+    border-color: orange;
 }
 </style>
 <style type="text/css" media="print">

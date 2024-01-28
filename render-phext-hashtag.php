@@ -86,11 +86,15 @@ echo "<h2>Total Users: $user_count</h2>";
 for ($i = 0; $i < 52; ++$i) {
   for ($j = 0; $j < 7; ++$j) {
     $k = ($i*7) + $j;
-    echo "<div class='day'>\n";
     if (array_key_exists($k, $matrix)) {
+      // signal today! <o^
+      echo "<div class='day celebrate'>\n";
       echo $matrix[$k];
-    }
-    echo "</div>\n";
+      echo "&lt;o^</div>\n";
+    } else {
+      // no signal today :(
+      echo "<div class='day'></div>\n";
+    }    
   }
 }
 
