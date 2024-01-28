@@ -7,6 +7,9 @@ $month = 1;
 $day = 28;
 $date = "$year-$month-$day";
 $output = array();
+$users = array();
+$user_count = 0;
+
 for ($i = 0; $i < $max; ++$i) {
   $line = $data[$i];
   $line = trim($line);
@@ -23,11 +26,15 @@ for ($i = 0; $i < $max; ++$i) {
   } else {
     if (preg_match('/@/', $line)) {
       $user = explode('@', $line)[1];
+      if (!array_key_exists($user, $users)) {
+        ++$user_count;
+        $users[$user] = 1;
+      }
       if (!array_key_exists($date, $output)) {
         $output[$date] = array();
       }
       if (!array_key_exists($user, $output[$date])) {
-        $output[$date][$user] = 1;
+        $output[$date][$user] = 1;        
       }
     }
   }
@@ -75,6 +82,7 @@ foreach ($output as $date => $userlist) {
   $matrix[$date] = $temp;
 }
 
+echo "<h2>Total Users: $user_count</h2>";
 for ($i = 0; $i < 52; ++$i) {
   for ($j = 0; $j < 7; ++$j) {
     $k = ($i*7) + $j;

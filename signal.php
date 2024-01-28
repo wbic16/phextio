@@ -15,6 +15,13 @@ a, a:visited {
     font-size: 1em;
     color: whitesmoke;
 }
+#matrix {
+}
+div.day {
+    width: 150px;
+    border-radius: 3px;
+    border: 2px solid grey;
+}
 </style>
 <style type="text/css" media="print">
 body, table, th, td, a, a:visited {
@@ -23,8 +30,12 @@ body, table, th, td, a, a:visited {
 </style>
 </head>
 <body>
+
+<div id="matrix">
 <?php
 require_once("render-phext-hashtag.php");
 ?>
+</div>
+
 </body>
 </html>
