@@ -83,8 +83,8 @@ foreach ($output as $date => $userlist) {
 }
 
 echo "<h2>#phext activity on twitter: $user_count</h2>";
-echo "<p>To contribute to the phext signal that you want to see in the world, tag your posts on twitter with the <a href='https://twitter.com/search?q=%23phext&src=phext.io'>#phext</a> hashtag.</p>";
-echo "<p>Day 0: 2024-01-01</p>";
+echo "<p>To contribute to the phext signal that you want to see in the world, tag your posts on twitter with the <a href='https://twitter.com/search?q=%23phext&src=phext.io'>#phext</a> hashtag. Reach out to <a href='https://twitter.com/wbic16'>@wbic16</a> to make sure that this page is updated once your tweet(s) are visible!</p>";
+echo "<p>I've arbitrarily set Day 0 at 2024-01-01</p>";
 echo "<p>Last Updated: 2024-01-28</p>";
 
 for ($i = 0; $i < 52; ++$i) {
