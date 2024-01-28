@@ -23,8 +23,8 @@ div.day {
     border-radius: 3px;
     border: 1px solid grey;
     padding: 10px;
-    min-width: 120px;
-    min-height: 100px;
+    min-width: 128px;
+    min-height: 128px;
     float: left;
 }
 div.celebrate {
@@ -35,6 +35,15 @@ div.celebrate {
 div.celebrate a,
 div.celebrate a:visited {
     color: black;
+    display: block;
+    text-decoration: none;
+    border: 1px solid black;
+    border-top: 0;
+    padding-bottom: 4px;
+}
+div.celebrate a:hover,
+div.celebrate a:visited:hover {
+    background: grey;
 }
 </style>
 <style type="text/css" media="print">

@@ -83,19 +83,20 @@ foreach ($output as $date => $userlist) {
 }
 
 echo "<h2>#phext activity on twitter: $user_count</h2>";
-echo "<p>To contribute to the phext signal that you want to see in the world, tag your posts on twitter with the #phext hashtag.</p>";
+echo "<p>To contribute to the phext signal that you want to see in the world, tag your posts on twitter with the <a href='https://twitter.com/search?q=%23phext&src=phext.io'>#phext</a> hashtag.</p>";
+echo "<p>Last Updated: 2024-01-28</p>";
 
 for ($i = 0; $i < 52; ++$i) {
   for ($j = 0; $j < 7; ++$j) {
     $k = ($i*7) + $j;
     if (array_key_exists($k, $matrix)) {
       // signal today! <o^
-      echo "<div class='day celebrate'>\n";
+      echo "<div class='day celebrate'>Day #$k\n";
       echo $matrix[$k];
       echo "&lt;o^</div>\n";
     } else {
       // no signal today :(
-      echo "<div class='day'></div>\n";
+      echo "<div class='day'>Day #$k 🔎</div>\n";
     }    
   }
 }
