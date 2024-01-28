@@ -45,6 +45,8 @@ body, table, th, td, a, a:visited {
 </head>
 <body>
 
+<a href="index.html">Back to Homepage</a>
+
 <div id="matrix">
 <?php
 require_once("render-phext-hashtag.php");

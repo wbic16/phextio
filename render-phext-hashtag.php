@@ -82,7 +82,9 @@ foreach ($output as $date => $userlist) {
   $matrix[$date] = $temp;
 }
 
-echo "<h2>Total Users: $user_count</h2>";
+echo "<h2>#phext activity on twitter: $user_count</h2>";
+echo "<p>To contribute to the phext signal that you want to see in the world, tag your posts on twitter with the #phext hashtag.</p>";
+
 for ($i = 0; $i < 52; ++$i) {
   for ($j = 0; $j < 7; ++$j) {
     $k = ($i*7) + $j;
