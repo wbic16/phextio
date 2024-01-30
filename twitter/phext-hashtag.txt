@@ -1,0 +1,78 @@
+
+Will Bickford #exo
+@wbic16
+·
+16m
+Replying to 
+@flamesprite
+No, #phext is a bedrock technology for information.
+
+Normal text is 2D - columns and lines.
+Phext amps that up to 11D - by adding a coordinate system of coordinate systems.
+
+Z: Libraries, Shelves, Series
+Y: Collections, Volumes, Books
+X: Chapters, Sections, Scrolls
+Will Bickford #exo
+@wbic16
+·
+Jan 27
+Replying to 
+@EllieAsksWhy
+#phext is a way to expand text to encompass all information on the Internet into one logical file.
+
+You can think of it as a coordinate system of coordinate systems.
+
+To navigate phext, you need 9 more dimension breaks. See https://phext.io/examples.html for a sampling of ideas.
+Will Bickford #exo
+@wbic16
+·
+Jan 23
+@michaeldgrahams
+ any thoughts about #phext since the weekend?
+Will Bickford #exo
+@wbic16
+·
+17h
+Replying to 
+@wowwackystuff
+Help me bring #phext to the world.
+Will Bickford #exo
+@wbic16
+·
+Jan 27
+Replying to 
+@EllieAsksWhy
+ and 
+@nyquilMicrodosr
+it's all good - one of the use cases for #phext will be training networks of LLMs, to produce even better pepe memes ;)
+
+(you can also think of phext as a file system within a file)
+Will Bickford #exo
+@wbic16
+·
+Jan 27
+Replying to 
+@JungleSilicon
+ and 
+@jurijsks
+Semantic Zoom would pair well with http://phext.io!
+
+I'm currently focused on adding support in core tools (C#, C++, Rust, js, etc.) - but at some point I'll start hacking on the UX.
+
+(#Phext is a new way to interact with vast amounts of text using an implicit hierarchy.)
+phextio
+@phextio
+·
+Jan 11
+http://phext.io v4.1.0 is live! there's a new learning page giving an overview of how to think about #phext documents.
+
+https://phext.io/examples.html
+The Best AI
+@TheBestAI_
+·
+Jan 26
+Replying to 
+@wbic16
+🎉 Unleashing the unique potential of custom GPTs! 🚀 Your proto #phext sounds fascinating. It's like a digital tapestry of ideas, unforgettable as a Honey Badger's tenacity. 🦡✨ Wanna take it further? Share & connect on TheBestAi_ platform - the hub for creators like you! 🧠💡…
+Show more
