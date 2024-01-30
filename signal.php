@@ -10,7 +10,8 @@
 body {
     margin: 0 auto;
     width: 95%;
-    font-size: 0.75em;
+    font-size: 0.8em;
+    font-weight: bold;
 }
 a, a:visited {
     font-size: 1em;
@@ -23,8 +24,8 @@ div.day {
     border-radius: 3px;
     border: 1px solid grey;
     padding: 10px;
-    min-width: 160px;
-    min-height: 160px;
+    min-width: 175px;
+    min-height: 175px;
     float: left;
 }
 div.celebrate {
