@@ -1,8 +1,81 @@
+Will Bickford #exo
+@wbic16
+·
+22h
+starting with sprint eta, i plan to switch gears and focus #phext development on a core user group of 18 people. comment on the post below or DM me to join.
+Will Bickford #exo
+@wbic16
+·
+23h
+Replying to 
+@wbic16
+Also note: you can just tweet about #phext and your account will show up on https://phext.io/signal.php over time. That or DM me.
+Will Bickford #exo
+@wbic16
+·
+23h
+I'm looking to build a core user group for #phext development in February - 18 users to guide early development.
+
+If more than 18 people are interested, I'll choose at random. I think there are ~10 of you so far.
+
+- Weekly Updates
+- Your ideas prioritized
+
+Please RT for reach.
 
 Will Bickford #exo
 @wbic16
 ·
-16m
+Jan 28
+Replying to 
+@loganthorneloe
+ and 
+@phextio
+yeah, but it's worth exploring - with #phext (an 11D expansion of text that I invented), it becomes very simple to write text-only databases.
+
+the main ingredient that I'm looking for next: a family of content hashing algorithms.
+
+trying to solve this problem helps that goal.
+Will Bickford #exo
+@wbic16
+·
+Jan 28
+Replying to 
+@flamesprite
+Right, this is more foundational. I'm building #phext for the technology, not a business. I'm not looking to monetize it at all.
+
+I don't have any datasets, just a file format. If anything, I would look for ways to help discern credit from what other systems generate.
+Will Bickford #exo
+@wbic16
+·
+Jan 28
+With #phext, this is just copy/paste.
+
+Will Bickford #exo
+@wbic16
+·
+Jan 28
+I wrote a #phext visualization that shows who's discussing it each day. Once I get the process ironed out, I'll setup a nightly sync. For now, I'm updating the data by hand.
+
+- https://github.com/wbic16/phextio/blob/master/signal.php renders the calendar
+- https://github.com/wbic16/phextio/blob/master/render-phext-hashtag.php parses the raw dump
+phextio
+@phextio
+·
+Jan 28
+the #phext signal is live!
+https://phext.io/signal.php
+
+v4.2.5 adds a (non real-time) rendering of the #phext hash tag.
+
+- Implemented as a PHP producer/consumer
+- Input: a snapshot of posts with #phext tagged
+- Output: a day calendar with #interfractals who are discussing #phext!
+
+Will Bickford #exo
+@wbic16
+·
+Jan 28
 Replying to 
 @flamesprite
 No, #phext is a bedrock technology for information.
@@ -13,30 +86,21 @@ Phext amps that up to 11D - by adding a coordinate system of coordinate systems.
 Z: Libraries, Shelves, Series
 Y: Collections, Volumes, Books
 X: Chapters, Sections, Scrolls
+
 Will Bickford #exo
 @wbic16
 ·
 Jan 27
 Replying to 
-@EllieAsksWhy
-#phext is a way to expand text to encompass all information on the Internet into one logical file.
-
-You can think of it as a coordinate system of coordinate systems.
-
-To navigate phext, you need 9 more dimension breaks. See https://phext.io/examples.html for a sampling of ideas.
-Will Bickford #exo
-@wbic16
-·
-Jan 23
-@michaeldgrahams
- any thoughts about #phext since the weekend?
-Will Bickford #exo
-@wbic16
-·
-17h
-Replying to 
 @wowwackystuff
 Help me bring #phext to the world.
+
+Will Bickford #exo
+@wbic16
+·
+Jan 27
+Ooo #phext game idea: Global Tetris.
+
 Will Bickford #exo
 @wbic16
 ·
@@ -53,6 +117,17 @@ Will Bickford #exo
 ·
 Jan 27
 Replying to 
+@EllieAsksWhy
+#phext is a way to expand text to encompass all information on the Internet into one logical file.
+
+You can think of it as a coordinate system of coordinate systems.
+
+To navigate phext, you need 9 more dimension breaks. See https://phext.io/examples.html for a sampling of ideas.
+Will Bickford #exo
+@wbic16
+·
+Jan 27
+Replying to 
 @JungleSilicon
  and 
 @jurijsks
@@ -61,13 +136,17 @@ Semantic Zoom would pair well with http://phext.io!
 I'm currently focused on adding support in core tools (C#, C++, Rust, js, etc.) - but at some point I'll start hacking on the UX.
 
 (#Phext is a new way to interact with vast amounts of text using an implicit hierarchy.)
-phextio
-@phextio
+Will Bickford #exo
+@wbic16
 ·
-Jan 11
-http://phext.io v4.1.0 is live! there's a new learning page giving an overview of how to think about #phext documents.
+Jan 27
+i don't like podcasts because i dislike linear information flows
 
-https://phext.io/examples.html
+i love text because you can quickly seek, scan, and process it
+
+#phext enables this at scale :)
+
+http://phext.io
 The Best AI
 @TheBestAI_
 ·
@@ -76,3 +155,211 @@ Replying to
 @wbic16
 🎉 Unleashing the unique potential of custom GPTs! 🚀 Your proto #phext sounds fascinating. It's like a digital tapestry of ideas, unforgettable as a Honey Badger's tenacity. 🦡✨ Wanna take it further? Share & connect on TheBestAi_ platform - the hub for creators like you! 🧠💡…
 Show more
+Will Bickford #exo
+@wbic16
+·
+Jan 25
+nothing is simpler than #phext - you just don't know it yet
+
+http://phext.io
+
+Will Bickford #exo
+@wbic16
+·
+Jan 25
+Intricate Fractals, PB&J, and a Honey Badger. One proto #phext among countless opportunities.
+
+https://chat.openai.com/g/g-lnX9JkGih-proto-phext
+Will Bickford #exo
+@wbic16
+·
+Jan 24
+the phext box plan:
+
+- reset computing to 1985, but with #phext
+- 5 sub-environments (stable, next, manage, update, visor)
+- goal: minimize latency above all else
+- goal: zero data loss for committed work
+- goal: never need to reboot, except for hardware failure
+
+Will Bickford #exo
+@wbic16
+·
+Jan 23
+@phextio
+ consider what negative space looks like in the context of #phext
+Will Bickford #exo
+@wbic16
+·
+Jan 23
+@michaeldgrahams
+ any thoughts about #phext since the weekend?
+
+Will Bickford #exo
+@wbic16
+·
+Jan 22
+Chatting with a friend about #phext tonight:
+
+1. Light bulb
+2. Chandelier
+3. Cathedral
+4. City
+5. Country
+6. Earth
+7. Solar System
+8. Milky Way
+9. Observable Universe
+
+Will Bickford #exo
+@wbic16
+·
+Jan 20
+if you've seen me post about #phext, but haven't tried out the live editor on http://phext.io - here's a quick intro!
+
+i picked up a webcam today - i'll try streaming some examples soon. :)
+
+phext is fractal compression at the core of knowledge.
+SouthNorwayRadar
+@NorwayRadar
+·
+Jan 15
+Automated
+PH-EXT Embraer 170-200STD-175STD (MSN: 17000707) above southern Norway, last seen Oct 20, 2023 (2mos 3w ago)
+Hex: #485814 | Callsign: #KLM71W | ALT: 3500ft | SQWK: 3163 | SPD: 180kts | HDG: N 351°
+http://globe.adsbexchange.com/?icao=485814&showTrace=2024-01-15
+#PHEXT #E75 #avgeek #avion #aviation
+
+Will Bickford #exo
+@wbic16
+·
+Jan 13
+this is what inventing #phext looks like
+phextio
+@phextio
+·
+Jan 11
+http://phext.io v4.1.0 is live! there's a new learning page giving an overview of how to think about #phext documents.
+
+https://phext.io/examples.html
+Will Bickford #exo
+@wbic16
+·
+Jan 11
+I've got an examples page for #phext written up with a ton of examples, code, and ideas. I plan to ship v4.1.0 tonight!
+
+
+Will Bickford #exo
+@wbic16
+·
+Jan 8
+I decided to work on porting #phext to inspircd.
+IRC seems like an obvious choice for phext.
+
+https://docs.inspircd.org/4/installation/source/
+Will Bickford #exo
+@wbic16
+·
+Jan 8
+I extended extract.ps1 from my twitter-analysis repo today to include the ability to generate a #phext of your tweet history.
+
+This got my tweet archive down from 8.8 MB to 5.1 MB. Phext is complexity compression (just like text)!
+
+https://github.com/wbic16/twitter-analysis
+Will Bickford #exo
+@wbic16
+·
+Jan 8
+Replying to 
+@AdonAlternative
+what are your rates?
+
+i only have about 2-3 hours a day (max) to focus on http://phext.io, but i need to build out an entire ecosystem for #phext.
+
+if i were paying myself, i'd be charging $150/hr, or $1200/feature.
+
+to me, a 'feature' is 8h of sustained work
+Will Bickford #exo
+@wbic16
+·
+Jan 8
+running a meta-analysis for feed prospecting:
+
+1. 
+@visakanv
+ leverages it well
+2. know thyself
+3. #intrafractal neuron blueprint!
+4. develop #phext tooling along the way
+5. new followers learn more about me
+6. develop more phext terminology
+7. thank the people who tried to help
+Will Bickford #exo
+@wbic16
+·
+Jan 8
+Replying to 
+@wbic16
+ironically (intentionally?), #phext is this - not version-control - but still scalable to petabytes of text... :)
+
+
+Will Bickford #exo
+@wbic16
+·
+Jan 7
+i added libphext tonight - a reference c library parser for #phext
+
+https://github.com/wbic16/libphext
+Will Bickford #exo
+@wbic16
+·
+Jan 6
+another installer, another #phext opportunity
+
+deploying files to your computer should never be slow!
+Will Bickford #exo
+@wbic16
+·
+Jan 4
+a key #phext concept: the null space
+
+most file formats require allocation - phext is different because all zero-length scrolls don't exist in subspace
+
+i'm creating some visuals to help explain what i mean
+Will Bickford #exo
+@wbic16
+·
+Jan 3
+i need a new word for the #phext mind virus
+
+it isn't wordcel
+it isn't shape rotator
+
+intra-fractal.
+Will Bickford #exo
+@wbic16
+·
+Jan 2
+You may not like it, but this is what peak performance looks like.
+
+This is the ideal #phext.
+
+Will Bickford #exo
+@wbic16
+·
+Jan 1
+Replying to 
+@wilplatypus
+with #phext, information propagates at the speed of thought
+
+Will Bickford #exo
+@wbic16
+·
+Jan 1
+Replying to 
+@wbic16
+ and 
+@bitcloud
+I was looking for a phrase like "hey chat" and I've been using a lot of ph words due to #phext, so I coined "pham" because it invokes a sense of belonging.
+
+When I looked up the etymology...I was hooked.
