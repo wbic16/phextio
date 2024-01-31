@@ -93,7 +93,7 @@ echo "<p>Last Updated: $date</p>";
 
 for ($i = 0; $i < 52; ++$i) {
   for ($j = 0; $j < 7; ++$j) {
-    $k = ($i*7) + $j;
+    $k = ($i*7) + $j + 1;
     if (array_key_exists($k, $matrix)) {
       // signal today! <o^
       echo "<div class='day celebrate'>Day #$k 💡\n";
