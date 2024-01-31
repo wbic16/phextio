@@ -2,6 +2,35 @@ Will Bickford #exo
 @wbic16
 ·
 22h
+Replying to 
+@IanFelipeSays
+ 
+@BasedBeffJezos
+ and 
+@elonmusk
+#Phext is a way to do that. :)
+
+https://phext.io/api.php?seed=raap&token=research&coordinate=1.1.1/1.1.1/1.1.1
+Will Bickford #exo
+@wbic16
+·
+Jan 30
+#phext: zero-cost relational knowledge
+Will Bickford #exo
+@wbic16
+·
+Jan 29
+I realized when I published tonight's update that the first #phext signal only used top tweets instead of latest tweets.
+
+Oops.
+The #phext signal is out for January 29th!
+
+https://phext.io/signal.php
+
+Will Bickford #exo
+@wbic16
+·
+22h
 starting with sprint eta, i plan to switch gears and focus #phext development on a core user group of 18 people. comment on the post below or DM me to join.
 Will Bickford #exo
 @wbic16
