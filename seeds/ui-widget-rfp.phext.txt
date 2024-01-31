@@ -1,0 +1,25 @@
+project: re-usable phext widget
+expected input latency: 10ms or less
+minimum output: 20 KB
+maximum output: 200 KB
+expected language: javascript
+
+description:
+
+the re-usable phext widget will offer three primary modes:
+1. Nested Tabs
+2. Zoomable Tiles
+3. Subspace
+
+In Nested Tabs mode, users will have a view similar to Terse Notepad.
+- A tree view on the left to select nodes with content from.
+- A normal text editor on the right.
+
+In Zoomable Tiles mode, users will have a 'phext native' way to interact.
+- Callback method to generate tile summary from nearest content by phext coordinate
+- no need to jump through multiple levels of hierarchy by hand - quick jump
+- easily flow to nearby content
+
+In Subspace mode, users will just work with the raw text buffer.
+- Explore custom glyphs for rendering the 9 dimension breaks
+- does not need much customization - what you get in most other editors
