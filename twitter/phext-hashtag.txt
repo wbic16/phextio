@@ -1,6 +1,27 @@
 Will Bickford #exo
 @wbic16
 ·
+7h
+Replying to 
+@JaelRuble
+I'm in #phext land: 1.1.1/1.1.1/1.1.1 - the root node. :)
+Will Bickford #exo
+@wbic16
+·
+21h
+Replying to 
+@JungleSilicon
+What's driving your data model? I'm going to focus on UX for #phext in February.
+
+Latency is one of my most important metrics in general. We've got SSDs that can write 1 GB/sec and our systems are still slow. It's bonkers!
+Will Bickford #exo
+@wbic16
+·
+21h
+The #phext signal is out for today!
+Will Bickford #exo
+@wbic16
+·
 22h
 Replying to 
 @IanFelipeSays
