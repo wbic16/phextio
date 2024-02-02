@@ -1,6 +1,19 @@
 Will Bickford #exo
 @wbic16
 ·
+15h
+Replying to 
+@loganthorneloe
+#Phext: a way to encode an arbitrary DAG of documents as plain text with no overhead.
+
+I haven't built an easy conversion tool yet, hence my question.
+
+I'll support zip, tar, git, and other formats, but if you have a preference I'll write it first.
+
+https://phext.io/research.html
+Will Bickford #exo
+@wbic16
+·
 7h
 Replying to 
 @JaelRuble
