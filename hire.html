@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>phext.io | hire us</title>
+<link rel="stylesheet" href="phext.css?rev=1" />
+<style type="text/css">
+stripe-buy-button {
+    min-height: 250px;
+}
+a, a:visited {
+    font-size: 1em;
+}
+body, html {
+    margin: 0; padding: 0;
+}
+#main {
+    margin: 0 auto;    
+    width: 60%;
+    background: #202026;
+    min-height: 4000px;
+    height: 100%;
+    padding: 40px;
+    font-size: 1.2em;
+}
+#phext-stripe-integration {
+    text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div id="main">
+    <a href="index.html">Homepage</a>
+
+<p>
+At Phext, Inc., we're building out the <a href="https://twitter.com/search?q=%23exocortex">#exocortex</a> - one step at a time. You can purchase our services in normalized increments: <strong>Q&A</strong> (&lt; 1 hour), <strong>Bug Fix</strong> (1-4 hours), or <strong>Micro Feature</strong> (8-32 hours).
+These products are offered via flat fee estimates - you will need a signed RFP or your purchase will be refunded. Please reach out to <a href="https://twitter.com/phextio">@phextio</a> on twitter prior to purchasing!
+</p>
+
+<ul>
+    <li>Q&A: one small bug fix</li>
+    <li>Bug Fix: one complex bug fix or 4 simple bug fixes</li>
+    <li>Micro Feature: one feature change</li>
+</ul>
+</p>
+
+<div id="phext-stripe-integration">
+<script async
+  src="https://js.stripe.com/v3/buy-button.js">
+</script>
+
+<stripe-buy-button
+  buy-button-id="buy_btn_1Ofb4aK8PmFFUxK1DAU4wJmp"
+  publishable-key="pk_live_51OeqJKK8PmFFUxK1mgpqCFOCqufFhqBW5MAs4HYH0ztecK3FDVWG8CDAE6kVr3xTCd5rPzDrVlY4BKBDtRTPYKvb00jx48j0Xb"
+>
+</stripe-buy-button>
+
+<stripe-buy-button
+  buy-button-id="buy_btn_1Ofb69K8PmFFUxK1WClcMpvS"
+  publishable-key="pk_live_51OeqJKK8PmFFUxK1mgpqCFOCqufFhqBW5MAs4HYH0ztecK3FDVWG8CDAE6kVr3xTCd5rPzDrVlY4BKBDtRTPYKvb00jx48j0Xb"
+>
+</stripe-buy-button>
+
+<stripe-buy-button
+  buy-button-id="buy_btn_1Ofb6eK8PmFFUxK1vsdy2SXj"
+  publishable-key="pk_live_51OeqJKK8PmFFUxK1mgpqCFOCqufFhqBW5MAs4HYH0ztecK3FDVWG8CDAE6kVr3xTCd5rPzDrVlY4BKBDtRTPYKvb00jx48j0Xb"
+>
+</stripe-buy-button>
+</div> <!-- strip-integration -->
+
+</div> <!-- main -->
+</body>
+</html>
