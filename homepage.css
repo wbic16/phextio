@@ -246,3 +246,17 @@ ul#discovery li input {
   margin: 16px;
   margin-right: 32px;
 }
+#tab_buttons {
+  margin-bottom: 10px;    
+}
+.tabbutton {
+  width: 120px;
+  margin: 0px;
+  padding: 4px;
+  text-align: right;
+  font-family: monospace;
+}
+#tab_editor {
+  width: 80%;
+  min-height: 400px;
+}

@@ -11,31 +11,27 @@
 <a href="index.html">Back to Homepage</a>
 
 <p>
-<h1>Under Construction</h1>
 Experiment with Phext using one of the three editor modes below. Nested tabs explore the idea of embedding a hierarchy of tabs. This visualization is perhaps the simplest way to envision phext.
 Zoomable tiles provide an interactive editing experience designed to feel more phext-native.
 The subspace editor is a plain text editor, but with delimiters of unusual size visible as normal text.
 </p>
 
 <ul id="menu">
-  <!-- todo: <li><input type="button" id="modeNestedTabs" value="tabs" onclick="edit('tabs');" /> if you love tabs, you'll love this visualization</li> -->
-  <!-- todo: <li><input type="button" id="modeTiles" value="tiles" onclick="edit('tiles');"/> zoomable tiles for a phext-native view</li> -->
+  <li><input type="button" id="modeNestedTabs" value="tabs" onclick="edit('tabs');" /> if you love tabs, you'll love this visualization (Default)</li>
+  <!-- <li><input type="button" id="modeTiles" value="tiles" onclick="edit('tiles');"/> zoomable tiles for a phext-native view</li> -->
   <!-- paths in 3D for VR... -->
   <li><input type="button" id="modeSubspace" value="subspace" onclick="edit('subspace');"/> a raw subspace editor</li>
 </ul>
 
 <div id="phext">
 
-<table class="coordinatePlate" id="coordinatePlate">
-  <tr>
-    <th>Seed</th>
-    <td colspan="6">
-      <input type="text" id="seed" name="seed" size="50" value="" />
-      <select name="seeds" id="seeds" onchange="chooseSeed(this);">
-      </select>
-      <input type="button" id="removeseed" name="removeseed" onclick="removeSeed();" value="Delete" />
-    </td>
-  </tr>
+    <div>Seed: <input type="text" id="seed" name="seed" size="50" value="" />
+        <select name="seeds" id="seeds" onchange="chooseSeed(this);">
+        </select>
+        <input type="button" id="removeseed" name="removeseed" onclick="removeSeed();" value="Delete" />
+    </div>
+
+<table class="coordinatePlate" id="coordinatePlate">  
   <tr>
     <th class="coordheader">Cortical</th><td></td>
     <td colspan="5"></td>
@@ -67,12 +63,11 @@ The subspace editor is a plain text editor, but with delimiters of unusual size 
   </tr>
 </table>
 
-<h1 id="whiterabbit">Scroll</h1>
 <textarea id="scroll" name="scroll" rows="5" cols="100">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
 
 <div id="subspaceArea">
   <h1 id="subspaceTitle">Subspace</h1>
-  <div class="commandBar">
+  <div class="commandBar" id="commandBar">
     <input id="CB1_2" type="button" onClick="setEnterType(1, 2, LINE_BREAK);" value="Enter" />
     <input id="CB1_3" type="button" onClick="setEnterType(1, 3, SCROLL_BREAK);" value="Scroll" />
     <input id="CB1_4" type="button" onClick="setEnterType(1, 4, SECTION_BREAK);" value="Section" />
@@ -103,11 +98,95 @@ What you type here will be rendered in 11-dimensional space on the right - neste
   </textarea>
 </div> <!-- subspaceArea -->
 
-<div id="quest">  
+<div id="quest">
 </div>
 
 <div id="tabs">
-
+    <p>Navigate to a specific coordinate using the tabs below. You can enter exact coordinates as well.</p>
+    <div id="tab_buttons">
+        <div id="tab_library">
+            <input id="lb1" class="tabbutton" type="button" value="Library 1" onclick="jump(this, 'lb', 1);" />
+            <input id="lb2" class="tabbutton" type="button" value="Library 2" onclick="jump(this, 'lb', 2);" />
+            <input id="lb3" class="tabbutton" type="button" value="Library 3" onclick="jump(this, 'lb', 3);" />
+            <input id="lb4" class="tabbutton" type="button" value="Library 4" onclick="jump(this, 'lb', 4);" />
+            <input id="lb5" class="tabbutton" type="button" value="Library 5" onclick="jump(this, 'lb', 5);" />
+            <input id="lb6" class="tabbutton" type="button" value="Library 6" onclick="jump(this, 'lb', 6);" />
+            <input id="lb7" class="tabbutton" type="button" value="Library 7" onclick="jump(this, 'lb', 7);" />
+        </div>
+        <div id="tab_shelf">
+            <input id="sf1" class="tabbutton" type="button" value="Shelf 1" onclick="jump(this, 'sf', 1);" />
+            <input id="sf2" class="tabbutton" type="button" value="Shelf 2" onclick="jump(this, 'sf', 2);" />
+            <input id="sf3" class="tabbutton" type="button" value="Shelf 3" onclick="jump(this, 'sf', 3);" />
+            <input id="sf4" class="tabbutton" type="button" value="Shelf 4" onclick="jump(this, 'sf', 4);" />
+            <input id="sf5" class="tabbutton" type="button" value="Shelf 5" onclick="jump(this, 'sf', 5);" />
+            <input id="sf6" class="tabbutton" type="button" value="Shelf 6" onclick="jump(this, 'sf', 6);" />
+            <input id="sf7" class="tabbutton" type="button" value="Shelf 7" onclick="jump(this, 'sf', 7);" />
+        </div>
+        <div id="tab_series">
+            <input id="sr1" class="tabbutton" type="button" value="Series 1" onclick="jump(this, 'sr', 1);" />
+            <input id="sr2" class="tabbutton" type="button" value="Series 2" onclick="jump(this, 'sr', 2);" />
+            <input id="sr3" class="tabbutton" type="button" value="Series 3" onclick="jump(this, 'sr', 3);" />
+            <input id="sr4" class="tabbutton" type="button" value="Series 4" onclick="jump(this, 'sr', 4);" />
+            <input id="sr5" class="tabbutton" type="button" value="Series 5" onclick="jump(this, 'sr', 5);" />
+            <input id="sr6" class="tabbutton" type="button" value="Series 6" onclick="jump(this, 'sr', 6);" />
+            <input id="sr7" class="tabbutton" type="button" value="Series 7" onclick="jump(this, 'sr', 7);" />
+        </div>
+        <div id="tab_collection">
+            <input id="cn1" class="tabbutton" type="button" value="Collection 1" onclick="jump(this, 'cn', 1);" />
+            <input id="cn2" class="tabbutton" type="button" value="Collection 2" onclick="jump(this, 'cn', 2);" />
+            <input id="cn3" class="tabbutton" type="button" value="Collection 3" onclick="jump(this, 'cn', 3);" />
+            <input id="cn4" class="tabbutton" type="button" value="Collection 4" onclick="jump(this, 'cn', 4);" />
+            <input id="cn5" class="tabbutton" type="button" value="Collection 5" onclick="jump(this, 'cn', 5);" />
+            <input id="cn6" class="tabbutton" type="button" value="Collection 6" onclick="jump(this, 'cn', 6);" />
+            <input id="cn7" class="tabbutton" type="button" value="Collection 7" onclick="jump(this, 'cn', 7);" />
+        </div>
+        <div id="tab_volume">
+            <input id="vm1" class="tabbutton" type="button" value="Volume 1" onclick="jump(this, 'vm', 1);" />
+            <input id="vm2" class="tabbutton" type="button" value="Volume 2" onclick="jump(this, 'vm', 2);" />
+            <input id="vm3" class="tabbutton" type="button" value="Volume 3" onclick="jump(this, 'vm', 3);" />
+            <input id="vm4" class="tabbutton" type="button" value="Volume 4" onclick="jump(this, 'vm', 4);" />
+            <input id="vm5" class="tabbutton" type="button" value="Volume 5" onclick="jump(this, 'vm', 5);" />
+            <input id="vm6" class="tabbutton" type="button" value="Volume 6" onclick="jump(this, 'vm', 6);" />
+            <input id="vm7" class="tabbutton" type="button" value="Volume 7" onclick="jump(this, 'vm', 7);" />
+        </div>
+        <div id="tab_book">
+            <input id="bk1" class="tabbutton" type="button" value="Book 1" onclick="jump(this, 'bk', 1);" />
+            <input id="bk2" class="tabbutton" type="button" value="Book 2" onclick="jump(this, 'bk', 2);" />
+            <input id="bk3" class="tabbutton" type="button" value="Book 3" onclick="jump(this, 'bk', 3);" />
+            <input id="bk4" class="tabbutton" type="button" value="Book 4" onclick="jump(this, 'bk', 4);" />
+            <input id="bk5" class="tabbutton" type="button" value="Book 5" onclick="jump(this, 'bk', 5);" />
+            <input id="bk6" class="tabbutton" type="button" value="Book 6" onclick="jump(this, 'bk', 6);" />
+            <input id="bk7" class="tabbutton" type="button" value="Book 7" onclick="jump(this, 'bk', 7);" />
+        </div>
+        <div id="tab_chapter">
+            <input id="ch1" class="tabbutton" type="button" value="Chapter 1" onclick="jump(this, 'ch', 1);" />
+            <input id="ch2" class="tabbutton" type="button" value="Chapter 2" onclick="jump(this, 'ch', 2);" />
+            <input id="ch3" class="tabbutton" type="button" value="Chapter 3" onclick="jump(this, 'ch', 3);" />
+            <input id="ch4" class="tabbutton" type="button" value="Chapter 4" onclick="jump(this, 'ch', 4);" />
+            <input id="ch5" class="tabbutton" type="button" value="Chapter 5" onclick="jump(this, 'ch', 5);" />
+            <input id="ch6" class="tabbutton" type="button" value="Chapter 6" onclick="jump(this, 'ch', 6);" />
+            <input id="ch7" class="tabbutton" type="button" value="Chapter 7" onclick="jump(this, 'ch', 7);" />
+        </div>
+        <div id="tab_section">
+            <input id="sn1" class="tabbutton" type="button" value="Section 1" onclick="jump(this, 'sn', 1);" />
+            <input id="sn2" class="tabbutton" type="button" value="Section 2" onclick="jump(this, 'sn', 2);" />
+            <input id="sn3" class="tabbutton" type="button" value="Section 3" onclick="jump(this, 'sn', 3);" />
+            <input id="sn4" class="tabbutton" type="button" value="Section 4" onclick="jump(this, 'sn', 4);" />
+            <input id="sn5" class="tabbutton" type="button" value="Section 5" onclick="jump(this, 'sn', 5);" />
+            <input id="sn6" class="tabbutton" type="button" value="Section 6" onclick="jump(this, 'sn', 6);" />
+            <input id="sn7" class="tabbutton" type="button" value="Section 7" onclick="jump(this, 'sn', 7);" />
+        </div>
+        <div id="tab_scroll">
+            <input id="sc1" class="tabbutton" type="button" value="Scroll 1" onclick="jump(this, 'sc', 1);" />
+            <input id="sc2" class="tabbutton" type="button" value="Scroll 2" onclick="jump(this, 'sc', 2);" />
+            <input id="sc3" class="tabbutton" type="button" value="Scroll 3" onclick="jump(this, 'sc', 3);" />
+            <input id="sc4" class="tabbutton" type="button" value="Scroll 4" onclick="jump(this, 'sc', 4);" />
+            <input id="sc5" class="tabbutton" type="button" value="Scroll 5" onclick="jump(this, 'sc', 5);" />
+            <input id="sc6" class="tabbutton" type="button" value="Scroll 6" onclick="jump(this, 'sc', 6);" />
+            <input id="sc7" class="tabbutton" type="button" value="Scroll 7" onclick="jump(this, 'sc', 7);" />
+        </div>
+    </div>
+    <textarea id="tab_editor"></textarea>
 </div> <!-- tabs -->
 
 <div id="tiles">
@@ -130,6 +209,8 @@ What you type here will be rendered in 11-dimensional space on the right - neste
   </div>
 
 </div> <!-- tiles -->
+
+<br style="clear:both;" />
 
 <div id="helparea">
   <h2>Help</h2>

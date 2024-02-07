@@ -106,6 +106,29 @@ var qrl = false;
 var qt = false;
 var nodes = Array();
 var qurl = "";
+var mnt = false;
+var mte = false;
+var mss = false;
+var tbe = false; // tab_editor
+var tblb = false; // tab_library
+var tbsf = false; // tab_shelf
+var tbsr = false; // tab_series
+var tbcn = false; // tab_collection
+var tbvm = false; // tab_volume
+var tbbk = false; // tab_book
+var tbch = false; // tab_chapter
+var tbsn = false; // tab_section
+var tbsc = false; // tab_scroll
+
+var tab_libraries = Array();
+var tab_shelves = Array();
+var tab_series = Array();
+var tab_collections = Array();
+var tab_volumes = Array();
+var tab_books = Array();
+var tab_chapters = Array();
+var tab_sections = Array();
+var tab_scrolls = Array();
 
 var phextCoordinate = "1.1.1/1.1.1/1.1.1";
 
@@ -134,6 +157,31 @@ function loadVars() {
   if (!qrui) { qrui = dgid("qrcode"); }
   if (!qrl) { qrl = dgid("qrlabel"); }
   if (!qt) { qt = dgid("quest"); }
+  if (!mnt) { mnt = dgid("modeNestedTabs"); }
+  if (!mte) { mte = dgid("modeTiles"); }
+  if (!mss) { mss = dgid("modeSubspace"); }
+  if (!te) { tbe = dgid("tab_editor"); }
+  if (!tblb) { tblb = dgid("tab_library"); }
+  if (!tbsf) { tbsf = dgid("tab_shelf"); }
+  if (!tbsr) { tbsr = dgid("tab_series"); }
+  if (!tbcn) { tbcn = dgid("tab_collection"); }
+  if (!tbvm) { tbvm = dgid("tab_volume"); }
+  if (!tbbk) { tbbk = dgid("tab_book"); }
+  if (!tbch) { tbch = dgid("tab_chapter"); }
+  if (!tbsn) { tbsn = dgid("tab_section"); }
+  if (!tbsc) { tbsc = dgid("tab_scroll"); }
+  for (var i = 1; i <= 7; ++i)
+  {
+    tab_libraries[i] = dgid("lb" + i);
+    tab_shelves[i] = dgid("sf" + i);
+    tab_series[i] = dgid("sr" + i);
+    tab_collections[i] = dgid("cn" + i);
+    tab_volumes[i] = dgid("vm" + i);
+    tab_books[i] = dgid("bk" + i);
+    tab_chapters[i] = dgid("ch" + i);
+    tab_sections[i] = dgid("sn" + i);
+    tab_scrolls[i] = dgid("sc" + i);
+  }
 
   if (localStorage.seed) {
     sd.value = localStorage.seed;
@@ -532,6 +580,7 @@ function startup() {
   dgid("pshelfbreak").value = SHELF_BREAK;
   dgid("plibrarybreak").value = LIBRARY_BREAK;
   loadVars();
+  edit('tabs');  
 
   var urlSearchParams = new URLSearchParams(window.location.search);
   var params = Object.fromEntries(urlSearchParams.entries());
@@ -679,15 +728,158 @@ function removeSeed() {
 // -----------------------------------------------------------------------------------------------------------
 // @fn edit
 // -----------------------------------------------------------------------------------------------------------
-function edit(mode) {  
-  var tab_item = (mode == 'tabs') ? 'block' : 'none';
+function edit(mode) {
+  sd.style.display = 'block';
+  cp.style.display = 'block';
+
+  var tab_mode = mode == 'tabs';
+  var tab_item = tab_mode ? 'block' : 'none';
   tb.style.display = tab_item;
+  mnt.style.border = tab_mode ? "2px solid" : "";
 
-  var tile_item = (mode == 'tiles') ? 'block' : 'none';
+  var tile_mode = mode == 'tiles';
+  var tile_item = tile_mode ? 'block' : 'none';
   te.style.display = tile_item;
+  if (mte) {
+    mte.style.border = tile_mode ? "2px solid" : "";
+  }
 
-  var subspace_item = (mode == 'subspace') ? 'block' : 'none';
+  var subspace_mode = mode == 'subspace';
+  var subspace_item = subspace_mode ? 'block' : 'none';
+  mss.style.border = subspace_mode ? "2px solid" : "";
   ls.style.display = subspace_item;
-  st.style.display = subspace_item;
+  st.style.display = subspace_item;  
+  ta.style.display = subspace_item;
   cb.style.display = subspace_item;
+
+  tbsf.style.display = 'none';
+  tbsr.style.display = 'none';
+  tbcn.style.display = 'none';
+  tbvm.style.display = 'none';
+  tbbk.style.display = 'none';
+  tbch.style.display = 'none';
+  tbsn.style.display = 'none';
+  tbsc.style.display = 'none';
+}
+
+function tab_break(level) {
+  tbsf.style.display = level >= 1 ? 'block' : 'none';
+  tbsr.style.display = level >= 2 ? 'block' : 'none';
+  tbcn.style.display = level >= 3 ? 'block' : 'none';
+  tbvm.style.display = level >= 4 ? 'block' : 'none';
+  tbbk.style.display = level >= 5 ? 'block' : 'none';
+  tbch.style.display = level >= 6 ? 'block' : 'none';
+  tbsn.style.display = level >= 7 ? 'block' : 'none';
+  tbsc.style.display = level >= 8 ? 'block' : 'none';
+}
+
+function jump(sender, type, coordinate) {
+  var czs = cz.value.split('.');
+  var cys = cy.value.split('.');
+  var cxs = cx.value.split('.');  
+  
+  // pick library coordinate
+  if (type == 'lb') {    
+    tab_break(1);
+    czs[0] = coordinate;
+    for (var i = 1; i <= 7; ++i)
+    {
+      tab_libraries[i].style.border = "";
+      tab_libraries[i].style.backgroundColor = "";
+    }
+  }
+
+  // pick shelf coordinate
+  if (type == 'sf') {
+    tab_break(2);
+    czs[1] = coordinate;
+    for (var i = 1; i <= 7; ++i)
+    {
+      tab_shelves[i].style.border = "";
+      tab_shelves[i].style.backgroundColor = "";
+    }
+  }
+
+  // pick series coordinate
+  if (type == 'sr') {
+    tab_break(3);
+    czs[2] = coordinate;
+    for (var i = 1; i <= 7; ++i)
+    {
+      tab_series[i].style.border = "";
+      tab_series[i].style.backgroundColor = "";
+    }
+  }
+
+  // pick collection coordinate
+  if (type == 'cn') {
+    tab_break(4);
+    cys[0] = coordinate;
+    for (var i = 1; i <= 7; ++i)
+    {
+      tab_collections[i].style.border = "";
+      tab_collections[i].style.backgroundColor = "";
+    }
+  }
+
+  // pick volume coordinate
+  if (type == 'vm') {
+    tab_break(5);
+    cys[1] = coordinate;
+    for (var i = 1; i <= 7; ++i)
+    {
+      tab_volumes[i].style.border = "";
+      tab_volumes[i].style.backgroundColor = "";
+    }
+  }
+
+  // pick book coordinate
+  if (type == 'bk') {
+    tab_break(6);
+    cys[2] = coordinate;
+    for (var i = 1; i <= 7; ++i)
+    {
+      tab_books[i].style.border = "";
+      tab_books[i].style.backgroundColor = "";
+    }
+  }
+
+  // pick chapter coordinate
+  if (type == 'ch') {
+    tab_break(7);
+    cxs[0] = coordinate;
+    for (var i = 1; i <= 7; ++i)
+    {
+      tab_chapters[i].style.border = "";
+      tab_chapters[i].style.backgroundColor = "";
+    }
+  }
+
+  // pick section coordinate
+  if (type == 'sn') {
+    tab_break(8);
+    cxs[1] = coordinate;
+    for (var i = 1; i <= 7; ++i)
+    {
+      tab_sections[i].style.border = "";
+      tab_sections[i].style.backgroundColor = "";
+    }
+  }
+
+  // pick scroll coordinate
+  if (type == 'sc') {
+    tab_break(9);
+    cxs[2] = coordinate;
+    for (var i = 1; i <= 7; ++i)
+    {
+      tab_scrolls[i].style.border = "";
+      tab_scrolls[i].style.backgroundColor = "";
+    }
+  }
+
+  sender.style.border = "1px solid orange";
+  sender.style.backgroundColor = "#6560e0";
+  cz.value = czs[0] + "." + czs[1] + "." + czs[2];
+  cy.value = cys[0] + "." + cys[1] + "." + cys[2];
+  cx.value = cxs[0] + "." + cxs[1] + "." + cxs[2];
 }
