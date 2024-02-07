@@ -1,7 +1,7 @@
 // phext.ts
 // this monstrosity of an implementation is basically Will's stream of consciousness
 // if you want to refactor it for clarity, please submit a pr
-// (c) 2023-2024 Will Bickford
+// (c) 2023-2024 Phext, Inc.
 // License: MIT
 
 function dgid(id) {
@@ -81,12 +81,15 @@ var gl = false;
 var ns = false;
 var ta = false;
 var cs = false;
-var ls = false;
+var ls = false; // subspace
+var te = false; // tiles
+var tb = false; // tabs
 var cx = false;
 var cy = false;
 var cz = false;
 var wr = false;
-var st = false;
+var st = false; // subspace title
+var cb = false; // command bar
 var lk = false;
 var cp = false;
 var ha = false;
@@ -113,11 +116,14 @@ function loadVars() {
   if (!ta) { ta = dgid("scroll"); }
   if (!cs) { cs = dgid("coords"); }
   if (!ls) { ls = dgid("subspace"); }
+  if (!te) { te = dgid("tiles"); }
+  if (!tb) { tb = dgid("tabs"); }
   if (!cx) { cx = dgid("coordsX"); }
   if (!cy) { cy = dgid("coordsY"); }
   if (!cz) { cz = dgid("coordsZ"); }
   if (!wr) { wr = dgid("whiterabbit"); }
   if (!st) { st = dgid("subspaceTitle"); }
+  if (!cb) { cb = dgid("commandBar"); }
   if (!cp) { cp = dgid("coordinatePlate"); }
   if (!ha) { ha = dgid("helparea"); }
   if (!sa) { sa = dgid("subspaceArea"); }
@@ -496,6 +502,13 @@ function whitepill() {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn whiteRabbit
+// -----------------------------------------------------------------------------------------------------------
+function whiteRabbit() {
+  window.open('whiterabbit.html');
+}
+
+// -----------------------------------------------------------------------------------------------------------
 // @fn copyUrl
 // -----------------------------------------------------------------------------------------------------------
 function copyUrl() {
@@ -661,4 +674,20 @@ function removeSeed() {
   sd.value = se.options[se.selectedIndex].value;
   localStorage.seed = sd.value;
   localStorage.phexts = JSON.stringify(phexts);
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// @fn edit
+// -----------------------------------------------------------------------------------------------------------
+function edit(mode) {  
+  var tab_item = (mode == 'tabs') ? 'block' : 'none';
+  tb.style.display = tab_item;
+
+  var tile_item = (mode == 'tiles') ? 'block' : 'none';
+  te.style.display = tile_item;
+
+  var subspace_item = (mode == 'subspace') ? 'block' : 'none';
+  ls.style.display = subspace_item;
+  st.style.display = subspace_item;
+  cb.style.display = subspace_item;
 }

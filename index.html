@@ -2,185 +2,48 @@
 <html lang="en">
 <head>
 <title>phext.io - open-source knowledge</title>
-<link rel="stylesheet" href="homepage.css?rev=4.2.3" />
+<link rel="stylesheet" href="homepage.css?rev=4.3.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body onload="startup();">
 
 <div id="root">
-<h1>Phext v4.2.7</h1>
+  <!-- coming soon! <div id="logo">Phext, Inc.</div> -->
 
-<div id="goal">
-<strong>Current Goal:</strong>
-23/100 intrafractals found as of February 3, 2024.
-<br />Reach out to <a href="https://twitter.com/phextio">@phextio</a> or
-<a href="https://twitter.com/wbic16">@wbic16</a> for more info!
+  <div id="goal">    
+    <h1>greetings, traveler. phext is your gateway to hierarchical digital memory.</h1>
 
-<p>
-  <input type="button" class="pill" value="signal" onclick="window.open('signal.php');" />
-  <input type="button" class="pill" value="examples" onclick="window.open('examples.html');" />
-  <input type="button" class="pill" value="research" onclick="window.open('research.html');" />  
-  <input type="button" class="pill" value="essays" onclick="window.open('essays.html');" /> 
-  <input type="button" class="pill" value="hire" onclick="window.open('hire.html');" />
-</p>
+    <div id="phext">
+    phext: the good parts
+    <ul>
+      <li>we are witnessing the dawn of internet-scale knowledge (example: chat gpt)</li>
+      <li>text files have not evolved since 1970, but a small text file should now be <strong>2 gigabytes</strong></li>
+      <li>we lacked the proper coordinate system until <a href="https://phext.io/api.php?seed=raap&token=research&coordinate=1.1.1/1.1.1/1.1.1#:~:text=delimiters%20of%20unusual%20size">delimiters of unusual size</a> were invented</li>
+      <li>phext scales text to encompass internet-scale information using <strong>fractal knowledge compression</strong></li>
+    </ul>
+    </div>
 
-  <!-- pending
-<ul id="upcoming">
-  <li>0% - <a href="https://twitter.com/aaron_stormerr/status/1742596896475185504">image-to-text</a></li>
-  <li>0% - <a href="https://twitter.com/phextio/status/1742082458462359857">community notes cross-refs</a></li>
-  <li>0% - <a href="https://twitter.com/bitcloud/status/1742773042588401834">prospecting rewards</a></li>
-  <li>0% - <a href="https://twitter.com/bznotes/status/1742673114591568096">plagiarism bot</a></li>
-</ul>
-   -->
+    <p>
+      <strong>Current Goal:</strong> 23/100 intrafractals found as of February 3, 2024.
+      <br />Reach out to <a href="https://twitter.com/phextio">@phextio</a> or <a href="https://twitter.com/wbic16">@wbic16</a> for more info!
+    </p>
+
+    <ul id="discovery">
+      <li><input id="whiteRabbit" class="pill" type="button" onclick="window.location='white-rabbit.html';" value="rabbit" /> explore world-scale knowledge</li>
+      <li><input type="button" id="redPill" class="pill" onclick="window.location='editors.html';" value="seeker" /> try out web-<strong>based</strong> editors</li>
+      <li><input type="button" class="pill" value="research" onclick="window.location='research.html';" /> a scholarly introduction to phext</li>
+      <li><input type="button" class="pill" value="examples" onclick="window.location='examples.html';" /> let's explore the phext solution space!</li>
+      <li><input type="button" class="pill" value="essays" onclick="window.location='essays.html';" /> a collection of essays inspired by @visakanv</li>        
+      <!-- todo: discord? <li><input id="bluePill" class="pill" type="button" onclick="bluepill();" value="Lurker" /> hang out with other #intrafractals!</li> -->
+      <li><input type="button" class="pill" value="signal" onclick="window.open('signal.php');" /> a map of activity related to the #phext hashtag on twitter</li>
+      <li><input id="whitePill" class="pill" type="button" onclick="whitepill();" value="cortical" /> fork this site on github</li>
+      <li><input type="button" class="pill" value="hire" onclick="window.open('hire.html');" /> help fund the #exocortex!</li>
+    </ul>
+  </div>  
+
+  <div id="copyright">Copyright 2023-2024 Phext, Inc. License: MIT. Version 4.3.0.</div>
 </div>
 
-<div id="nodes">
-  <div class="node">
-    Welcome to the Phextiverse - we're going to party like it's 1996 all over again!
-    <br />Once you've signed up for an account, message @phextio on twitter to claim your phext space.
-    <br />We currently have 10 GB of storage available.
-  </div>
-  <div class="node">
-    Phext is a complete rewrite of your text stack. It's essentially a file system within a file.
-    <br />Phext coordinates allow you to precisely select a region of text within the subspace buffer.
-    <br />Play around with the API to get a feel for how this all works.
-  </div>
-  <div class="node">
-    Why do this? Because we're still using text interfaces that are rate-limited to 8 bytes/second.
-    <br />But eventually...we will have 100 Mbit/sec <em>phext</em> interfaces that our brains need to interface with.
-  </div>
-</div>
-
-<div id="linkArea"><h2>Permanent URL</h2>
-<input type="text" id="linkerText" name="linkerText" value="" size="60" />
-<input type="button" class="pill" id="copy" name="copy" value="Copy" onclick="copyUrl();" />
-<span id="linkerStatus"></span>
-</div>
-
-<div id="quest">  
-</div>
-
-<div id="phext">
-
-<label for="greyPill"><input id="greyPill" class="pill" type="button" onclick="greypill();" value="Goals" /></label>
-<input id="redPill" class="pill" type="button" onclick="redpill(false);" value="Seeker" />
-<input id="bluePill" class="pill" type="button" onclick="bluepill();" value="Lurker" />
-<input id="whitePill" class="pill" type="button" onclick="whitepill();" value="Cortical" />
-<input id="purplePill" class="pill" type="button" onclick="window.open('progress.html');" value="Progress" />
-<input id="orangePill" class="pill" type="button" onclick="window.open('login.php');" value="LOGIN" />
-
-<table class="coordinatePlate" id="coordinatePlate">
-  <tr>
-    <th>Seed</th>
-    <td colspan="6">
-      <input type="text" id="seed" name="seed" size="50" value="" />
-      <select name="seeds" id="seeds" onchange="chooseSeed(this);">
-      </select>
-      <input type="button" id="removeseed" name="removeseed" onclick="removeSeed();" value="Delete" />
-    </td>
-  </tr>
-  <tr>
-    <th class="coordheader">Cortical</th><td></td>
-    <td colspan="5"></td>
-    <th class="locationheader">Location</th>
-  </tr>
-  <tr>
-    <th>Z</th>
-    <th>Library</th><td><input id="plibrarybreak" type="text" value="" size="1" /></td>
-    <th>Shelf</th><td><input id="pshelfbreak" type="text" value="" size="1" /></td>
-    <th>Series</th><td><input id="pseriesbreak" type="text" value="" size="1" /></td>
-    <td class="coordcell"><input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" onchange="redpill(false);" /></td>
-  </tr>
-  <tr>
-    <th>Y</th>
-    <th>Collection</th>
-    <td><input id="pcollectionbreak" type="text" value="" size="1" /></td>
-    <th>Volume</th>
-    <td><input id="pvolumebreak" type="text" value="" size="1" /></td>
-    <th>Book</th>
-    <td><input id="pbookbreak" type="text" value="" size="1" /></td>
-    <td class="coordcell"><input type="text" id="coordsY" name="coordsY" value="1.1.1" size="8" onchange="redpill(false);" /></td>
-  </tr>
-  <tr>
-    <th>X</th>
-    <th>Chapter</th><td><input id="pchapterbreak" type="text" value="" size="1" /></td>
-    <th>Section</th><td><input id="psectionbreak" type="text" value="" size="1" /></td>
-    <th>Scroll</th><td><input id="pscrollbreak" type="text" value="" size="1" /></td>
-    <td class="coordcell"><input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" onchange="redpill(false);" /></td>
-  </tr>
-</table>
-
-<h1 id="whiterabbit">Scroll</h1>
-<textarea id="scroll" name="scroll" rows="5" cols="100">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
-
-<div id="subspaceArea">
-  <h2>Choose Your Editor</h2>
-
-  <input type="button" id="modeNestedTabs" value="tabs" />
-  <input type="button" id="modeTiles" value="tiles" />
-  <input type="button" id="modeSubspace" value="subspace" />
-
-  <h1 id="subspaceTitle">Subspace</h1>
-    <div id="segment1_1">
-<div class="CommandBar">
-<input id="CB1_2" type="button" onClick="setEnterType(1, 2, LINE_BREAK);" value="Enter" />
-<input id="CB1_3" type="button" onClick="setEnterType(1, 3, SCROLL_BREAK);" value="Scroll" />
-<input id="CB1_4" type="button" onClick="setEnterType(1, 4, SECTION_BREAK);" value="Section" />
-<input id="CB1_5" type="button" onClick="setEnterType(1, 5, CHAPTER_BREAK);" value="Chapter" />
-<input id="CB1_6" type="button" onClick="setEnterType(1, 6, BOOK_BREAK);" value="Book" />
-<input id="CB1_7" type="button" onClick="setEnterType(1, 7, VOLUME_BREAK);" value="Volume" />
-<input id="CB1_8" type="button" onClick="setEnterType(1, 8, COLLECTION_BREAK);" value="Collection" />
-<input id="CB1_9" type="button" onClick="setEnterType(1, 9, SERIES_BREAK);" value="Series" />
-<input id="CB1_10" type="button" onClick="setEnterType(1, 10, SHELF_BREAK);" value="Shelf" />
-<input id="CB1_11" type="button" onClick="setEnterType(1, 11, LIBRARY_BREAK);" value="Library" />
-<input id="disabler1" type="button" onclick="toggle(1);" value="Disable" />
-</div>
-<textarea id="subspace" rows="25" cols="160" onkeyup="redpill(true);" onkeydown="phextMods(1, event);">
-Hello, traveler.
-You can change your stars by pressing F1 - F10.
-Click on 'Disable' to re-enable your browser's default function keys.
-Click on 'Enable' to re-visit the Terse-verse!
-
-This remaps your <ENTER> key to act as a higher-dimension break.
-Try it out now!
-.
-.
-.
-Place your cursor here _ and press <F2> followed by <ENTER>.
-Place your cursor here _ and press <F3> followed by <ENTER>.
-
-What you type here will be rendered in 11-dimensional space on the right - nested tabs upon tabs.
-</textarea></div>
-
-</div>
-
-<div id="helparea">
-<h2>Help</h2>
-<p>You can explore other phexts by providing the multiversal seed. You can also quick jump by setting coordinates manually. Phext addresses are of this form:</p>
-<p>
-&lt;LB&gt;.&lt;SF&gt;.&lt;SR&gt;/&lt;CN&gt;.&lt;VM&gt;.&lt;BK&gt;/&lt;CH&gt;.&lt;SN&gt;.&lt;SC&gt;</p>
-<p>
-Where:
-<ul>
-  <li>LB = Library</li>
-  <li>SF = Shelf</li>
-  <li>SR = Series</li>
-  <li>CN = Collection</li>
-  <li>VM = Volume</li>
-  <li>BK = Book</li>
-  <li>CH = Chapter</li>
-  <li>SN = Section</li>
-  <li>SC = Scroll</li>
-</ul>
-</p>
-</div>
-
-<h2 id="qrlabel">QR Code</h2>
-<div id="qrcode"></div>
-
-<div id="copyright">Copyright 2023-2024 Phext, Inc. License: MIT.</div>
-
-<script type="application/javascript" src="qrcode.min.js"></script>
 <script type="application/javascript" src="phextio.min.ts"></script>
 
 </body>

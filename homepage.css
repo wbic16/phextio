@@ -2,6 +2,11 @@ body {
   background: #101419;
   color: white;
   font-family: sans-serif;
+  font-size: 1.4em;
+}
+#root {
+  margin: 0 auto;
+  width: 80%;
 }
 a, a:visited {
   color: white;
@@ -26,13 +31,12 @@ input {
   margin-bottom: 4px;
 }
 #copyright {
-  padding: 8px;
-  position: absolute;
-  top: 10px;
-  right: 100px;
-  z-index: 0;
+  margin-top: 20px;
+  font-size: 0.8em;
+  font-weight: bold;
+  font-family: monospace;
 }
-.CommandBar {
+.commandBar {
   min-width: 720px;
 }
 #console {
@@ -43,8 +47,18 @@ input {
   color: #e0ffe0;
 }
 #phext {
-  width: 480px;
-  min-height: 320px;
+  width: 90%;  
+  border: 3px solid grey;
+  border-radius: 8px;
+  margin: 0;
+  padding: 0;
+  padding: 30px;
+  padding-left: 100px;
+}
+#phext ul,
+#phext ul li {
+  margin: 0;
+  padding: 0;
 }
 textarea {
   font-family: monospace;
@@ -122,14 +136,6 @@ th {
 #subspaceTitle {
   min-width: 200px;
 }
-#coordinatePlate,
-#subspaceArea,
-#whiterabbit,
-#scroll,
-#helparea,
-#qrlabel {
-  display: none;
-}
 #subspace {
   position: relative;
   z-index: 1;
@@ -169,6 +175,13 @@ th {
   margin: 0 auto;
   display: none;
 }
+.tiles {
+  width: 90%;
+  min-width: 800px;
+}
+.nodes {
+  width: 90%;
+}
 .node {
   float: left;
   width: 300px;
@@ -187,7 +200,7 @@ th {
   transition: transform 1.2s;
 }
 .node:hover {
-  transform: scale(2);
+  transform: scale(1.2);
   min-height: 300px;
   cursor: pointer;
   z-index: 101;
@@ -206,9 +219,9 @@ th {
 }
 #goal {
   border: 3px solid grey;
-  border-radius: 3px;
-  width: 480px;
-  height: 110px;
+  border-radius: 8px;
+  width: 80%;
+  min-height: 110px;
   padding: 16px;
   margin-bottom: 20px;
 }
@@ -221,4 +234,15 @@ th {
 }
 #goal li {
   margin-bottom: 4px;
+}
+ul#discovery {
+  list-style-type: none;
+}
+ul#discovery li {
+  background-color: #424242;
+}
+ul#discovery li input {
+  width: 80px;
+  margin: 16px;
+  margin-right: 32px;
 }

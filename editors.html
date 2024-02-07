@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>phext.io - open-source knowledge</title>
+<link rel="stylesheet" href="homepage.css?rev=4.2.3" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body onload="startup();">
+
+<div id="root">
+<a href="index.html">Back to Homepage</a>
+
+<p>
+<h1>Under Construction</h1>
+Experiment with Phext using one of the three editor modes below. Nested tabs explore the idea of embedding a hierarchy of tabs. This visualization is perhaps the simplest way to envision phext.
+Zoomable tiles provide an interactive editing experience designed to feel more phext-native.
+The subspace editor is a plain text editor, but with delimiters of unusual size visible as normal text.
+</p>
+
+<ul id="menu">
+  <!-- todo: <li><input type="button" id="modeNestedTabs" value="tabs" onclick="edit('tabs');" /> if you love tabs, you'll love this visualization</li> -->
+  <!-- todo: <li><input type="button" id="modeTiles" value="tiles" onclick="edit('tiles');"/> zoomable tiles for a phext-native view</li> -->
+  <!-- paths in 3D for VR... -->
+  <li><input type="button" id="modeSubspace" value="subspace" onclick="edit('subspace');"/> a raw subspace editor</li>
+</ul>
+
+<div id="phext">
+
+<table class="coordinatePlate" id="coordinatePlate">
+  <tr>
+    <th>Seed</th>
+    <td colspan="6">
+      <input type="text" id="seed" name="seed" size="50" value="" />
+      <select name="seeds" id="seeds" onchange="chooseSeed(this);">
+      </select>
+      <input type="button" id="removeseed" name="removeseed" onclick="removeSeed();" value="Delete" />
+    </td>
+  </tr>
+  <tr>
+    <th class="coordheader">Cortical</th><td></td>
+    <td colspan="5"></td>
+    <th class="locationheader">Location</th>
+  </tr>
+  <tr>
+    <th>Z</th>
+    <th>Library</th><td><input id="plibrarybreak" type="text" value="" size="1" /></td>
+    <th>Shelf</th><td><input id="pshelfbreak" type="text" value="" size="1" /></td>
+    <th>Series</th><td><input id="pseriesbreak" type="text" value="" size="1" /></td>
+    <td class="coordcell"><input type="text" id="coordsZ" name="coordsZ" value="1.1.1" size="8" onchange="redpill(false);" /></td>
+  </tr>
+  <tr>
+    <th>Y</th>
+    <th>Collection</th>
+    <td><input id="pcollectionbreak" type="text" value="" size="1" /></td>
+    <th>Volume</th>
+    <td><input id="pvolumebreak" type="text" value="" size="1" /></td>
+    <th>Book</th>
+    <td><input id="pbookbreak" type="text" value="" size="1" /></td>
+    <td class="coordcell"><input type="text" id="coordsY" name="coordsY" value="1.1.1" size="8" onchange="redpill(false);" /></td>
+  </tr>
+  <tr>
+    <th>X</th>
+    <th>Chapter</th><td><input id="pchapterbreak" type="text" value="" size="1" /></td>
+    <th>Section</th><td><input id="psectionbreak" type="text" value="" size="1" /></td>
+    <th>Scroll</th><td><input id="pscrollbreak" type="text" value="" size="1" /></td>
+    <td class="coordcell"><input type="text" id="coordsX" name="coordsX" value="1.1.1" size="8" onchange="redpill(false);" /></td>
+  </tr>
+</table>
+
+<h1 id="whiterabbit">Scroll</h1>
+<textarea id="scroll" name="scroll" rows="5" cols="100">Unfortunately, no one can be told what #phext is...you have to experience it for yourself.</textarea>
+
+<div id="subspaceArea">
+  <h1 id="subspaceTitle">Subspace</h1>
+  <div class="commandBar">
+    <input id="CB1_2" type="button" onClick="setEnterType(1, 2, LINE_BREAK);" value="Enter" />
+    <input id="CB1_3" type="button" onClick="setEnterType(1, 3, SCROLL_BREAK);" value="Scroll" />
+    <input id="CB1_4" type="button" onClick="setEnterType(1, 4, SECTION_BREAK);" value="Section" />
+    <input id="CB1_5" type="button" onClick="setEnterType(1, 5, CHAPTER_BREAK);" value="Chapter" />
+    <input id="CB1_6" type="button" onClick="setEnterType(1, 6, BOOK_BREAK);" value="Book" />
+    <input id="CB1_7" type="button" onClick="setEnterType(1, 7, VOLUME_BREAK);" value="Volume" />
+    <input id="CB1_8" type="button" onClick="setEnterType(1, 8, COLLECTION_BREAK);" value="Collection" />
+    <input id="CB1_9" type="button" onClick="setEnterType(1, 9, SERIES_BREAK);" value="Series" />
+    <input id="CB1_10" type="button" onClick="setEnterType(1, 10, SHELF_BREAK);" value="Shelf" />
+    <input id="CB1_11" type="button" onClick="setEnterType(1, 11, LIBRARY_BREAK);" value="Library" />
+    <input id="disabler1" type="button" onclick="toggle(1);" value="Disable" />
+  </div>
+  <textarea id="subspace" rows="25" cols="160" onkeyup="redpill(true);" onkeydown="phextMods(1, event);">
+Hello, traveler.
+You can change your stars by pressing F1 - F10.
+Click on 'Disable' to re-enable your browser's default function keys.
+Click on 'Enable' to re-visit the Terse-verse!
+
+This remaps your <ENTER> key to act as a higher-dimension break.
+Try it out now!
+.
+.
+.
+Place your cursor here _ and press <F2> followed by <ENTER>.
+Place your cursor here _ and press <F3> followed by <ENTER>.
+
+What you type here will be rendered in 11-dimensional space on the right - nested tabs upon tabs.
+  </textarea>
+</div> <!-- subspaceArea -->
+
+<div id="quest">  
+</div>
+
+<div id="tabs">
+
+</div> <!-- tabs -->
+
+<div id="tiles">
+  
+  <div id="nodes">
+    <div class="node">
+      Welcome to the Phextiverse - we're going to party like it's 1996 all over again!
+      <br />Once you've signed up for an account, message @phextio on twitter to claim your phext space.
+      <br />We currently have 10 GB of storage available.
+    </div>
+    <div class="node">
+      Phext is a complete rewrite of your text stack. It's essentially a file system within a file.
+      <br />Phext coordinates allow you to precisely select a region of text within the subspace buffer.
+      <br />Play around with the API to get a feel for how this all works.
+    </div>
+    <div class="node">
+      Why do this? Because we're still using text interfaces that are rate-limited to 8 bytes/second.
+      <br />But eventually...we will have 100 Mbit/sec <em>phext</em> interfaces that our brains need to interface with.
+    </div>
+  </div>
+
+</div> <!-- tiles -->
+
+<div id="helparea">
+  <h2>Help</h2>
+  <p>You can explore other phexts by providing the multiversal seed. You can also quick jump by setting coordinates manually. Phext addresses are of this form:</p>
+  <p>
+  &lt;LB&gt;.&lt;SF&gt;.&lt;SR&gt;/&lt;CN&gt;.&lt;VM&gt;.&lt;BK&gt;/&lt;CH&gt;.&lt;SN&gt;.&lt;SC&gt;</p>
+  <p>
+  Where:
+  <ul>
+    <li>LB = Library</li>
+    <li>SF = Shelf</li>
+    <li>SR = Series</li>
+    <li>CN = Collection</li>
+    <li>VM = Volume</li>
+    <li>BK = Book</li>
+    <li>CH = Chapter</li>
+    <li>SN = Section</li>
+    <li>SC = Scroll</li>
+  </ul>
+  </p>
+</div>
+
+<h2 id="qrlabel">QR Code</h2>
+<div id="qrcode"></div>
+<div id="copyright">Copyright 2023-2024 Phext, Inc. License: MIT.</div>
+
+<script type="application/javascript" src="qrcode.min.js"></script>
+<script type="application/javascript" src="phextio.ts?rev=2"></script>
+
+</body>
+</html>
