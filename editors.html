@@ -105,6 +105,7 @@ What you type here will be rendered in 11-dimensional space on the right - neste
     <p>Navigate to a specific coordinate using the tabs below. You can enter exact coordinates as well.</p>
     <div id="tab_buttons">
         <div id="tab_library">
+            <input id="lb_left" class="tabbutton" type="button" value="&lt;" onclick="tab_shift('lb', 'sub');" />
             <input id="lb1" class="tabbutton" type="button" value="Library 1" onclick="jump(this, 'lb', 1);" />
             <input id="lb2" class="tabbutton" type="button" value="Library 2" onclick="jump(this, 'lb', 2);" />
             <input id="lb3" class="tabbutton" type="button" value="Library 3" onclick="jump(this, 'lb', 3);" />
@@ -112,6 +113,7 @@ What you type here will be rendered in 11-dimensional space on the right - neste
             <input id="lb5" class="tabbutton" type="button" value="Library 5" onclick="jump(this, 'lb', 5);" />
             <input id="lb6" class="tabbutton" type="button" value="Library 6" onclick="jump(this, 'lb', 6);" />
             <input id="lb7" class="tabbutton" type="button" value="Library 7" onclick="jump(this, 'lb', 7);" />
+            <input id="lb_right" class="tabbutton" type="button" value="&gt;" onclick="tab_shift('lb', 'add');" />
         </div>
         <div id="tab_shelf">
             <input id="sf1" class="tabbutton" type="button" value="Shelf 1" onclick="jump(this, 'sf', 1);" />

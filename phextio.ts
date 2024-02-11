@@ -883,3 +883,30 @@ function jump(sender, type, coordinate) {
   cy.value = cys[0] + "." + cys[1] + "." + cys[2];
   cx.value = cxs[0] + "." + cxs[1] + "." + cxs[2];
 }
+
+function tab_value(indicator, index) {
+  return parseInt(tab_libraries[index].value.replace(indicator, "")) - 1;
+}
+
+function tab_shift(type, op) {
+  var indicator = "";
+  if (type == 'lb') { indicator = "Library "; }
+  if (type == 'sf') { indicator = "Shelf "; }
+  if (type == 'sr') { indicator = "Series "; }
+  if (type == 'cn') { indicator = "Collection "; }
+  if (type == 'vm') { indicator = "Volume "; }
+  if (type == 'bk') { indicator = "Book "; }
+  if (type == 'ch') { indicator = "Chapter "; }
+  if (type == 'sn') { indicator = "Section "; }
+  if (type == 'sc') { indicator = "Scroll "; }
+  if (indicator.length == 0) { return; }
+  var start = tab_value(indicator, 1);
+  if (op == 'add') { start = start + 1; }
+  if (op == 'sub') { start = start - 1; }
+  if (start < 0) { start = 0; }
+  if (start > 100) { start = 100; }
+  
+  for (var i = 1; i <= 7; ++i) {    
+    tab_libraries[i].value = indicator + (i + start);
+  }
+}
