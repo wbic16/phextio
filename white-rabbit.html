@@ -67,6 +67,7 @@ body {
   padding-left: 30px;
   position: relative;
   background: black;
+  clear: both;
 }
 #board .floor,
 #board .wall,
@@ -89,6 +90,29 @@ body {
 }
 #board div.wall:hover {
   border: 1px solid yellow;
+}
+#top {
+  background-color: black;
+  width: 90%;
+}
+#scoreLabel, #gamescore,
+#livesLabel, #gamelives {
+  float: left;
+}
+#tokensLabel, #gametokens {
+  float: right;
+}
+#gamescore {
+  padding-left: 20px;
+  padding-right: 200px;
+}
+#gamelives {
+  padding-left: 20px;
+  padding-right: 400px;
+}
+#gametokens {
+  padding-left: 20px;
+  padding-right: 200px;
 }
 </style>
 <script type="text/javascript" src="core.ts"></script>
@@ -226,9 +250,13 @@ function startGame() {
 
   var board = `
   
-  <div id="title">Nova Phox</div>
-  <div id="screen" style="width: ` + gameWidth + `px; height: ` + gameHeight + `px;">    
-    <div id="board">` + data + `
+  <div id="title">Nova Phox</div>  
+  <div id="screen" style="width: ` + gameWidth + `px; height: ` + gameHeight + `px;">        
+    <div id="board"><div id="top">
+      <div id="scoreLabel">score:</div><div id="gamescore">542,155</div>
+      <div id="livesLabel">lives:</div><div id="gamelives">3</div>
+      <div id="gametokens">1,000,000</div><div id="tokensLabel">tokens:</div>
+    </div>` + data + `
     </div>
   </div>
 
@@ -275,6 +303,24 @@ x                                                             x
 x                                                             x
 xxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx
 `;
+mobs[1] = `
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+                                                               
+`;
 levels[2] = ``;
 levels[3] = ``;
 levels[4] = ``;
@@ -317,7 +363,6 @@ levels[40] = ``;
 levels[41] = ``;
 levels[42] = ``;
 
-mobs[1] = ``;
 mobs[2] = ``;
 mobs[3] = ``;
 mobs[4] = ``;
