@@ -4,10 +4,6 @@
 // (c) 2023-2024 Phext, Inc.
 // License: MIT
 
-function dgid(id) {
-  return document.getElementById(id);
-}
-
 var upstream = 'https://github.com/wbic16/phextio';
 
 var raw = "";

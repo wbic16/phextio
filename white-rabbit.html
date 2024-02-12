@@ -46,12 +46,58 @@ body {
   width: 720px;
   height: 400px;
 }
+
+#title {
+  text-align: center;
+  width: 100%;
+  font-size: 3em;
+}
+#screen {
+  width: 98%;
+  margin-top: 20px; 
+  padding-top: 40px;
+  margin: 0 auto;
+}
+#board {
+  width: 90%;
+  height: 90%;
+  border: 10px solid #42fe42;
+  border-radius: 10px;
+  margin: 0 auto;
+  padding-left: 30px;
+  position: relative;
+  background: black;
+}
+#board .floor,
+#board .wall,
+#board #fox {
+  margin: 4px;
+  padding: 4px;
+  float: left;
+  border-radius: 16px;
+}
+#board #fox {
+  border: 1px solid gold;
+  background-color: blue;  
+}
+#board .floor {
+  border: 1px solid #000000;  
+}
+#board div.wall {
+  border: 1px solid white;
+  background-color: grey;
+}
+#board div.wall:hover {
+  border: 1px solid yellow;
+}
 </style>
+<script type="text/javascript" src="core.ts"></script>
 <script type="text/javascript">
 var re = false;
 var co = false;
 var ss = false;
 var qb = false;
+var rb = false;
 var attempts = 0;
 var nuggets = 0;
 var spheres = 0;
@@ -68,16 +114,19 @@ if (localStorage.spheres) {
 
 function loadVars() {
   if (!re) {
-    re = document.getElementById("response");
+    re = dgid("response");
   }
   if (!co) {
-    co = document.getElementById("coins");
+    co = dgid("coins");
   }
   if (!ss) {
-    ss = document.getElementById("spheres");
+    ss = dgid("spheres");
   }
   if (!qb) {
-    qb = document.getElementById("questbox");
+    qb = dgid("questbox");
+  }
+  if (!rb) {
+    rb = dgid("rabbit");
   }
 }
 
@@ -99,6 +148,7 @@ function begin(token) {
     else {
       re.innerHTML = "Phexter is Correct! You may proceed.";
     }
+    re.innerHTML += "<p><a href='white-rabbit.html?m=unlocked'>you may proceed to the game</a></p>";
 
     if (!localStorage.completed) {
       ++nuggets;
@@ -122,15 +172,69 @@ function render() {
   loadVars();
   updateScore();
   
-  questText  = "<p<strong>level 0:</strong><br />";
-  questText += "which <strong>term</strong> accurately describes someone who studies knowledge via phext?</p>";
-  questText += "<input type='button' value='phexter' onclick='begin(\"phexter\");' />";
-  questText += "<input type='button' value='lurker' onclick='begin(\"lurker\");' />";
-  questText += "<input type='button' value='cortical' onclick='begin(\"cortical\");' />";
-  questText += "<input type='button' value='progress' onclick='begin(\"progress\");' />";
-  questText += "<p>Answer: <span id='response'></span></p>";
+  var urlSearchParams = new URLSearchParams(window.location.search);
+  var params = Object.fromEntries(urlSearchParams.entries());
 
+  if (params.m && params.m == 'unlocked') {
+    
+    questText = startGame();
+
+  } else {
+    questText  = "<p<strong>level 0:</strong><br />";
+    questText += "which <strong>term</strong> accurately describes someone who studies knowledge via phext?</p>";
+    questText += "<input type='button' value='phexter' onclick='begin(\"phexter\");' />";
+    questText += "<input type='button' value='lurker' onclick='begin(\"lurker\");' />";
+    questText += "<input type='button' value='cortical' onclick='begin(\"cortical\");' />";
+    questText += "<input type='button' value='progress' onclick='begin(\"progress\");' />";
+    questText += "<p>Answer: <span id='response'></span></p>";
+  }
   qb.innerHTML = questText;
+
+  var scn = dgid("screen");  
+  scn.style.height = window.screen.availHeight - 200;
+}
+
+function loadLevel(level, width, height) {
+  var data = levels[level];
+  var x = Math.floor((width-180) / 64) - 18;
+  var y = Math.floor((height-160) / 16) - 18;
+  console.log("width: " + width + ", height: " + height + ", x: " + x + ", y: " + y);
+  data = data.replaceAll("x", "__x__");
+  data = data.replaceAll("f", "__f__");
+  data = data.replaceAll(" ", "<div class='floor' style='width:" + x + "px; height:" + y + "px'></div>");
+  data = data.replaceAll("__x__", "<div class='wall' style='width:" + x + "px; height:" + y + "px'></div>");
+  data = data.replaceAll("__f__", "<div id='fox' style='width:" + x + "px; height:" + y + "px'></div>");
+  data = data.replaceAll("\n", "<br style='clear:both;' />");
+  return data;
+}
+
+function startGame() {
+  var gameHeight = window.innerHeight - 160; // window.screen.availHeight - 220;
+  if (gameHeight < 240) { gameHeight = 320; }
+  var gameWidth = window.innerWidth - 300;
+  if (gameWidth < 320) { gameWidth = 320; }
+  dgid("intro").innerHTML = "";
+  qb.style.width = "100%";
+  qb.style.height = "";
+  qb.style.minHeight = gameHeight;
+  rb.style.width = gameWidth;
+  rb.style.minHeight = gameHeight;
+  gameHeight -= 60;
+
+  var level = 1;
+  var data = loadLevel(level, gameWidth, gameHeight);
+
+  var board = `
+  
+  <div id="title">Nova Phox</div>
+  <div id="screen" style="width: ` + gameWidth + `px; height: ` + gameHeight + `px;">    
+    <div id="board">` + data + `
+    </div>
+  </div>
+
+  `.trim();
+
+  return board;
 }
 </script>
 </head>
@@ -143,13 +247,124 @@ function render() {
 </div>
 
 <div id="rabbit">
-  <p>
+  <p id="intro">
   hi, i am 🐇 answer my query for a neural nugget 🐔!<br />
   </p>
 
   <div id="breadcrumbs"><a href="index.html">Back to phext.io</a></div>
   <div id="questbox"></div>
 </div>
+
+<script type="text/javascript">
+var levels = Array();
+levels[1] = `
+xxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx
+x                                                    x        x
+x                                                    x        x
+     xxxxx     x     x   xxxxxxx   x     x   xxxxxxx           
+     x     x   x     x   x          x   x       x              
+     x     x   x     x   x           x x        x              
+     xxxxx     xxxxxxx   xxxxx        x         x     f        
+     x         x     x   x           x x        x              
+     x         x     x   x          x   x       x              
+     x         x     x   xxxxxxx   x     x      x              
+x                                                    x        x
+x                                                    x        x
+                                                     x         
+x                                                             x
+x                                                             x
+xxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx
+`;
+levels[2] = ``;
+levels[3] = ``;
+levels[4] = ``;
+levels[5] = ``;
+levels[6] = ``;
+levels[7] = ``;
+levels[8] = ``;
+levels[9] = ``;
+levels[10] = ``;
+levels[11] = ``;
+levels[12] = ``;
+levels[13] = ``;
+levels[14] = ``;
+levels[15] = ``;
+levels[16] = ``;
+levels[17] = ``;
+levels[18] = ``;
+levels[19] = ``;
+levels[20] = ``;
+levels[21] = ``;
+levels[22] = ``;
+levels[23] = ``;
+levels[24] = ``;
+levels[25] = ``;
+levels[26] = ``;
+levels[27] = ``;
+levels[28] = ``;
+levels[29] = ``;
+levels[30] = ``;
+levels[31] = ``;
+levels[32] = ``;
+levels[33] = ``;
+levels[34] = ``;
+levels[35] = ``;
+levels[36] = ``;
+levels[37] = ``;
+levels[38] = ``;
+levels[39] = ``;
+levels[40] = ``;
+levels[41] = ``;
+levels[42] = ``;
+
+mobs[1] = ``;
+mobs[2] = ``;
+mobs[3] = ``;
+mobs[4] = ``;
+mobs[5] = ``;
+mobs[6] = ``;
+mobs[7] = ``;
+mobs[8] = ``;
+mobs[9] = ``;
+mobs[10] = ``;
+mobs[11] = ``;
+mobs[12] = ``;
+mobs[13] = ``;
+mobs[14] = ``;
+mobs[15] = ``;
+mobs[16] = ``;
+mobs[17] = ``;
+mobs[18] = ``;
+mobs[19] = ``;
+mobs[20] = ``;
+mobs[21] = ``;
+mobs[22] = ``;
+mobs[23] = ``;
+mobs[24] = ``;
+mobs[25] = ``;
+mobs[26] = ``;
+mobs[27] = ``;
+mobs[28] = ``;
+mobs[29] = ``;
+mobs[30] = ``;
+mobs[31] = ``;
+mobs[32] = ``;
+mobs[33] = ``;
+mobs[34] = ``;
+mobs[35] = ``;
+mobs[36] = ``;
+mobs[37] = ``;
+mobs[38] = ``;
+mobs[39] = ``;
+mobs[40] = ``;
+mobs[41] = ``;
+mobs[42] = ``;
+
+for (var i = 1; i <= 42; ++i) {
+  levels[i] = levels[i].trim();
+  mobs[i] = mobs[i].trim();
+}
+</script>
 
 </body>
 </html>
