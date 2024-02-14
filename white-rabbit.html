@@ -92,6 +92,8 @@ body {
   border: 1px solid yellow;
 }
 #top {
+  position: relative;
+  left: 10%;
   background-color: black;
   width: 90%;
 }
@@ -113,6 +115,46 @@ body {
 #gametokens {
   padding-left: 20px;
   padding-right: 200px;
+}
+#bottom {
+  position: relative;
+  top: 0px;
+  height: 60px;
+  width: 90%;
+  margin-left: 5%;
+}
+#prev {
+  position: absolute;
+  bottom: 0px;
+  left: 10px;
+  border: 4px solid white;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+#next {
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  border: 4px solid white;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+#select {
+  position: absolute;
+  bottom: 0px;
+  left: 45%;
+  border: 4px solid white;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+#prev:hover,
+#next:hover,
+#select:hover {
+  background-color: grey;
+  cursor: pointer;
 }
 </style>
 <script type="text/javascript" src="core.ts"></script>
@@ -219,17 +261,29 @@ function render() {
 }
 
 function loadLevel(level, width, height) {
+
   var data = levels[level];
   var x = Math.floor((width-180) / 64) - 18;
   var y = Math.floor((height-160) / 16) - 18;
-  console.log("width: " + width + ", height: " + height + ", x: " + x + ", y: " + y);
   data = data.replaceAll("x", "__x__");
-  data = data.replaceAll("f", "__f__");
+  data = data.replaceAll("f", "__x__");
   data = data.replaceAll(" ", "<div class='floor' style='width:" + x + "px; height:" + y + "px'></div>");
   data = data.replaceAll("__x__", "<div class='wall' style='width:" + x + "px; height:" + y + "px'></div>");
   data = data.replaceAll("__f__", "<div id='fox' style='width:" + x + "px; height:" + y + "px'></div>");
   data = data.replaceAll("\n", "<br style='clear:both;' />");
   return data;
+}
+
+var gameLevel = 1;
+function prevGame() {
+  --gameLevel;
+  if (gameLevel < 1) { gameLevel = 1; }
+  render();
+}
+function nextGame() {
+  ++gameLevel;
+  if (gameLevel > 42) { gameLevel = 42; }
+  render();
 }
 
 function startGame() {
@@ -245,18 +299,28 @@ function startGame() {
   rb.style.minHeight = gameHeight;
   gameHeight -= 60;
 
-  var level = 1;
-  var data = loadLevel(level, gameWidth, gameHeight);
+  var data = loadLevel(gameLevel, gameWidth, gameHeight);
 
+  var levelDisplay = gameLevel;
+  if (coordinate[gameLevel]) {
+    levelDisplay = coordinate[gameLevel];
+  }
   var board = `
   
   <div id="title">Nova Phox</div>  
   <div id="screen" style="width: ` + gameWidth + `px; height: ` + gameHeight + `px;">        
-    <div id="board"><div id="top">
+    <div id="top">
       <div id="scoreLabel">score:</div><div id="gamescore">542,155</div>
       <div id="livesLabel">lives:</div><div id="gamelives">3</div>
       <div id="gametokens">1,000,000</div><div id="tokensLabel">tokens:</div>
-    </div>` + data + `
+    </div>
+    <div id="board">      
+    ` + data + `
+    </div>
+    <div id="bottom">
+      <input type="button" id="prev" onclick="prevGame();" value="Prev" />
+      <input type="button" id="select" value="Select ` + levelDisplay + `" />
+      <input type="button" id="next" onclick="nextGame();" value="Next" />
     </div>
   </div>
 
@@ -285,6 +349,9 @@ function startGame() {
 
 <script type="text/javascript">
 var levels = Array();
+var coordinate = Array();
+var mobs = Array();
+coordinate[1] = "1.1.1/1.1.1/1.1.1";
 levels[1] = `
 xxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx
 x                                                    x        x
@@ -321,8 +388,42 @@ mobs[1] = `
                                                                
                                                                
 `;
-levels[2] = ``;
-levels[3] = ``;
+coordinate[2] = "1.1.1/1.1.1/1.1.2"; levels[2] = `
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+`;
+coordinate[3] = "42.42.42/42.42.42/42.42.42"; levels[3] = `
+                                                               
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                                               
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                                               
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                                               
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                                               
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                                               
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                                               
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                                               
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+`;
 levels[4] = ``;
 levels[5] = ``;
 levels[6] = ``;
@@ -406,8 +507,15 @@ mobs[41] = ``;
 mobs[42] = ``;
 
 for (var i = 1; i <= 42; ++i) {
-  levels[i] = levels[i].trim();
-  mobs[i] = mobs[i].trim();
+  if (coordinate[i]) {
+    coordinate[i] = coordinate[i].trim();
+  }
+  if (levels[i]) {
+    levels[i] = levels[i].trim();
+  }
+  if (mobs[i]) {
+    mobs[i] = mobs[i].trim();
+  }
 }
 </script>
 
