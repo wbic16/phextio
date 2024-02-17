@@ -72,8 +72,8 @@ body {
 #board .floor,
 #board .wall,
 #board #fox {
-  margin: 4px;
-  padding: 4px;
+  margin: 0px;
+  padding: 0px;
   float: left;
   border-radius: 16px;
 }
@@ -266,11 +266,16 @@ function render() {
 function loadLevel(level, width, height) {
   var data = levels[level];
 
-  var x = Math.floor((0.32*width) / 64);
-  var y = Math.floor(height / 24);
-  if (x < 4) { x = 4; }
-  if (y < 4) { y = 4; }
-  console.log("x: " + width + " y: " + height);
+  console.log("Width: " + width + ", Height: " + height);
+  // border takes 2 pixels - 1 per side
+  var ratio = 0.65;
+  if (width > 640) { ratio = 0.7; }
+  if (width > 2000) { ratio = 0.85; }
+  var x = (ratio * width / 64) - 4;
+  var y = (ratio * height / 18) - 4;
+  if (x < 0.001) { x = 0.001; }
+  if (y < 0.001) { y = 0.001; }
+  console.log("x: " + x + " y: " + y);
   data = data.replaceAll("x", "__x__");
   data = data.replaceAll("f", "__x__");
   data = data.replaceAll(" ", "<div class='floor' style='width:" + x + "px; height:" + y + "px'></div>");
@@ -305,7 +310,7 @@ function startGame() {
   rb.style.minHeight = gameHeight;
   gameHeight -= 60;
 
-  var data = loadLevel(gameLevel, gameWidth, gameHeight);
+  var data = loadLevel(gameLevel, window.innerWidth, window.innerHeight);
 
   var levelDisplay = gameLevel;
   if (coordinate[gameLevel]) {
