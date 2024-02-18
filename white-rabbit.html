@@ -378,7 +378,7 @@ Level Editor Symbols (Printable ASCII)
 The lookup table below explains the meaning of each geometry tile.
 You can use these glyphs to quickly type out your level in text.
 
-We use Base-88 to encode all geometry and mobs in nova phox levels (1 KB uncompressed text per room).
+We use Base-88 to encode all geometry and cartridges in nova phox levels (1 KB uncompressed text per room).
 This spec defines the available geometry definitions that you can place in the level editor (i.e. your favorite text editor!).
 nova phox makes use of generative geometry where neighboring cells fill in the blanks as it were.
 
@@ -453,7 +453,7 @@ Q3MdirMkRvKdk9adW9HHcOtJdy3zM4oFEPFyXqjbsVWc4b9UsjS0lTnmfVqurf9R
 <script type="text/javascript">
 var levels = Array();
 var coordinate = Array();
-var mobs = Array();
+var carts = Array();
 coordinate[1] = "1.1.1/1.1.1/1.1.1";
 levels[1] = `
 xxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx
@@ -473,7 +473,7 @@ x                                                             x
 x                                                             x
 xxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx
 `;
-mobs[1] = `
+carts[1] = `
 `;
 coordinate[2] = "1.1.1/1.1.1/1.1.2"; levels[2] = `
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -569,47 +569,47 @@ levels[40] = ``;
 levels[41] = ``;
 levels[42] = ``;
 
-mobs[2] = ``;
-mobs[3] = ``;
-mobs[4] = ``;
-mobs[5] = ``;
-mobs[6] = ``;
-mobs[7] = ``;
-mobs[8] = ``;
-mobs[9] = ``;
-mobs[10] = ``;
-mobs[11] = ``;
-mobs[12] = ``;
-mobs[13] = ``;
-mobs[14] = ``;
-mobs[15] = ``;
-mobs[16] = ``;
-mobs[17] = ``;
-mobs[18] = ``;
-mobs[19] = ``;
-mobs[20] = ``;
-mobs[21] = ``;
-mobs[22] = ``;
-mobs[23] = ``;
-mobs[24] = ``;
-mobs[25] = ``;
-mobs[26] = ``;
-mobs[27] = ``;
-mobs[28] = ``;
-mobs[29] = ``;
-mobs[30] = ``;
-mobs[31] = ``;
-mobs[32] = ``;
-mobs[33] = ``;
-mobs[34] = ``;
-mobs[35] = ``;
-mobs[36] = ``;
-mobs[37] = ``;
-mobs[38] = ``;
-mobs[39] = ``;
-mobs[40] = ``;
-mobs[41] = ``;
-mobs[42] = ``;
+carts[2] = ``;
+carts[3] = ``;
+carts[4] = ``;
+carts[5] = ``;
+carts[6] = ``;
+carts[7] = ``;
+carts[8] = ``;
+carts[9] = ``;
+carts[10] = ``;
+carts[11] = ``;
+carts[12] = ``;
+carts[13] = ``;
+carts[14] = ``;
+carts[15] = ``;
+carts[16] = ``;
+carts[17] = ``;
+carts[18] = ``;
+carts[19] = ``;
+carts[20] = ``;
+carts[21] = ``;
+carts[22] = ``;
+carts[23] = ``;
+carts[24] = ``;
+carts[25] = ``;
+carts[26] = ``;
+carts[27] = ``;
+carts[28] = ``;
+carts[29] = ``;
+carts[30] = ``;
+carts[31] = ``;
+carts[32] = ``;
+carts[33] = ``;
+carts[34] = ``;
+carts[35] = ``;
+carts[36] = ``;
+carts[37] = ``;
+carts[38] = ``;
+carts[39] = ``;
+carts[40] = ``;
+carts[41] = ``;
+carts[42] = ``;
 
 for (var i = 1; i <= 42; ++i) {
   if (coordinate[i]) {
@@ -618,8 +618,8 @@ for (var i = 1; i <= 42; ++i) {
   if (levels[i]) {
     levels[i] = levels[i].trim();
   }
-  if (mobs[i]) {
-    mobs[i] = mobs[i].trim();
+  if (carts[i]) {
+    carts[i] = carts[i].trim();
   }
 }
 </script>
