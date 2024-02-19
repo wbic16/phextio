@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>phext.io | White Rabbit</title>
+<link rel="StyleSheet" href="phext.css?rev=1" />
+<style type="text/css">
+.room {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    border: 2px solid grey;
+    background-color: blue;
+    border-radius: 3px;
+}
+</style>
+<script type="text/JavaScript">
+function dgid(id) {
+  return document.getElementById(id);
+}
+function setupCity() {
+  var city = dgid("city");
+  var output = "";
+  var section = 1;
+  var scroll = 1;
+  var chapter = 1;
+  var total = 0;
+  var left = 0;
+  var top = 0;
+  for (var i = 1; i <= 99; ++i) {
+    for (var j = 1; j <= 99; ++j) {
+        left = scroll * 128;
+        top = (total % 16384);
+        output += "<div class='room' style='top: " + top + "px; left: " + left + "px;'>" + chapter + "." + section + "." + scroll + "</div>\n"
+        scroll += 1;
+        total += 1;
+        if (scroll > 99) {
+            scroll = 1;
+            section += 1;
+        }
+        if (section > 99) {
+            scroll = 1;
+            section = 1;
+            chapter += 1;
+        }
+    }
+  }
+
+  var summary = "<div>Rooms on this Block (1.1.1/1.1.1/*): " + total + " (" + Math.round(100*2*total/1024)/100 + " MB)</div><br />\n";
+  city.innerHTML = summary + output;
+}
+</script>
+</head>
+<body onload="setupCity();">
+
+<a href="white-rabbit.html?m=unlocked">return to game</a>
+
+<div id="city">
+</div>
+
+</body>
+</html>
