@@ -63,6 +63,12 @@
   width: 704px;
   height: 528px;
 }
+#presentCloser {
+  text-decoration: underline; cursor: pointer;
+}
+#presentCloser:hover {
+  background-color: grey;
+}
 </style>
 <script type="text/JavaScript">
 
@@ -73,9 +79,14 @@ function dgid(id) {
 var MAJOR_WIDTH = 720;
 var MAJOR_HEIGHT = 600;
 
+function hide() {
+  var present = dgid("present");
+  present.style.left = "-2500px";
+}
+
 function show(row, column, chapter, section, scroll) {
   var present = dgid("present");
-  present.innerHTML = "Loading Content for row " + row + ", column " + column + " with Chapter " + chapter + ", Section " + section + ", Scroll " + scroll + "...";
+  present.innerHTML = "💫 Loading Content <span id='presentCloser' onclick='hide();'>close</span><br /><br />Row " + row + ", Column " + column + " with Chapter " + chapter + ", Section " + section + ", Scroll " + scroll + "...";
   present.style.left = (MAJOR_WIDTH * (column - 1)) + "px";
   present.style.top = 50 + (MAJOR_HEIGHT * (row - 1)) + "px";
 }
