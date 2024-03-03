@@ -71,6 +71,7 @@ body {
 }
 #board .floor,
 #board .wall,
+#board .wall2,
 #board #fox {
   margin: 0px;
   padding: 0px;
@@ -88,7 +89,12 @@ body {
   border: 1px solid white;
   background-color: #424595;
 }
-#board div.wall:hover {
+#board div.wall2 {
+  border: 1px dashed white;
+  background-color: #424242;
+}
+#board div.wall:hover,
+#board div.wall2:hover {
   border: 1px solid yellow;
 }
 #top {
@@ -266,21 +272,31 @@ function render() {
 function loadLevel(level, width, height) {
   var data = levels[level];
 
-  console.log("Width: " + width + ", Height: " + height);
   // border takes 2 pixels - 1 per side
   var ratio = 0.65;
   if (width > 640) { ratio = 0.7; }
   if (width > 2000) { ratio = 0.85; }
   var x = (ratio * width / 64) - 4;
   var y = (ratio * height / 18) - 4;
+  x = Math.round(x*100)/100;
+  y = Math.round(y*100)/100;
   if (x < 0.001) { x = 0.001; }
   if (y < 0.001) { y = 0.001; }
-  console.log("x: " + x + " y: " + y);
-  data = data.replaceAll("x", "__x__");
-  data = data.replaceAll("f", "__x__");
-  data = data.replaceAll(" ", "<div class='floor' style='width:" + x + "px; height:" + y + "px'></div>");
-  data = data.replaceAll("__x__", "<div class='wall' style='width:" + x + "px; height:" + y + "px;'></div>");
-  data = data.replaceAll("__f__", "<div id='fox' style='width:" + x + "px; height:" + y + "px'></div>");
+  // todo: use a tokenizer
+  var geometry1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234";
+  var geometry2 = "abcdefghijklmnopqrstuvwxyz56789";
+  for (var gi = 0; gi < 31; ++gi)
+  {
+    data = data.replaceAll(geometry1.charAt(gi), "_;_");
+    data = data.replaceAll(geometry2.charAt(gi), "_;;_");
+  }
+  
+  console.log(data);
+  data = data.replaceAll(" ", "_;_");
+  var walls = "<div class='wall' style='width:" + x + "px; height:" + y + "px'></div>";
+  data = data.replaceAll("=", walls);
+  data = data.replaceAll("_;_", "<div class='floor' style='width:" + x + "px; height:" + y + "px;'></div>");
+  data = data.replaceAll("_;;_", "<div class='wall2' style='width:" + x + "px; height:" + y + "px'></div>");
   data = data.replaceAll("\n", "<br style='clear:both;' />");
   return data;
 }
@@ -456,22 +472,22 @@ var coordinate = Array();
 var carts = Array();
 coordinate[1] = "1.1.1/1.1.1/1.1.1";
 levels[1] = `
-xxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx
-x                                                    x        x
-x                                                    x        x
-     xxxxx     x     x   xxxxxxx   x     x   xxxxxxx           
-     x     x   x     x   x          x   x       x              
-     x     x   x     x   x           x x        x              
-     xxxxx     xxxxxxx   xxxxx        x         x     f        
-     x         x     x   x           x x        x              
-     x         x     x   x          x   x       x              
-     x         x     x   xxxxxxx   x     x      x              
-x                                                    x        x
-x                                                    x        x
-                                                     x         
-x                                                             x
-x                                                             x
-xxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxx
+================= =========================== =================
+=                                                    =        =
+=                                                    =        =
+     =====     =     =   =======   =     =   =======           
+     =     =   =     =   =          =   =       =              
+     =     =   =     =   =           = =        =              
+     =====     =======   =====        =         =     f        
+     =         =     =   =           = =        =              
+     =         =     =   =          =   =       =              
+     =         =     =   =======   =     =      =              
+=                                                    =        =
+=                                                    =        =
+                                                     =         
+=                                                             =
+=                                                             =
+=================== ========================= =================
 `;
 carts[1] = `
 
