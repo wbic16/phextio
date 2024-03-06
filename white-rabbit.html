@@ -273,9 +273,9 @@ function loadLevel(level, width, height) {
   var data = levels[level];
 
   // border takes 2 pixels - 1 per side
-  var ratio = 0.65;
-  if (width > 640) { ratio = 0.7; }
-  if (width > 2000) { ratio = 0.85; }
+  var ratio = 0.62;
+  if (width > 1000) { ratio = 0.76; }
+  if (width > 2000) { ratio = 0.83; }
   var x = (ratio * width / 64) - 4;
   var y = (ratio * height / 18) - 4;
   x = Math.round(x*100)/100;
@@ -291,13 +291,13 @@ function loadLevel(level, width, height) {
     data = data.replaceAll(geometry2.charAt(gi), "_;;_");
   }
   
+  data = data.replaceAll(" ",    "_;;;_");
   console.log(data);
-  data = data.replaceAll(" ", "_;_");
-  var walls = "<div class='wall' style='width:" + x + "px; height:" + y + "px'></div>";
-  data = data.replaceAll("=", walls);
-  data = data.replaceAll("_;_", "<div class='floor' style='width:" + x + "px; height:" + y + "px;'></div>");
+  data = data.replaceAll("=",    "<div class='wall'  style='width:" + x + "px; height:" + y + "px'></div>");
+  data = data.replaceAll("_;_", "<div class='wall2' style='width:" + x + "px; height:" + y + "px;'></div>");
   data = data.replaceAll("_;;_", "<div class='wall2' style='width:" + x + "px; height:" + y + "px'></div>");
-  data = data.replaceAll("\n", "<br style='clear:both;' />");
+  data = data.replaceAll("_;;;_", "<div class='floor' style='width:" + x + "px; height:" + y + "px'></div>");
+  data = data.replaceAll("\n",   "<br style='clear:both;' />");
   return data;
 }
 
@@ -472,9 +472,9 @@ var coordinate = Array();
 var carts = Array();
 coordinate[1] = "1.1.1/1.1.1/1.1.1";
 levels[1] = `
-================= =========================== =================
-=                                                    =        =
-=                                                    =        =
+================= =========================== ==================
+=                                                    =        ==
+=                                                    =        ==
      =====     =     =   =======   =     =   =======           
      =     =   =     =   =          =   =       =              
      =     =   =     =   =           = =        =              
@@ -482,51 +482,51 @@ levels[1] = `
      =         =     =   =           = =        =              
      =         =     =   =          =   =       =              
      =         =     =   =======   =     =      =              
-=                                                    =        =
-=                                                    =        =
+=                                                    =        ==
+=                                                    =        ==
                                                      =         
-=                                                             =
-=                                                             =
-=================== ========================= =================
+=                                                             ==
+=                                                             ==
+=================== ========================= ==================
 `;
 carts[1] = `
 
 `;
 coordinate[2] = "1.1.1/1.1.1/1.1.2"; levels[2] = `
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
+================================================================
 `;
 coordinate[3] = "42.42.42/42.42.42/42.42.42"; levels[3] = `
-                                                               
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                                               
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                                               
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                                               
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                                               
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                                               
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                                               
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                                               
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890=
+================================================================
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890=
+================================================================
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890=
+================================================================
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890=
+================================================================
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890=
+================================================================
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890=
+================================================================
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345678901
+================================================================
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345678901
+================================================================
 `;
 coordinate[4] = "1.2.3/4.5.6/7.8.9";
 levels[4] = `
@@ -547,7 +547,25 @@ FJBhF5H7jUHHyUmlIo61mr348m4JzZHHAnZbk6eOwkfPqWPQTaKjwNwCiDZY5iiS
 Q3MdirMkRvKdk9adW9HHcOtJdy3zM4oFEPFyXqjbsVWc4b9UsjS0lTnmfVqurf9R
 1CuujPJ6OlDGvr7gI2Rqzdjr4fJFIgh27V1lTEtEw2CKtW64QRKe1VVMtDsCKFIt
 `;
-levels[5] = ``;
+coordinate[5] = "1.4.4/2.8.8/4.16.16";
+levels[5] = `
+r===9UPR5V3DQif6a0TnpGxStT37jihxROaSuAw==9rdCOJNuPxlhDJof1t===b0
+VHkVYAX====AeLbyI7wNC153wR5cwnimrFYj===YnYSshm1Yk9PgpmLLz4rjZEeh
+Ex5qMM8NqOEsF2upo52b9ivQed3ua0z===zBaseWrL8194qRnUcc2Q0aJXFy0PKC
+GZtqddzsVj8=8ujkjNUQGWbl9LeU3RHnLc==f8uRzK2iIT2xHmLMbY5dj==aAf=D
+pRrjkSl2MQnq3YQxpX3UMnJj1mlcqr=GM936zT99dZ6MwlYTdz870Su9QnU8rzR2
+pI95hSikNg8b=ZR7hv5tJ3Z9kqch==2iicis9JItq3FCMY9RZ42Omgt96aSn4fW=
+F4c3riLj4Bs0e8zVWUCuIuZJ7===7r3qdwdTfHkPovRA4JkVnQss2RD==SBjNA2=
+ORG7uiV9udWse=Vz984qEIx==k1StQFVQwB1m3BegQtlV4FQBxYC1vUSfNNXZNI=
+98Cn4cDEWrFpeAqIRPYUnb=AmQUJozmy6C1NSt3kHvAhefHWJ6VBZUqGr0pdI8W=
+xnorj7RIb6g2Z3h4i1LP=OGMotuI2rjp4dMDm9hKD====vHdfIVJqqg5cexErxd=
+iT6KrbgBXZlrFw=q1BaXz=TvsVDBaWOGBlCUeEJsM2kbj==r2uStxNRHSdwkixA=
+c1S5WBGzvVguMoOLi5I=IUrjCznrt3H2l9baOPfkaxHoJex==HG6g==RCkWuqr=O
+ndXaaEonehbQyNo===DNAAzJsgatREe2xnHpwH1Dtn19ZXv4QI7eEmKndRs3b2=w
+FJBhF5H7jUHHyUmlIo=1mr348m4JzZHHAnZbk6eOwkfPqWPQT==jwNwCiDZY5i=S
+Q3MdirMkRvKdk9adW9HHcOtJdy3zM4oFEPFyXqjbsVWc4b9UsjS==TnmfVqurf=R
+1CuujPJ6OlDGvr7gI2Rqzdjr4fJFIgh27V1lTEtEw2CKtW64QRKe1VVMtDsCKF=t
+`;
 levels[6] = ``;
 levels[7] = ``;
 levels[8] = ``;
