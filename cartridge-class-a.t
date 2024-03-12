@@ -1,4 +1,4 @@
 NovaFox Cartridge Format: 1 -------
-1S2G3c3:5(6x6&7x7=
+1S2G3c3:5(6x6&7x7=
 ------- Nova Fox Cartridge Data
 This is an example nova fox cartridge. The contents of this RAM are encoded in phext. This first scroll is at 1.1.1/1.1.1/1.1.1 and offset 0.After a single scroll break, we are now at byte position 142 in the buffer.After a single section break, we are now at position 218.Following a chapter break, we are now at position 276.A book break brought us to offset 331. Notice that we must re-calculate the header whenever we insert or remove data. This is fine, as our files are designed to fit within a 1 ms packet.A volume break brought us to position 518.A collection break brought us to position 561.A series break brought us to offset 608.A shelf break brought us to offset 649.A library break brought us to 689.

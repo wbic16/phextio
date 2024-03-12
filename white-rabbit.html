@@ -57,6 +57,18 @@ body {
   margin-top: 20px; 
   padding-top: 40px;
   margin: 0 auto;
+  position: relative;
+}
+#player {
+  position: absolute;
+  top: 500px;
+  left: 600px;
+  z-index: 1000;
+  border-radius: 40px;
+  border: 3px solid white;
+  background-color: coral;
+  width: 40px;
+  height: 60px;
 }
 #board {
   width: 90%;
@@ -107,7 +119,7 @@ body {
 #livesLabel, #gamelives {
   float: left;
 }
-#tokensLabel, #gametokens {
+#timerLabel, #timer {
   float: right;
 }
 #gamescore {
@@ -118,7 +130,7 @@ body {
   padding-left: 20px;
   padding-right: 400px;
 }
-#gametokens {
+#timer {
   padding-left: 20px;
   padding-right: 200px;
 }
@@ -313,7 +325,50 @@ function nextGame() {
   render();
 }
 
+var ax = -0.1;
+var ay = 0;
+var mx = 3;
+var my = 3;
+var vx = 0;
+var vy = 0;
+var px = 1500;
+var py = 600;
+var sx = 36;
+var sy = 10;
+var clock = 120;
+var gt = false;
+var player = false;
+function timingLoop() {
+  if (!gt) {
+    gt = dgid("timer");
+  }
+  if (!player) {
+    player = dgid("player");
+  }
+  gt.innerHTML = Math.round(clock);
+  clock -= 0.1;
+
+  vx += ax;
+  vy += ay;
+  if (vx > mx) { vx = mx; }
+  if (vx < -mx) { vx = -mx; }
+  if (vy > my) { vy = my; }
+  if (vy < -my) { vy = -my; }
+
+  px += vx;
+  py += vy;
+
+  // TODO: switch to keyframe animation to smooth out the 10 hz refresh rate
+  player.style.top = py + "px";
+  player.style.left = px + "px";
+
+  if (clock > 0) {
+    setTimeout(timingLoop, 100);
+  }
+}
+
 function startGame() {
+  setTimeout(timingLoop, 100);
   var gameHeight = window.innerHeight - 160; // window.screen.availHeight - 220;
   if (gameHeight < 240) { gameHeight = 320; }
   var gameWidth = window.innerWidth - 300;
@@ -339,9 +394,10 @@ function startGame() {
     <div id="top">
       <div id="scoreLabel">score:</div><div id="gamescore">542,155</div>
       <div id="livesLabel">lives:</div><div id="gamelives">3</div>
-      <div id="gametokens">1,000,000</div><div id="tokensLabel">tokens:</div>
+      <div id="timer">1,000,000</div><div id="timerLabel">time:</div>
     </div>
-    <div id="board">      
+    <div id="player"></div>
+    <div id="board">
     ` + data + `
     </div>
     <div id="bottom">
