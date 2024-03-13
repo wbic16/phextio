@@ -363,6 +363,51 @@ function nextGame() {
   render();
 }
 
+function getPlayerLeftKeyframes(x) {
+  const motion = [
+    { transform: "translate3D(-" + x + "px, 0, 0)" },
+    {
+      easing: "steps(10, end)",
+      duration: 10,
+    },
+  ];
+  return motion;
+}
+function getPlayerRightKeyframes(x) {
+  const motion = [
+    { transform: "translate3D(" + x + "px, 0, 0)" },
+    {
+      easing: "steps(10, end)",
+      duration: 10,
+    },
+  ];
+  return motion;
+}
+function getPlayerUpKeyframes(y) {
+  const motion = [
+    { transform: "translate3D(0, -" + y + ", 0)" },
+    {
+      easing: "steps(10, end)",
+      duration: 10,
+    },
+  ];
+  return motion;
+}
+function getPlayerDownKeyframes(y) {
+  const motion = [
+    { transform: "translate3D(0, " + y + "px, 0)" },
+    {
+      easing: "steps(10, end)",
+      duration: 10,
+    },
+  ];
+  return motion;
+}
+const playerTiming = {
+  duration: 100,
+  iterations: Infinity,
+};
+
 function timingLoop() {
   if (!gt) {
     gt = dgid("timer");
@@ -401,8 +446,10 @@ function timingLoop() {
   if (py > maxy) { py = maxy; }
 
   // TODO: switch to keyframe animation to smooth out the 10 hz refresh rate
-  player.style.top = py + "px";
-  player.style.left = px + "px";
+  if (vx < 0) { player.animate(getPlayerLeftKeyframes(-vx), playerTiming); }
+  if (vx > 0) { player.animate(getPlayerRightKeyframes(vx)); }
+  if (vy < 0) { player.animate(getPlayerUpKeyframes(-vy));   }
+  if (vy > 0) { player.animate(getPlayerDownKeyframes(vy));  }
 
   if (clock > 0) {
     setTimeout(timingLoop, 100);
