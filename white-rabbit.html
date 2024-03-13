@@ -254,6 +254,44 @@ function updateScore() {
   co.innerHTML = nuggets + " 🐔 " + spheres + " 📍";
 }
 
+var ai = 6;      // max impulse
+var di = 1;      // drag
+
+var minx = 100;  // minimum X for player
+var maxx = 2100; // maximum x for player
+var miny = 80;   // minimum y for player
+var maxy = 1100; // maximum y for player
+var ax = 0;      // acceleration X
+var ay = 0;      // acceleration Y
+var mx = 20;     // max velocity X
+var my = 20;     // max velocity Y
+var vx = 0;      // velocity X
+var vy = 0;      // velocity Y
+var px = 1500;   // position X
+var py = 600;    // position Y
+var epsilon = 0.01;
+var clock = 120;
+var gt = false;
+var player = false;
+
+function keypress(e) {
+  if (e.isComposing) {
+    return;
+  }
+  if (e.key == 'ArrowLeft') {
+    ax = -ai;
+  }
+  if (e.key == 'ArrowRight') {
+    ax = ai;
+  }
+  if (e.key == 'ArrowUp') {
+    ay = -ai;
+  }
+  if (e.key == 'ArrowDown') {
+    ay = ai;
+  }
+}
+
 var questText = "";
 function render() {
   loadVars();
@@ -325,19 +363,6 @@ function nextGame() {
   render();
 }
 
-var ax = -0.1;
-var ay = 0;
-var mx = 3;
-var my = 3;
-var vx = 0;
-var vy = 0;
-var px = 1500;
-var py = 600;
-var sx = 36;
-var sy = 10;
-var clock = 120;
-var gt = false;
-var player = false;
 function timingLoop() {
   if (!gt) {
     gt = dgid("timer");
@@ -348,15 +373,32 @@ function timingLoop() {
   gt.innerHTML = Math.round(clock);
   clock -= 0.1;
 
+  gt.innerHTML += " ax: " + ax + ", ay: " + ay;
+
+  if (ax > epsilon)  { ax -= di; }
+  if (ax < -epsilon) { ax += di; }
+  if (ay > epsilon)  { ay -= di; }
+  if (ay < -epsilon) { ay += di; }
+  if (vx > epsilon)  { vx -= di; }
+  if (vx < -epsilon) { vx += di; }
+  if (vy > epsilon)  { vy -= di; }
+  if (vy < -epsilon) { vy += di; }
+
   vx += ax;
   vy += ay;
-  if (vx > mx) { vx = mx; }
+
+  if (vx > mx)  { vx = mx;  }
   if (vx < -mx) { vx = -mx; }
-  if (vy > my) { vy = my; }
+  if (vy > my)  { vy = my;  }
   if (vy < -my) { vy = -my; }
 
   px += vx;
   py += vy;
+
+  if (px < minx) { px = minx; }
+  if (px > maxx) { px = maxx; }
+  if (py < miny) { py = miny; }
+  if (py > maxy) { py = maxy; }
 
   // TODO: switch to keyframe animation to smooth out the 10 hz refresh rate
   player.style.top = py + "px";
@@ -413,7 +455,7 @@ function startGame() {
 }
 </script>
 </head>
-<body onload="render();">
+<body onload="render();" onkeydown="keypress(event);">
 
 <div id="banner">
   <div id="score">
