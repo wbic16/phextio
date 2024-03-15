@@ -341,23 +341,33 @@ function loadLevel(level, width, height) {
   y = Math.round(y*100)/100;
   if (x < 0.001) { x = 0.001; }
   if (y < 0.001) { y = 0.001; }
-  // todo: use a tokenizer
+
+  var parts = data.split("\n");
+  var output = "";
   var geometry1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234";
   var geometry2 = "abcdefghijklmnopqrstuvwxyz56789";
-  for (var gi = 0; gi < 31; ++gi)
+
+  for (var j = 0; j < 16; ++j)
   {
-    data = data.replaceAll(geometry1.charAt(gi), "_;_");
-    data = data.replaceAll(geometry2.charAt(gi), "_;;_");
+    for (var i = 0; i < 64; ++i)
+    {
+      var source = parts[j].charAt(i);
+      var cell = source;
+      var cellID = "cell" + (i+1) + "_" + (j+1);
+      cell = cell.replaceAll(geometry1.charAt(cell), "_;_");
+      cell = cell.replaceAll(geometry2.charAt(cell), "_;;_");
+      cell = cell.replaceAll(" ", "_;;;_");
+      cell = cell.replaceAll("=", "-;;-<div id='" + cellID + "' class='wall'  style='width:" + x + "px; height:" + y + "px'></div>");
+      cell = cell.replaceAll("_;_", "\n<div id='" + cellID + "' class='wall2' style='width:" + x + "px; height:" + y + "px;'></div>");
+      cell = cell.replaceAll("_;;_", "\n<div id='" + cellID + "' class='wall2' style='width:" + x + "px; height:" + y + "px'></div>");
+      cell = cell.replaceAll("_;;;_", "\n<div id='" + cellID + "' class='floor' style='width:" + x + "px; height:" + y + "px'></div>");
+      cell = cell.replaceAll("-;;-", "\n");
+      output += cell;
+    }
+    output += "<br style='clear:both;' />";
   }
   
-  data = data.replaceAll(" ",    "_;;;_");
-  console.log(data);
-  data = data.replaceAll("=",    "<div class='wall'  style='width:" + x + "px; height:" + y + "px'></div>");
-  data = data.replaceAll("_;_", "<div class='wall2' style='width:" + x + "px; height:" + y + "px;'></div>");
-  data = data.replaceAll("_;;_", "<div class='wall2' style='width:" + x + "px; height:" + y + "px'></div>");
-  data = data.replaceAll("_;;;_", "<div class='floor' style='width:" + x + "px; height:" + y + "px'></div>");
-  data = data.replaceAll("\n",   "<br style='clear:both;' />");
-  return data;
+  return output;
 }
 
 var gameLevel = 1;
@@ -411,6 +421,8 @@ function timingLoop() {
 
   player.style.top  = py + "px";
   player.style.left = px + "px";
+
+
   
   if (clock > 0) {
     setTimeout(timingLoop, 100);
@@ -439,7 +451,7 @@ function startGame() {
   }
   var board = `
   
-  <div id="title">Nova Phox</div>  
+  <div id="title">Nova Fox</div>  
   <div id="screen" onclick="screenClick(event);" style="width: ` + gameWidth + `px; height: ` + gameHeight + `px;">        
     <div id="top">
       <div id="scoreLabel">score:</div><div id="gamescore">542,155</div>
@@ -500,9 +512,9 @@ Level Editor Symbols (Printable ASCII)
 The lookup table below explains the meaning of each geometry tile.
 You can use these glyphs to quickly type out your level in text.
 
-We use Base-88 to encode all geometry and cartridges in nova phox levels (1 KB uncompressed text per room).
+We use Base-88 to encode all geometry and cartridges in nova fox levels (1 KB uncompressed text per room).
 This spec defines the available geometry definitions that you can place in the level editor (i.e. your favorite text editor!).
-nova phox makes use of generative geometry where neighboring cells fill in the blanks as it were.
+nova fox makes use of generative geometry where neighboring cells fill in the blanks as it were.
 
 Gameplay (2)
 ------------
@@ -511,7 +523,7 @@ Gameplay (2)
 
 Portals (9)
 -----------
-Just like in phext documents, there are 9 portal types in nova phox.
+Just like in phext documents, there are 9 portal types in nova fox.
 
 '_' = portal (red)     [scroll]
 '&' = portal (green)   [section]
