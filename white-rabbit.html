@@ -405,14 +405,51 @@ function nextGame() {
 
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
-function screenToCell(x, y) {
-  x = Math.round((x - 100)*.0320, 0);
-  y = Math.round((y - 100)*.0180, 0);
-  return document.getElementById("cell" + x + "_" + y);
+function screenToCell(x, y, neighbor) {
+  var coords = coordinatesToIndex(x, y);
+  if (neighbor == 'n')  { --coords.y; }
+  if (neighbor == 'e')  { ++coords.x; }
+  if (neighbor == 's')  { ++coords.y; }
+  if (neighbor == 'w')  { --coords.x; }
+  if (neighbor == 'ne') { --coords.y; ++coords.x; }
+  if (neighbor == 'se') { ++coords.y; ++coords.x; }
+  if (neighbor == 'sw') { ++coords.y; --coords.x; }
+  if (neighbor == 'nw') { --coords.y; --coords.x; }
+  if (coords.x < 1)  { coords.x = 1;  }
+  if (coords.x > 64) { coords.x = 64; }
+  if (coords.y < 1)  { coords.y = 1;  }
+  if (coords.y > 16) { coords.y = 16; }
+  return document.getElementById("cell" + coords.x + "_" + coords.y);
 }
 
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
+function coordinatesToIndex(x, y) {
+  x = Math.round((x - 100)*.0320, 0);
+  y = Math.round((y - 100)*.0180, 0);
+  return {x: x, y: y};
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------
+function getShadowColor(orbital) {
+  if (orbital == 'nw' || orbital == 'ne' || orbital == 'sw' || orbital == 'se') {
+    return "#424242";
+  }
+  if (orbital == 'w' || orbital == 'n' || orbital == 's' || orbital == 'e') {
+    return "#646464";
+  }
+  return "#808080";
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------
+var lastCell = false;
+var orbitals = Array(
+  'nw', 'n', 'ne',
+  'w',  '',   'e',
+  'sw', 's', 'se'
+);
 function timingLoop() {
   if (!gt) {
     gt = dgid("timer");
@@ -453,12 +490,17 @@ function timingLoop() {
   player.style.top  = py + "px";
   player.style.left = px + "px";
 
-  var cell = screenToCell(px, py);
-  if (cell) {
-    cell.style.backgroundColor = 'grey';
-    setTimeout(() => {
-      cell.style.backgroundColor = '';
-    }, 700);
+  for (var o = 0; o < orbitals.length; ++o) {
+    var cell = screenToCell(px, py, orbitals[o]);
+    if (cell) {
+      cell.style.backgroundColor = getShadowColor(orbitals[o]);
+      lastCell = cell;
+      setTimeout(() => {
+        if (lastCell != cell) {
+          cell.style.backgroundColor = '';
+        }
+      }, 200);
+    }
   }
   
   if (clock > 0) {
