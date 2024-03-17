@@ -59,6 +59,19 @@ body {
   margin: 0 auto;
   position: relative;
 }
+#gameOver {
+  position: absolute;
+  top: 40%;
+  left: 35%;
+  width: 30%;
+  height: 400px;
+  font-size: 2em;
+  border: 3px solid white;
+  border-radius: 4px;
+  z-index: 1;
+  background-color: black;
+  display: none;
+}
 #player {
   position: absolute;
   top: 500px;
@@ -222,6 +235,9 @@ function loadVars() {
   }
   if (!rb) {
     rb = dgid("rabbit");
+  }
+  if (!go) {
+    go = dgid("gameOver");
   }
 }
 
@@ -519,6 +535,7 @@ function timingLoop() {
   }
 }
 
+var go = false;
 function gameOver() {
   var score = 0;
   for (var i = 1; i < TILES_MAX_WIDTH; ++i) {
@@ -533,7 +550,8 @@ function gameOver() {
     }
   }
 
-  alert("Game Over\nScore: " + score);
+  go.style.display = 'block';
+  go.innerHTML = "<h1>Game Over</h1><p>Score: " + score + "</p>";
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -560,8 +578,9 @@ function startGame() {
   }
   var board = `
   
-  <div id="title">Nova Fox</div>  
+  <div id="title">Nova Fox</div>
   <div id="screen" onclick="screenClick(event);" style="width: ` + gameWidth + `px; height: ` + gameHeight + `px;">        
+    <div id="gameOver"></div>
     <div id="top">
       <div id="scoreLabel">score:</div><div id="gamescore">542,155</div>
       <div id="livesLabel">lives:</div><div id="gamelives">3</div>
