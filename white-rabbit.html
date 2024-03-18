@@ -58,10 +58,11 @@ body {
   padding-top: 40px;
   margin: 0 auto;
   position: relative;
+  user-select: none;
 }
 #gameOver {
   position: absolute;
-  top: 40%;
+  top: 25%;
   left: 35%;
   width: 30%;
   height: 400px;
@@ -199,6 +200,7 @@ function dgid(id) {
 
 var TILES_MAX_WIDTH = 64;
 var TILES_MAX_HEIGHT = 16;
+var gameLog = '';
 
 var re = false;
 var co = false;
@@ -237,9 +239,6 @@ function loadVars() {
   }
   if (!rb) {
     rb = dgid("rabbit");
-  }
-  if (!go) {
-    go = dgid("gameOver");
   }
 }
 
@@ -299,9 +298,10 @@ var vx = 0;      // velocity X
 var vy = 0;      // velocity Y
 var px = 1500;   // position X
 var py = 600;    // position Y
+var gt = false;  // game timer
+var gs = false;  // game score
 var epsilon = 0.01;
 var clock = 60;
-var gt = false;
 var player = false;
 
 // -----------------------------------------------------------------------------------------------------------
@@ -454,7 +454,7 @@ function coordsToCell(x, y) {
 // -----------------------------------------------------------------------------------------------------------
 function coordinatesToIndex(x, y) {
   x = Math.round((x - 100)*.0320, 0);
-  y = Math.round((y - 100)*.0180, 0);
+  y = Math.round((y - 120)*.0180, 0);
   return {x: x, y: y};
 }
 
@@ -482,6 +482,9 @@ function timingLoop() {
   if (!gt) {
     gt = dgid("timer");
   }
+  if (!gs) {
+    gs = dgid("gamescore");
+  }
   if (!player) {
     player = dgid("player");
   }
@@ -489,6 +492,7 @@ function timingLoop() {
   clock -= 0.1;
 
   gt.innerHTML += " ax: " + ax + ", ay: " + ay;
+  gs.innerHTML = getGameScore();
 
   if (ax > epsilon)  { ax -= di; }
   if (ax < -epsilon) { ax += di; }
@@ -538,7 +542,9 @@ function timingLoop() {
   }
 }
 
-function gameOver() {
+// -----------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------
+function getGameScore() {
   var score = 0;
   for (var i = 1; i < TILES_MAX_WIDTH; ++i) {
     for (var j = 1; j < TILES_MAX_HEIGHT; ++j) {
@@ -554,7 +560,14 @@ function gameOver() {
     }
   }
 
+  return score;
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------
+function gameOver() {
   go.style.display = 'block';
+  var score = getGameScore().toLocaleString();
   go.innerHTML = "<h1>Game Over</h1><p>Score: " + score + "</p>";
 }
 
@@ -586,7 +599,7 @@ function startGame() {
   <div id="screen" onclick="screenClick(event);" style="width: ` + gameWidth + `px; height: ` + gameHeight + `px;">        
     <div id="gameOver"></div>
     <div id="top">
-      <div id="scoreLabel">score:</div><div id="gamescore">542,155</div>
+      <div id="scoreLabel">score:</div><div id="gamescore">0</div>
       <div id="livesLabel">lives:</div><div id="gamelives">3</div>
       <div id="timer">1,000,000</div><div id="timerLabel">time:</div>
     </div>
