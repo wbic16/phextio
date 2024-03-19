@@ -62,14 +62,14 @@ body {
 }
 #gameOver {
   position: absolute;
-  top: 25%;
+  top: 10%;
   left: 35%;
   width: 30%;
-  height: 400px;
+  height: 80%;
   font-size: 2.2em;
   border: 3px solid white;
   border-radius: 4px;
-  z-index: 1;
+  z-index: 2000;
   background-color: black;
   display: none;
   text-align: center;
@@ -322,6 +322,7 @@ function keypress(e) {
   if (e.key == 'ArrowDown') {
     ay = ai;
   }
+  gameLog += "\nkp {key: " + e.key + "};";
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -332,6 +333,7 @@ function screenClick(e) {
   var deltaX = -(px - e.x + 200)/2;
   vy += deltaY;
   vx += deltaX;
+  gameLog += "\nmc {x:" + e.x + ", y:" + e.y + "};";
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -493,6 +495,7 @@ function timingLoop() {
 
   gt.innerHTML += " ax: " + ax + ", ay: " + ay;
   gs.innerHTML = getGameScore();
+  gameLog += "\ntl {ax: " + ax + ", ay: " + ay + ", vx: " + vx + ", vy: " + vy + ", px: " + px + ", py: " + py + "};";
 
   if (ax > epsilon)  { ax -= di; }
   if (ax < -epsilon) { ax += di; }
@@ -568,7 +571,21 @@ function getGameScore() {
 function gameOver() {
   go.style.display = 'block';
   var score = getGameScore().toLocaleString();
-  go.innerHTML = "<h1>Game Over</h1><p>Score: " + score + "</p>";
+
+  digestGame().then((gameHash) => {
+    const displayHash = gameHash.replace(/(.{16})/g, "$1\n");
+    go.innerHTML = "<h1>Game Over</h1><p>Score: " + score + "</p><p><a href='white-rabbit.html?m=unlocked&game=" + gameHash + "'>Next Level</a></p><pre>" + displayHash + "</pre>";
+    }
+  );
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------
+async function digestGame() {
+  const buffer = new TextEncoder().encode(gameLog);
+  const hashBuffer = await crypto.subtle.digest("SHA-512", buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 // -----------------------------------------------------------------------------------------------------------
