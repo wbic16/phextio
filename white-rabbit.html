@@ -310,30 +310,52 @@ function keypress(e) {
   if (e.isComposing) {
     return;
   }
+  if (clock <= 0) {
+    return;
+  }
+  var movementKey = false;
   if (e.key == 'ArrowLeft') {
     ax = -ai;
+    movementKey = true;
   }
   if (e.key == 'ArrowRight') {
     ax = ai;
+    movementKey = true;
   }
   if (e.key == 'ArrowUp') {
     ay = -ai;
+    movementKey = true;
   }
   if (e.key == 'ArrowDown') {
     ay = ai;
+    movementKey = true;
   }
   gameLog += "\nkp {key: " + e.key + "};";
+  if (movementKey) {
+    action.play();
+  }
 }
+
+var double_tap = new Audio('double-tap.mp3');
+var action = new Audio('action.mp3');
+var warp = new Audio('warp.mp3');
+double_tap.volume = 0.2;
+action.volume = 0.1;
+warp.volume = 0.1;
 
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
 var eventInspect = false;
 function screenClick(e) {
+  if (clock <= 0) {
+    return;
+  }
   var deltaY = -(py - e.y + 200)/2;
   var deltaX = -(px - e.x + 200)/2;
   vy += deltaY;
   vx += deltaX;
   gameLog += "\nmc {x:" + e.x + ", y:" + e.y + "};";
+  warp.play();
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -382,6 +404,7 @@ function loadLevel(level, width, height) {
   if (x < 0.001) { x = 0.001; }
   if (y < 0.001) { y = 0.001; }
 
+  double_tap.play();
   var parts = data.split("\n");
   var output = "";
   var geometry1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234";
@@ -573,6 +596,7 @@ function gameOver() {
   var score = getGameScore().toLocaleString();
 
   digestGame().then((gameHash) => {
+    double_tap.play();
     const displayHash = gameHash.replace(/(.{16})/g, "$1\n");
     go.innerHTML = "<h1>Game Over</h1><p>Score: " + score + "</p><p><a href='white-rabbit.html?m=unlocked&game=" + gameHash + "'>Next Level</a></p><pre>" + displayHash + "</pre>";
     }
