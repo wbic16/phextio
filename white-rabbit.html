@@ -165,6 +165,7 @@ body {
 #timer {
   padding-left: 20px;
   padding-right: 200px;
+  width: 200px;
 }
 #bottom {
   position: relative;
@@ -259,6 +260,9 @@ function loadVars() {
 
 var go = false; // gameOver
 var sc = false; // soundControl
+var gt = false;  // game timer
+var gs = false;  // game score
+var player = false;
 
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
@@ -268,6 +272,15 @@ function loadVarsForNovaFox() {
   }
   if (!sc) {
     sc = dgid("soundControl");
+  }
+  if (!gt) {
+    gt = dgid("timer");
+  }
+  if (!gs) {
+    gs = dgid("gamescore");
+  }
+  if (!player) {
+    player = dgid("player");
   }
 }
 
@@ -327,11 +340,8 @@ var vx = 0;      // velocity X
 var vy = 0;      // velocity Y
 var px = 1500;   // position X
 var py = 600;    // position Y
-var gt = false;  // game timer
-var gs = false;  // game score
 var epsilon = 0.01;
 var clock = 60;
-var player = false;
 
 function playAudio(mp3) {
   if (soundEnabled) {
@@ -541,19 +551,8 @@ var orbitals = Array(
   'sw', 's', 'se'
 );
 function timingLoop() {
-  if (!gt) {
-    gt = dgid("timer");
-  }
-  if (!gs) {
-    gs = dgid("gamescore");
-  }
-  if (!player) {
-    player = dgid("player");
-  }
-  gt.innerHTML = Math.round(clock);
-  clock -= 0.1;
-
-  gt.innerHTML += " vx: " + vx + ", vy: " + vy;
+  var velocity = Math.sqrt(vx*vx + vy*vy);
+  gt.innerHTML = Math.round(clock) + " v: " + velocity.toFixed(2);
   gs.innerHTML = getGameScore();
   gameLog += "\ntl {ax: " + ax + ", ay: " + ay + ", vx: " + vx + ", vy: " + vy + ", px: " + px + ", py: " + py + "};";
 
@@ -598,7 +597,8 @@ function timingLoop() {
     }
   }
   
-  if (clock > 0) {
+  clock -= 0.1;
+  if (clock > 0.4) {
     setTimeout(timingLoop, 100);
   } else {
     gameOver();
