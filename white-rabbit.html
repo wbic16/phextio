@@ -132,8 +132,23 @@ body {
   width: 90%;
 }
 #scoreLabel, #gamescore,
-#livesLabel, #gamelives {
+#livesLabel, #gamelives,
+#soundLabel, #soundControl {
   float: left;
+}
+#soundControl {
+  border: 3px solid white;
+  padding: 4px;
+  padding-left: 25px;
+  padding-right: 25px;
+  position: relative;
+  top: -6px;
+  margin-left: 10px;
+}
+#soundControl:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
 }
 #timerLabel, #timer {
   float: right;
@@ -141,6 +156,7 @@ body {
 #gamescore {
   padding-left: 20px;
   padding-right: 200px;
+  width: 100px;
 }
 #gamelives {
   padding-left: 20px;
@@ -202,12 +218,11 @@ var TILES_MAX_WIDTH = 64;
 var TILES_MAX_HEIGHT = 16;
 var gameLog = '';
 
-var re = false;
-var co = false;
-var ss = false;
-var qb = false;
-var rb = false;
-var go = false;
+var re = false; // response
+var co = false; // coins
+var ss = false; // spheres
+var qb = false; // questbox
+var rb = false; // rabbit
 var attempts = 0;
 var nuggets = 0;
 var spheres = 0;
@@ -239,6 +254,20 @@ function loadVars() {
   }
   if (!rb) {
     rb = dgid("rabbit");
+  }
+}
+
+var go = false; // gameOver
+var sc = false; // soundControl
+
+// -----------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------
+function loadVarsForNovaFox() {
+  if (!go ) {
+    go = dgid("gameOver");
+  }
+  if (!sc) {
+    sc = dgid("soundControl");
   }
 }
 
@@ -304,6 +333,12 @@ var epsilon = 0.01;
 var clock = 60;
 var player = false;
 
+function playAudio(mp3) {
+  if (soundEnabled) {
+    mp3.play();
+  }
+}
+
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
 function keypress(e) {
@@ -332,14 +367,15 @@ function keypress(e) {
   }
   gameLog += "\nkp {key: " + e.key + "};";
   if (movementKey) {
-    action.play();
+    playAudio(action);
   }
 }
 
-var double_tap = new Audio('double-tap.mp3');
+var soundEnabled = !(localStorage.soundEnabled == 'false');
+var doubleTap = new Audio('double-tap.mp3');
 var action = new Audio('action.mp3');
 var warp = new Audio('warp.mp3');
-double_tap.volume = 0.2;
+doubleTap.volume = 0.2;
 action.volume = 0.1;
 warp.volume = 0.1;
 
@@ -355,7 +391,7 @@ function screenClick(e) {
   vy += deltaY;
   vx += deltaX;
   gameLog += "\nmc {x:" + e.x + ", y:" + e.y + "};";
-  warp.play();
+  playAudio(warp);
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -382,7 +418,9 @@ function render() {
     questText += "<p>Answer: <span id='response'></span></p>";
   }
   qb.innerHTML = questText;
-  go = dgid("gameOver");
+
+  loadVarsForNovaFox();
+  setSoundEnabledVisualState();
 
   var scn = dgid("screen");  
   scn.style.height = window.screen.availHeight - 200;
@@ -404,7 +442,6 @@ function loadLevel(level, width, height) {
   if (x < 0.001) { x = 0.001; }
   if (y < 0.001) { y = 0.001; }
 
-  double_tap.play();
   var parts = data.split("\n");
   var output = "";
   var geometry1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234";
@@ -516,7 +553,7 @@ function timingLoop() {
   gt.innerHTML = Math.round(clock);
   clock -= 0.1;
 
-  gt.innerHTML += " ax: " + ax + ", ay: " + ay;
+  gt.innerHTML += " vx: " + vx + ", vy: " + vy;
   gs.innerHTML = getGameScore();
   gameLog += "\ntl {ax: " + ax + ", ay: " + ay + ", vx: " + vx + ", vy: " + vy + ", px: " + px + ", py: " + py + "};";
 
@@ -596,7 +633,7 @@ function gameOver() {
   var score = getGameScore().toLocaleString();
 
   digestGame().then((gameHash) => {
-    double_tap.play();
+    playAudio(doubleTap);
     const displayHash = gameHash.replace(/(.{16})/g, "$1\n");
     go.innerHTML = "<h1>Game Over</h1><p>Score: " + score + "</p><p><a href='white-rabbit.html?m=unlocked&game=" + gameHash + "'>Next Level</a></p><pre>" + displayHash + "</pre>";
     }
@@ -610,6 +647,17 @@ async function digestGame() {
   const hashBuffer = await crypto.subtle.digest("SHA-512", buffer);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+// -----------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  setSoundEnabledVisualState();
+  localStorage.soundEnabled = soundEnabled;  
+}
+function setSoundEnabledVisualState() {
+  sc.innerHTML = soundEnabled ? "ON" : "OFF";
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -642,6 +690,7 @@ function startGame() {
     <div id="top">
       <div id="scoreLabel">score:</div><div id="gamescore">0</div>
       <div id="livesLabel">lives:</div><div id="gamelives">3</div>
+      <div id="soundLabel">sound:</div><div id="soundControl" onclick="toggleSound();">ON</div>
       <div id="timer">1,000,000</div><div id="timerLabel">time:</div>
     </div>
     <div id="player"></div>
@@ -782,7 +831,7 @@ levels[1] = `
      =====     =     =   =======   =     =   =======           
      =     =   =     =   =          =   =       =              
      =     =   =     =   =           = =        =              
-     =====     =======   =====        =         =     f        
+     =====     =======   =====        =         =              
      =         =     =   =           = =        =              
      =         =     =   =          =   =       =              
      =         =     =   =======   =     =      =              
