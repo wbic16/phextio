@@ -533,14 +533,27 @@ function coordinatesToIndex(x, y) {
 
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
-function getShadowColor(orbital) {
+function getShadowColor(orbital, vx, vy) {
+  // red green blue
+  var red = "74";
+  var green = "82";
+  var blue = "72";
+  const magnitude = 40;
+  const magY = magnitude/2;
+  if (vx < -magnitude) { red   = "42"; }
+  if (vx >  magnitude) { red   = "e9"; }
+  if (vy < -magY) { green = "88"; }
+  if (vy >  magY) { green = "c6"; }
+  var velocity = Math.sqrt(vx*vx+vy*vy);
+  if (velocity < -magnitude) { blue = "40"; }
+  if (velocity >  magnitude) { blue = "bf"; }
   if (orbital == 'nw' || orbital == 'ne' || orbital == 'sw' || orbital == 'se') {
-    return "#424242";
+    return "#" + red + "42" + blue;
   }
   if (orbital == 'w' || orbital == 'n' || orbital == 's' || orbital == 'e') {
-    return "#646464";
+    return "#64" + green + blue;
   }
-  return "#808080";
+  return "#3a3a" + blue;
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -588,7 +601,7 @@ function timingLoop() {
   for (var o = 0; o < orbitals.length; ++o) {
     var cell = screenToCell(px, py, orbitals[o]);
     if (cell) {
-      cell.style.backgroundColor = getShadowColor(orbitals[o]);
+      cell.style.backgroundColor = getShadowColor(orbitals[o], vx, vy);
       lastCell = cell;
       setTimeout(() => {
         if (lastCell != cell && cell) {
