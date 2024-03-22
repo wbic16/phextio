@@ -621,16 +621,28 @@ function timingLoop() {
 
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
+var logged = false;
 function getGameScore() {
   var score = 0;
   for (var i = 1; i < TILES_MAX_WIDTH; ++i) {
     for (var j = 1; j < TILES_MAX_HEIGHT; ++j) {
       var cell = coordsToCell(i, j);
       if (cell) {
-        if (cell.style.backgroundColor == 'grey') {
+        const test = cell.style.backgroundColor;
+        if (test == 'grey') {
           score += 10;
         }
-        if (cell.style.backgroundColor.length > 0) {
+        if (!logged) { console.log("color: " + test); logged = true; }
+        if (test.match("114") != null) {
+          score += 77;
+        }
+        if (test.match("116") != null) {
+          score += 55;
+        }
+        if (test.match("130") != null) {
+          score += 33;
+        }
+        if (test.length > 0) {
           score += 3;
         }
       }
