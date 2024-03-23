@@ -437,10 +437,36 @@ function render() {
   scn.style.height = window.screen.availHeight - 200;
 }
 
+var elFudge = 0;
+// -----------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------
+function expandLoader(c) {
+  var value = ((0x30 - c) + elFudge) % 62;
+  const lookup = "abcdefghijklmnopqrstuvwxyz01234ABCDEFGHIJKLMNOPQRSTUVWXYZ56789";
+  ++elFudge;
+  return lookup.charAt(value);
+}
+
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
 function loadLevel(level, width, height) {
   var data = levels[level];
+
+  var urlSearchParams = new URLSearchParams(window.location.search);
+  var params = Object.fromEntries(urlSearchParams.entries());
+
+  if (params.game) {
+    var lines = 0;
+    data = "";
+
+    while (lines < 16) {
+      for (var i = 0; i < 64; ++i) {
+        data += expandLoader(params.game.charAt(i));
+      }
+      data += "\n";
+      ++lines;
+    }
+  }
 
   // border takes 2 pixels - 1 per side
   var ratio = 0.62;
@@ -621,7 +647,6 @@ function timingLoop() {
 
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
-var logged = false;
 function getGameScore() {
   var score = 0;
   for (var i = 1; i < TILES_MAX_WIDTH; ++i) {
@@ -632,7 +657,6 @@ function getGameScore() {
         if (test == 'grey') {
           score += 10;
         }
-        if (!logged) { console.log("color: " + test); logged = true; }
         if (test.match("114") != null) {
           score += 77;
         }
