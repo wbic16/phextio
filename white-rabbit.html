@@ -441,8 +441,9 @@ var elFudge = 0;
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
 function expandLoader(c) {
-  var value = ((0x30 - c) + elFudge) % 62;
-  const lookup = "abcdefghijklmnopqrstuvwxyz01234ABCDEFGHIJKLMNOPQRSTUVWXYZ56789";
+  const hex = "0123456789abcdef";
+  var value = (parseInt(c, 16) + elFudge) % 10;
+  const lookup = "=A        ";
   ++elFudge;
   return lookup.charAt(value);
 }
@@ -491,8 +492,8 @@ function loadLevel(level, width, height) {
       var source = parts[j].charAt(i);
       var cell = source;
       var cellID = "cell" + (i+1) + "_" + (j+1);
-      cell = cell.replaceAll(geometry1.charAt(cell), "_;_");
-      cell = cell.replaceAll(geometry2.charAt(cell), "_;;_");
+      cell = cell.replaceAll(geometry1.charAt(source), "_;_");
+      cell = cell.replaceAll(geometry2.charAt(source), "_;;_");
       cell = cell.replaceAll(" ", "_;;;_");
       cell = cell.replaceAll("=", "-;;-<div id='" + cellID + "' class='wall'  style='width:" + x + "px; height:" + y + "px'></div>");
       cell = cell.replaceAll("_;_", "\n<div id='" + cellID + "' class='wall2' style='width:" + x + "px; height:" + y + "px;'></div>");
