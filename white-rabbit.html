@@ -44,7 +44,7 @@ body {
 }
 #questbox {
   width: 720px;
-  height: 400px;
+  height: 1280px;
 }
 
 #title {
@@ -54,6 +54,7 @@ body {
 }
 #screen {
   width: 98%;
+  height: 98%;
   margin-top: 20px; 
   padding-top: 40px;
   margin: 0 auto;
@@ -65,7 +66,7 @@ body {
   top: 10%;
   left: 35%;
   width: 30%;
-  height: 80%;
+  height: 40%;
   font-size: 2.2em;
   border: 3px solid white;
   border-radius: 4px;
@@ -101,8 +102,8 @@ body {
 #board .wall,
 #board .wall2,
 #board #fox {
-  margin: 0px;
-  padding: 0px;
+  margin: 0%;
+  padding: 0%;
   float: left;
   border-radius: 10px;
 }
@@ -111,18 +112,32 @@ body {
   background-color: blue;  
 }
 #board .floor {
-  border: 1px solid #000000;  
+  width: 1.55%;
+  height: 6.1%;
 }
 #board div.wall {
-  border: 1px solid white;
   background-color: #424595;
+  width: 1.55%;
+  height: 6.1%;
 }
 #board div.wall2 {
-  border: 1px dashed white;
   background-color: #424242;
+  width: 1.55%;
+  height: 6.1%;
 }
-#board div.wall:hover,
-#board div.wall2:hover {
+div.wall .inner,
+div.wall2 .inner {
+  border: 1px solid white;
+}
+div.wall .inner,
+div.wall2 .inner,
+div.floor .inner {
+  height: 100%;
+  border-radius: 10px;
+  z-index: 3;
+}
+#board div.wall .inner:hover,
+#board div.wall2 .inner:hover {
   border: 1px solid yellow;
 }
 #top {
@@ -326,21 +341,21 @@ function updateScore() {
   co.innerHTML = nuggets + " 🐔 " + spheres + " 📍";
 }
 
-var ai = 6;      // max impulse
-var di = 1;      // drag
+var ai = 0.5;    // max impulse
+var di = 0.1;    // drag
 
-var minx = 100;  // minimum X for player
-var maxx = 2100; // maximum x for player
-var miny = 80;   // minimum y for player
-var maxy = 1100; // maximum y for player
+var minx = 5;    // minimum X for player
+var maxx = 93;   // maximum x for player
+var miny = 10;   // minimum y for player
+var maxy = 90;   // maximum y for player
 var ax = 0;      // acceleration X
 var ay = 0;      // acceleration Y
-var mx = 48;     // max velocity X
-var my = 32;     // max velocity Y
+var mx = 3.2;    // max velocity X
+var my = 3.2;    // max velocity Y
 var vx = 0;      // velocity X
 var vy = 0;      // velocity Y
-var px = 1500;   // position X
-var py = 600;    // position Y
+var px = 50;     // position X
+var py = 50;     // position Y
 var epsilon = 0.01;
 var clock = 60;
 
@@ -450,7 +465,7 @@ function expandLoader(c) {
 
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
-function loadLevel(level, width, height) {
+function loadLevel(level) {
   var data = levels[level];
 
   var urlSearchParams = new URLSearchParams(window.location.search);
@@ -469,21 +484,13 @@ function loadLevel(level, width, height) {
     }
   }
 
-  // border takes 2 pixels - 1 per side
-  var ratio = 0.62;
-  if (width > 1000) { ratio = 0.76; }
-  if (width > 2000) { ratio = 0.83; }
-  var x = (ratio * width / TILES_MAX_WIDTH) - 4;
-  var y = (ratio * height / (1.055 * TILES_MAX_HEIGHT)) - 4;
-  x = Math.round(x*100)/100;
-  y = Math.round(y*100)/100;
-  if (x < 0.001) { x = 0.001; }
-  if (y < 0.001) { y = 0.001; }
-
   var parts = data.split("\n");
   var output = "";
   var geometry1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234";
   var geometry2 = "abcdefghijklmnopqrstuvwxyz56789";
+
+  var style1 = 'wall';
+  var style2 = 'wall2';
 
   for (var j = 0; j < TILES_MAX_HEIGHT; ++j)
   {
@@ -495,14 +502,14 @@ function loadLevel(level, width, height) {
       cell = cell.replaceAll(geometry1.charAt(source), "_;_");
       cell = cell.replaceAll(geometry2.charAt(source), "_;;_");
       cell = cell.replaceAll(" ", "_;;;_");
-      cell = cell.replaceAll("=", "-;;-<div id='" + cellID + "' class='wall'  style='width:" + x + "px; height:" + y + "px'></div>");
-      cell = cell.replaceAll("_;_", "\n<div id='" + cellID + "' class='wall2' style='width:" + x + "px; height:" + y + "px;'></div>");
-      cell = cell.replaceAll("_;;_", "\n<div id='" + cellID + "' class='wall2' style='width:" + x + "px; height:" + y + "px'></div>");
-      cell = cell.replaceAll("_;;;_", "\n<div id='" + cellID + "' class='floor' style='width:" + x + "px; height:" + y + "px'></div>");
+      cell = cell.replaceAll("=", "-;;-<div class='" + style1 + "'><div id='" + cellID + "' class='inner'></div></div>");
+      cell = cell.replaceAll("_;_", "\n<div class='" + style2 + "'><div id='" + cellID + "' class='inner'></div></div>");
+      cell = cell.replaceAll("_;;_", "\n<div class='" + style2 + "'><div id='" + cellID + "' class='inner'></div></div>");
+      cell = cell.replaceAll("_;;;_", "\n<div class='floor'><div id='" + cellID + "' class='inner'></div></div>");
       cell = cell.replaceAll("-;;-", "\n");
       output += cell;
     }
-    output += "<br style='clear:both;' />";
+    output += "<br style='clear:both;' />";    
   }
   
   return output;
@@ -553,8 +560,8 @@ function coordsToCell(x, y) {
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
 function coordinatesToIndex(x, y) {
-  x = Math.round((x - 100)*.0320, 0);
-  y = Math.round((y - 120)*.0180, 0);
+  x = Math.round(x * 0.72, 0) - 2;
+  y = Math.round(y * 0.2, 0);
   return {x: x, y: y};
 }
 
@@ -565,12 +572,11 @@ function getShadowColor(orbital, vx, vy) {
   var red = "74";
   var green = "82";
   var blue = "72";
-  const magnitude = 40;
-  const magY = magnitude/2;
+  const magnitude = 1.6;
   if (vx < -magnitude) { red   = "42"; }
   if (vx >  magnitude) { red   = "e9"; }
-  if (vy < -magY) { green = "88"; }
-  if (vy >  magY) { green = "c6"; }
+  if (vy < -magnitude) { green = "88"; }
+  if (vy >  magnitude) { green = "c6"; }
   var velocity = Math.sqrt(vx*vx+vy*vy);
   if (velocity < -magnitude) { blue = "40"; }
   if (velocity >  magnitude) { blue = "bf"; }
@@ -622,13 +628,14 @@ function timingLoop() {
   if (py < miny) { py = miny; }
   if (py > maxy) { py = maxy; }
 
-  player.style.top  = py + "px";
-  player.style.left = px + "px";
+  player.style.top  = py + "%";
+  player.style.left = px + "%";
 
   for (var o = 0; o < orbitals.length; ++o) {
     var cell = screenToCell(px, py, orbitals[o]);
     if (cell) {
       cell.style.backgroundColor = getShadowColor(orbitals[o], vx, vy);
+      cell.style.border = '1px solid white';
       lastCell = cell;
       setTimeout(() => {
         if (lastCell != cell && cell) {
@@ -686,7 +693,8 @@ function gameOver() {
   digestGame().then((gameHash) => {
     playAudio(doubleTap);
     const displayHash = gameHash.replace(/(.{16})/g, "$1\n");
-    go.innerHTML = "<h1>Game Over</h1><p>Score: " + score + "</p><p><a href='white-rabbit.html?m=unlocked&game=" + gameHash + "'>Next Level</a></p><pre>" + displayHash + "</pre>";
+    console.log("Game Hash: " + displayHash);
+    go.innerHTML = "<h1>Game Over</h1><p>Score: " + score + "</p><p><a href='white-rabbit.html?m=unlocked&game=" + gameHash + "'>Next Level</a></p>";
     }
   );
 }
@@ -715,19 +723,19 @@ function setSoundEnabledVisualState() {
 // -----------------------------------------------------------------------------------------------------------
 function startGame() {
   setTimeout(timingLoop, 100);
-  var gameHeight = window.innerHeight - 160; // window.screen.availHeight - 220;
-  if (gameHeight < 240) { gameHeight = 320; }
-  var gameWidth = window.innerWidth - 300;
-  if (gameWidth < 320) { gameWidth = 320; }
+  //var gameHeight = window.innerHeight - 160; // window.screen.availHeight - 220;
+  //if (gameHeight < 240) { gameHeight = 320; }
+  //var gameWidth = window.innerWidth - 300;
+  //if (gameWidth < 320) { gameWidth = 320; }
   dgid("intro").innerHTML = "";
   qb.style.width = "100%";
-  qb.style.height = "";
-  qb.style.minHeight = gameHeight;
-  rb.style.width = gameWidth;
-  rb.style.minHeight = gameHeight;
-  gameHeight -= 60;
+  //qb.style.height = "";
+  //qb.style.minHeight = gameHeight;
+  //rb.style.width = gameWidth;
+  //rb.style.minHeight = gameHeight;
+  //gameHeight -= 60;
 
-  var data = loadLevel(gameLevel, window.innerWidth, window.innerHeight);
+  var data = loadLevel(gameLevel);
 
   var levelDisplay = gameLevel;
   if (coordinate[gameLevel]) {
@@ -736,7 +744,7 @@ function startGame() {
   var board = `
   
   <div id="title">Nova Fox</div>
-  <div id="screen" onclick="screenClick(event);" style="width: ` + gameWidth + `px; height: ` + gameHeight + `px;">        
+  <div id="screen" onclick="screenClick(event);">
     <div id="gameOver"></div>
     <div id="top">
       <div id="scoreLabel">score:</div><div id="gamescore">0</div>
