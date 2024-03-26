@@ -407,15 +407,21 @@ warp.volume = 0.1;
 
 // -----------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------
-var eventInspect = false;
 function screenClick(e) {
   if (clock <= 0) {
     return;
   }
-  var deltaY = -(py - e.y + 200)/2;
-  var deltaX = -(px - e.x + 200)/2;
-  vy += deltaY;
-  vx += deltaX;
+  const topLeft = dgid("cell1_1").getBoundingClientRect();
+  const bottomRight = dgid("cell64_16").getBoundingClientRect();
+  const scWidth = (bottomRight.x - topLeft.x);
+  const scHeight = (bottomRight.y - topLeft.y);
+  const scX = 100*(e.x/scWidth - 0.1);
+  const scY = 100*(e.y/scHeight - 0.2);
+
+  const deltaX = scX - px;
+  const deltaY = scY - py;
+  vx += deltaX / 24;
+  vy += deltaY / 24;
   gameLog += "\nmc {x:" + e.x + ", y:" + e.y + "};";
   playAudio(warp);
 }
