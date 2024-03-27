@@ -226,6 +226,9 @@ div.floor .inner {
 </style>
 <script type="text/JavaScript">
 // -----------------------------------------------------------------------------------------------------------
+// @fn dgid
+//
+// @param id  element identifier
 // -----------------------------------------------------------------------------------------------------------
 function dgid(id) {
   return document.getElementById(id);
@@ -255,6 +258,9 @@ if (localStorage.spheres) {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn loadVars
+//
+// loads DOM elements. also see `loadVarsForNovaFox`
 // -----------------------------------------------------------------------------------------------------------
 function loadVars() {
   if (!re) {
@@ -281,6 +287,9 @@ var gs = false;  // game score
 var player = false;
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn loadVarsForNovaFox
+//
+// loads element handles specifically for nova fox. also see `loadVars`
 // -----------------------------------------------------------------------------------------------------------
 function loadVarsForNovaFox() {
   if (!go ) {
@@ -301,6 +310,9 @@ function loadVarsForNovaFox() {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn begin
+//
+// startup routine for the white rabbit module. provides access to nova fox and the chapters visualizer.
 // -----------------------------------------------------------------------------------------------------------
 function begin(token) {
   loadVars();
@@ -336,6 +348,9 @@ function begin(token) {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn updateScore
+//
+// tells the user how many nuggets and spheres they've collected
 // -----------------------------------------------------------------------------------------------------------
 function updateScore() {
   co.innerHTML = nuggets + " 🐔 " + spheres + " 📍";
@@ -366,6 +381,11 @@ function playAudio(mp3) {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn keypress
+//
+// event handler for key strokes - used to gather arrow key input for nova fox
+//
+// @param e  keyboard event to process
 // -----------------------------------------------------------------------------------------------------------
 function keypress(e) {
   if (e.isComposing) {
@@ -406,6 +426,11 @@ action.volume = 0.1;
 warp.volume = 0.1;
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn screenClick
+//
+// mouse click event handler for nova fox
+//
+// @param e  mouse event to process
 // -----------------------------------------------------------------------------------------------------------
 function screenClick(e) {
   if (clock <= 0) {
@@ -427,6 +452,9 @@ function screenClick(e) {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn render
+//
+// generates the main entry point for the white rabbit
 // -----------------------------------------------------------------------------------------------------------
 var questText = "";
 function render() {
@@ -453,13 +481,16 @@ function render() {
 
   loadVarsForNovaFox();
   setSoundEnabledVisualState();
-
-  var scn = dgid("screen");  
-  scn.style.height = window.screen.availHeight - 200;
 }
 
 var elFudge = 0;
 // -----------------------------------------------------------------------------------------------------------
+// @fn expandLoader
+//
+// Translates hex digits to a rotating visualization, meant for testing mostly. Will be replaced by phorge.
+// this method has side effects dominated by `elFudge` intentionally.
+//
+// @param c  hex digit to translate
 // -----------------------------------------------------------------------------------------------------------
 function expandLoader(c) {
   const hex = "0123456789abcdef";
@@ -470,6 +501,11 @@ function expandLoader(c) {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn loadLevel
+//
+// Loads the given level (or accepts one passed via the query string using the 'game' key).
+//
+// @param level  the game level to load
 // -----------------------------------------------------------------------------------------------------------
 function loadLevel(level) {
   var data = levels[level];
@@ -522,6 +558,9 @@ function loadLevel(level) {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn prevGame
+//
+// Event handler for the 'prev game' action. Decrements `gameLevel`, then re-renders nova fox.
 // -----------------------------------------------------------------------------------------------------------
 var gameLevel = 1;
 function prevGame() {
@@ -531,6 +570,9 @@ function prevGame() {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn nextGame
+//
+// Event handler for the 'next game' action. Increments `gameLevel` and re-renders nova fox.
 // -----------------------------------------------------------------------------------------------------------
 function nextGame() {
   ++gameLevel;
@@ -539,6 +581,9 @@ function nextGame() {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn screenToCell
+//
+// Converts the logical coordinates and neighbor indicator to a specific cell element.
 // -----------------------------------------------------------------------------------------------------------
 function screenToCell(x, y, neighbor) {
   var coords = coordinatesToIndex(x, y);
@@ -558,12 +603,26 @@ function screenToCell(x, y, neighbor) {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn coordsToCell
+//
+// Selects the given cell from our 64x16 matrix.
+//
+// @param x  the column number (1-64)
+// @param y  the row number (1-16)
 // -----------------------------------------------------------------------------------------------------------
 function coordsToCell(x, y) {
   return dgid("cell" + x + "_" + y);
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn coordinatesToIndex
+//
+// Fuzzy conversion of a set of percentage coordinates to numeric indexes. Over-samples a bit.
+//
+// @param x  a number in the range [5-95] to be converted to a column index
+// @param y  a number in the range [5-95] to be converted to a row index
+//
+// @return a tuple containing x and y indexes into our matrix
 // -----------------------------------------------------------------------------------------------------------
 function coordinatesToIndex(x, y) {
   x = Math.round(x * 0.72, 0) - 2;
@@ -572,6 +631,15 @@ function coordinatesToIndex(x, y) {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn getShadowColor
+//
+// Calculates the shadow color for a given orbital and node.
+//
+// @param orbital  a designation indicating which orbit type to select
+// @param vx       x velocity to modulate the output with
+// @param vy       y velocity to modulate the output with
+//
+// @return a color representing the risk/reward of traveling through a cell
 // -----------------------------------------------------------------------------------------------------------
 function getShadowColor(orbital, vx, vy) {
   // red green blue
@@ -595,14 +663,19 @@ function getShadowColor(orbital, vx, vy) {
   return "#3a3a" + blue;
 }
 
-// -----------------------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------------------
 var lastCell = false;
 var orbitals = Array(
   'nw', 'n', 'ne',
   'w',  '',   'e',
   'sw', 's', 'se'
 );
+
+// -----------------------------------------------------------------------------------------------------------
+// @fn timingLoop
+//
+// Applies physics calculations for our player - velocity and position mostly. Invokes itself every 100ms
+// until the clock runs out.
+// -----------------------------------------------------------------------------------------------------------
 function timingLoop() {
   var velocity = Math.sqrt(vx*vx + vy*vy);
   gt.innerHTML = Math.round(clock) + " v: " + velocity.toFixed(2);
@@ -660,6 +733,9 @@ function timingLoop() {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn getGameScore
+//
+// Produces a point in time estimate of the score based upon the current game state.
 // -----------------------------------------------------------------------------------------------------------
 function getGameScore() {
   var score = 0;
@@ -691,6 +767,9 @@ function getGameScore() {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn gameOver
+//
+// Renders the final score board.
 // -----------------------------------------------------------------------------------------------------------
 function gameOver() {
   go.style.display = 'block';
@@ -706,6 +785,9 @@ function gameOver() {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn digestGame
+//
+// Computes a SHA-512 hash of the gameplay log.
 // -----------------------------------------------------------------------------------------------------------
 async function digestGame() {
   const buffer = new TextEncoder().encode(gameLog);
@@ -715,31 +797,34 @@ async function digestGame() {
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn toggleSound
+//
+// Toggles sound on or off depending upon the initial state, which is persisted locally.
 // -----------------------------------------------------------------------------------------------------------
 function toggleSound() {
   soundEnabled = !soundEnabled;
   setSoundEnabledVisualState();
   localStorage.soundEnabled = soundEnabled;  
 }
+
+// -----------------------------------------------------------------------------------------------------------
+// @fn setSoundEnabledVisualState
+//
+// Renders the current sound state in the GUI.
+// -----------------------------------------------------------------------------------------------------------
 function setSoundEnabledVisualState() {
   sc.innerHTML = soundEnabled ? "ON" : "OFF";
 }
 
 // -----------------------------------------------------------------------------------------------------------
+// @fn startGame
+//
+// Kickstarts nova fox!
 // -----------------------------------------------------------------------------------------------------------
 function startGame() {
   setTimeout(timingLoop, 100);
-  //var gameHeight = window.innerHeight - 160; // window.screen.availHeight - 220;
-  //if (gameHeight < 240) { gameHeight = 320; }
-  //var gameWidth = window.innerWidth - 300;
-  //if (gameWidth < 320) { gameWidth = 320; }
   dgid("intro").innerHTML = "";
   qb.style.width = "100%";
-  //qb.style.height = "";
-  //qb.style.minHeight = gameHeight;
-  //rb.style.width = gameWidth;
-  //rb.style.minHeight = gameHeight;
-  //gameHeight -= 60;
 
   var data = loadLevel(gameLevel);
 
