@@ -44,7 +44,7 @@ body {
 }
 #questbox {
   width: 720px;
-  height: 1280px;
+  height: 900px;
 }
 
 #title {
@@ -66,7 +66,7 @@ body {
   top: 10%;
   left: 35%;
   width: 30%;
-  height: 40%;
+  height: 70%;
   font-size: 2.2em;
   border: 3px solid white;
   border-radius: 4px;
@@ -86,6 +86,20 @@ body {
   width: 40px;
   height: 60px;
   transition: 0.1s linear;
+  filter: drop-shadow(0 0 1rem white);
+}
+#enemy {
+  position: absolute;
+  top: 400px;
+  left: 400px;
+  z-index: 999;
+  border-radius: 80px;
+  border: 3px solid black;
+  background-color: black;
+  width: 80px;
+  height: 80px;
+  transition: 0.1s linear;
+  filter: drop-shadow(0 0 0.5rem red);
 }
 #board {
   width: 90%;
@@ -285,6 +299,7 @@ var sc = false; // soundControl
 var gt = false;  // game timer
 var gs = false;  // game score
 var player = false;
+var enemy = false;
 
 // -----------------------------------------------------------------------------------------------------------
 // @fn loadVarsForNovaFox
@@ -306,6 +321,9 @@ function loadVarsForNovaFox() {
   }
   if (!player) {
     player = dgid("player");
+  }
+  if (!enemy) {
+    enemy = dgid("enemy");
   }
 }
 
@@ -371,6 +389,12 @@ var vx = 0;      // velocity X
 var vy = 0;      // velocity Y
 var px = 50;     // position X
 var py = 50;     // position Y
+var eax = 0.0;   // enemy acceleration X
+var eay = 0.0;   // enemy acceleration Y
+var evx = 0.5;   // enemy velocity X
+var evy = 0;     // enemy velocity Y
+var ex = 40;     // enemy position X
+var ey = 40;     // enemy position Y
 var epsilon = 0.01;
 var clock = 60;
 
@@ -664,6 +688,7 @@ function getShadowColor(orbital, vx, vy) {
 }
 
 var lastCell = false;
+var enemyCell = false;
 var orbitals = Array(
   'nw', 'n', 'ne',
   'w',  '',   'e',
@@ -682,6 +707,22 @@ function timingLoop() {
   gs.innerHTML = getGameScore();
   gameLog += "\ntl {ax: " + ax + ", ay: " + ay + ", vx: " + vx + ", vy: " + vy + ", px: " + px + ", py: " + py + "};";
 
+  evx += (Math.random() - 0.5)/2;
+  evy += (Math.random() - 0.5)/2;
+
+  if (evy < -my) { evy = -my; }
+  if (evy > my)  { evy = my;  }
+  if (evx < -mx) { evx = -mx; }
+  if (evx > mx)  { evx = mx;  }
+
+  evx -= vy;
+  evy -= vx;
+
+  if (ex < 30) { evx += mx; }
+  if (ex > 70) { evx -= mx; }
+  if (ey < 20) { evy += my; }
+  if (ey > 80) { evy -= my; }
+
   if (ax > epsilon)  { ax -= di; }
   if (ax < -epsilon) { ax += di; }
   if (ay > epsilon)  { ay -= di; }
@@ -694,33 +735,43 @@ function timingLoop() {
   vx += ax;
   vy += ay;
 
-  if (vx > mx)  { vx = mx;  }
-  if (vx < -mx) { vx = -mx; }
-  if (vy > my)  { vy = my;  }
-  if (vy < -my) { vy = -my; }
+  if (vx > mx)  { vx = mx;  }    if (evx > mx)  { evx = mx;  }
+  if (vx < -mx) { vx = -mx; }    if (evx < -mx) { evx = -mx; }
+  if (vy > my)  { vy = my;  }    if (evy > my)  { evy = my;  }
+  if (vy < -my) { vy = -my; }    if (evy < -my) { evy = -my; }
 
-  px += vx;
-  py += vy;
+  px += vx;  ex += evx;
+  py += vy;  ey += evy;
 
-  if (px < minx) { px = minx; }
-  if (px > maxx) { px = maxx; }
-  if (py < miny) { py = miny; }
-  if (py > maxy) { py = maxy; }
+  if (px < minx) { px = minx; }   if (ex < minx) { ex = minx; }
+  if (px > maxx) { px = maxx; }   if (ex > maxx) { ex = maxx; }
+  if (py < miny) { py = miny; }   if (ey < miny) { ey = miny; }
+  if (py > maxy) { py = maxy; }   if (ey > maxy) { ey = maxy; }
 
   player.style.top  = py + "%";
   player.style.left = px + "%";
+  enemy.style.top   = ey + "%";
+  enemy.style.left  = ex + "%";
 
   for (var o = 0; o < orbitals.length; ++o) {
     var cell = screenToCell(px, py, orbitals[o]);
+    var enemyCell = screenToCell(ex, ey, orbitals[o]);
     if (cell) {
       cell.style.backgroundColor = getShadowColor(orbitals[o], vx, vy);
-      cell.style.border = '1px solid white';
+      cell.style.border = '1px solid white';      
       lastCell = cell;
       setTimeout(() => {
-        if (lastCell != cell && cell) {
+        if (lastCell != cell && enemyCell != cell && cell) {
           cell.style.backgroundColor = '';
-        }
+        }    
       }, 200);
+
+      if (enemyCell && enemyCell.style.backgroundColor != '') {
+        enemyCell.style.backgroundColor = '';
+        enemyCell.style.border = '';
+        baseScore += 10;
+        playAudio(warp);
+      }
     }
   }
   
@@ -737,8 +788,9 @@ function timingLoop() {
 //
 // Produces a point in time estimate of the score based upon the current game state.
 // -----------------------------------------------------------------------------------------------------------
+var baseScore = 0;
 function getGameScore() {
-  var score = 0;
+  var score = baseScore;
   for (var i = 1; i < TILES_MAX_WIDTH; ++i) {
     for (var j = 1; j < TILES_MAX_HEIGHT; ++j) {
       var cell = coordsToCell(i, j);
@@ -844,6 +896,7 @@ function startGame() {
       <div id="timer">1,000,000</div><div id="timerLabel">time:</div>
     </div>
     <div id="player"></div>
+    <div id="enemy"></div>
     <div id="board">
     ` + data + `
     </div>
