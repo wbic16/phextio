@@ -7,6 +7,8 @@
 #city {
   position: relative;
   top: 50px;
+  left: 10%;
+  width: 90%;
 }
 #present {
   position: absolute;
@@ -30,11 +32,11 @@
   border-radius: 20px;
   color: white;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 1em;
   z-index: 0;
 }
 .room {
-  width: 64px;
+  width: 60px;
   height: 48px;
   color: #202030;
   background-color: #B4C5E4;
@@ -47,21 +49,23 @@
   border: 2px solid grey;
   text-align: center;
   vertical-align: center;
-  margin-bottom: 12px;
-  padding-top: 12px;
-  transition: transform 0.35s;
+  margin-bottom: 4px;
+  padding-top: 2px;
+  transition: all 0.4s;
 }
 .room:hover {
   cursor: pointer;
   background: whitesmoke;
   color: black;
-  transform: scale(2);
-  width: 128px;
-  z-index: 2;
+  scale: 2;
+  width: 80px;
+  height: 40px;
+  padding-top: 10px;
+  z-index: 3;
 }
 .outer {
-  width: 704px;
-  height: 528px;
+  width: 670px;
+  height: 540px;
 }
 #presentCloser {
   text-decoration: underline; cursor: pointer;
@@ -84,11 +88,53 @@ function hide() {
   present.style.left = "-2500px";
 }
 
-function show(row, column, chapter, section, scroll) {
-  var present = dgid("present");
-  present.innerHTML = "💫 Loading Content <span id='presentCloser' onclick='hide();'>close</span><br /><br />Row " + row + ", Column " + column + " with Chapter " + chapter + ", Section " + section + ", Scroll " + scroll + "...";
-  present.style.left = (MAJOR_WIDTH * (column - 1)) + "px";
-  present.style.top = 50 + (MAJOR_HEIGHT * (row - 1)) + "px";
+function show(cellColumn, cellRow, column, row, chapter, section, scroll) {
+  squeeze(cellColumn, cellRow, column, row);  
+  //var present = dgid("present");
+  //present.innerHTML = "💫 Loading Content <span id='presentCloser' onclick='hide();'>close</span><br /><br />Row " + row + ", Column " + column + " with Chapter " + chapter + ", Section " + section + ", Scroll " + scroll + "...";
+  //present.style.left = (MAJOR_WIDTH * (row - 1)) + "px";
+  //present.style.top = 50 + (MAJOR_HEIGHT * (column - 1)) + "px";
+}
+
+function randomInteger(limit) {
+  return Math.floor(Math.random() * (limit + 1));
+}
+
+var firstRouletteRun = false;
+function roulette(limit) {
+  var w = randomInteger(11);
+  var x = randomInteger(11);
+  var y = randomInteger(9);
+  var z = randomInteger(9);
+
+  if (!firstRouletteRun) {
+    firstRouletteRun = true;
+    for (var a = 1; a <= 11; ++a) {
+      for (var b = 1; b <= 11; ++b) {
+        var matched = (w == a) && (x == b);
+        if (!matched) {
+          squeeze(a, b, 0, 0);
+        }
+      }
+    }
+  }
+
+  var round = 5;
+  if (limit < round) {
+    round = 1;
+  }
+  for (var a = 1; a <= round; ++a) {
+    squeeze(w, x, y, z);
+    w = randomInteger(11);
+    x = randomInteger(11);
+    y = randomInteger(9);
+    z = randomInteger(9);
+  }
+  limit -= round;
+
+  if (limit > 1) {
+    setTimeout(() => { roulette(limit); }, 100);
+  }
 }
 
 function setupCity() {
@@ -106,12 +152,12 @@ function setupCity() {
     for (var i = 1; i <= 11; ++i) {
       left = (MAJOR_WIDTH * (i-1));
       top = (MAJOR_HEIGHT * (j-1));
-      output += "<div class='outer' style='top: " + top + "px; left: " + left + "px;'>" + chapter + "." + section + "." + scroll + "\n";
+      output += "<div id='outer_" + i + "_" + j + "' class='outer' style='top: " + top + "px; left: " + left + "px;'>" + chapter + "." + section + "." + scroll + "\n";
       for (var y = 1; y <= 9; ++y) {
         for (var x = 1; x <= 9; ++x) {
           ileft = 64 * x;
           itop = 48 * y;
-          output += "<div class='room' style='position: absolute; top: " + itop + "px; left: " + ileft + "px;' onclick='show(" + j + "," + i + "," + chapter + "," + section + "," + scroll + ");'>" + scroll + "</div>\n";
+          output += "<div id='inner_" + i + "_" + j + "_" + x + "_" + y + "' class='room' style='position: absolute; top: " + itop + "px; left: " + ileft + "px;' onclick='show(" + i + ", " + j + ", " + x + "," + y + "," + chapter + "," + section + "," + scroll + ");'>" + scroll + "</div>\n";
           scroll += 1;
           total += 1;
           if (scroll > 99) {
@@ -131,6 +177,54 @@ function setupCity() {
 
   var summary = "<div class='summary'>Rooms on this Block (1.1.1/1.1.1/1.*.*): " + total + " (" + Math.round(100*2*total/1024)/100 + " MB)</div><br />\n";
   city.innerHTML = summary + output;
+  roulette(500);
+}
+
+function getOuter(w, x) {
+  return dgid("outer_" + w + "_" + x);
+}
+
+function getInner(w, x, y, z) {
+  return dgid("inner_" + w + "_" + x + "_" + y + "_" + z);
+}
+
+function squeeze(w, x, y, z) {
+  var cell = getOuter(w, x);
+  var inner = getInner(w, x, y, z);
+  if (cell) {
+  }
+  if (inner && inner.style.scale.length == 0) {
+    inner.style.scale = "4.0";
+    inner.style.zIndex = "3";
+  } else if (inner) {
+    inner.style.scale = "";
+    inner.style.zIndex = "3";
+  }
+  for (var i = 1; i <= 9; ++i) {
+    for (var j = 1; j <= 9; ++j) {
+      var adjust = getInner(w, x, i, j);      
+      if (adjust && (adjust != inner) && adjust.style.scale.length == 0) {
+        adjust.style.scale = "";
+      }
+    }
+  }
+}
+
+function cleanup(w, x) {
+  for (var y = 1; y <= 9; ++y) {
+    for (var z = 1; z <= 9; ++z) {
+      var cell = getInner(w, x, y, z);
+      if (cell) {
+        cell.style.scale = "";
+        cell.style.zIndex = "";
+      }      
+    }
+  }
+
+  var cell = getOuter(w, x);
+  if (cell) {
+    cell.style.scale = "";
+  }
 }
 </script>
 </head>
