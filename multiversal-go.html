@@ -1,0 +1,161 @@
+<html>
+<head>
+    <title>Multiversal Go</title>
+<style type="text/css">
+    body {
+        color: white;
+        background-color: black;
+    }
+    #board {
+        margin: 0 auto;
+    }
+    #actionGroup {
+        position: absolute;
+        top: 50px;
+        right: 100px;
+        width: 200px;
+        height: 200px;
+        border: 3px solid grey;
+        font-size: 3em;
+    }
+    .cell {
+        width: 64px;
+        height: 64px;
+        background-color: #ebc934;
+        border: 5px black solid;
+        border-radius: 6px;
+        float: left;
+        transition: all 0.25s;
+        position: relative;
+    }
+    .cell:hover {
+        border: 5px white solid;
+        cursor: pointer;
+    }
+    .black {
+        background-color: black;
+        border-radius: 28px;
+        margin-top: 10%;
+        margin-left: 10%;
+        width: 80%;
+        height: 80%;
+    }
+    .black:hover {
+        border-radius: 28px;
+        background-color: #242430;
+    }
+    .white {
+        background-color: white;
+        border-radius: 32px;
+        border: 2px black solid;
+        margin-top: 10%;
+        margin-left: 10%;
+        width: 75%;
+        height: 75%;
+    }
+    .white:hover {
+        border-radius: 32px;
+        background-color: white;
+    }
+    br {
+        clear: both;
+    }
+    hr {
+    }
+</style>
+</head>
+<body>
+    <div id="board">        
+    </div>
+    <div id="actionGroup">
+        <select id="action">
+            <option value="0">normal</option>
+            <option value="1">scroll break</option>
+        </select>
+    </div>
+<script type="text/javascript">
+function dgid(id) {
+  return document.getElementById(id);
+}
+
+const boardSize = 9;
+const boardN2 = boardSize * boardSize;
+var gameState = "";
+for (var i = 1; i <= boardSize; ++i) {
+  for (var j = 1; j <= boardSize; ++j) {
+    gameState += 'x';
+  }
+}
+const blankBoard = gameState;
+
+function render() {
+  var output = "";
+  var x = 1;
+  var y = 1;
+  var z = 1;
+
+  gameState = gameState.replaceAll(SCROLL_BREAK, blankBoard);
+  for (var i = 0; i < gameState.length; ++i) {
+    const p = gameState.charAt(i);
+    if (p == 'x') {
+      output += "<div id='cell_" + x + "_" + y + "_" + z + "' class='cell' onclick='setStone(" + x + "," + y + ", " + z + ");'></div>\n";
+      ++x;
+    } else if (p == 'b') {
+      output += "<div id='cell_" + x + "_" + y + "_" + z + "' class='cell'><div class='black'></div></div>\n";
+      ++x;
+    } else if (p == 'w') {
+      output += "<div id='cell_" + x + "_" + y + "_" + z + "' class='cell'><div class='white'></div></div>\n";
+      ++x;
+    } else if (p == 'g') {
+      ++x;
+    }
+
+    if (x > boardSize) {
+      x = 1;
+      ++y;
+      output += "<br />";
+    }
+
+    if (y > boardSize) {
+      x = 1;
+      y = 1;
+      ++z;
+      output += "<hr />";
+    }
+  }
+  document.getElementById("board").innerHTML = output;
+}
+
+const SCROLL_BREAK = '\x17';
+var turn = 'black';
+var action = dgid('action');
+
+function getWarpPoint(index) {
+  if (index < boardN2)
+  {
+    return 0;
+  }
+
+  if (gameState.length - index < boardN2) {
+    return gameState.length - boardN2;
+  }
+
+  return index - boardN2;
+}
+
+function setStone(x, y, z) {  
+  const index = boardN2 * (z-1) + boardSize * (y-1) + x - 1;
+  if (index < 0 || index >= gameState.length) {
+    console.log("bad bonk here");
+    return;
+  }
+
+  const replacement = turn[0] + (action.value == '1' ? SCROLL_BREAK : '');
+  gameState = gameState.substring(0, index) + replacement + gameState.substring(index+1);
+  turn = (turn == 'black') ? 'white' : 'black';
+  render();
+}
+render();
+</script>
+</body>
+</html>
