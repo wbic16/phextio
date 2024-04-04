@@ -103,7 +103,7 @@ body {
 }
 #board {
   width: 90%;
-  height: 90%;
+  height: 130%;
   border: 10px solid #42fe42;
   border-radius: 10px;
   margin: 0 auto;
@@ -116,28 +116,31 @@ body {
 #board .wall,
 #board .wall2,
 #board #fox {
-  margin: 0%;
-  padding: 0%;
+  margin: 0;
+  padding: 0;
   float: left;
-  border-radius: 10px;
+}
+#board br {
+  height: 0px;
+  width: 0px;
 }
 #board #fox {
   border: 1px solid gold;
   background-color: blue;  
 }
 #board .floor {
-  width: 1.55%;
-  height: 6.1%;
+  width: 1.5%;
+  height: 6%;
 }
 #board div.wall {
   background-color: #424595;
-  width: 1.55%;
-  height: 6.1%;
+  width: 1.5%;
+  height: 6%;
 }
 #board div.wall2 {
   background-color: #424242;
-  width: 1.55%;
-  height: 6.1%;
+  width: 1.5%;
+  height: 6%;
 }
 div.wall .inner,
 div.wall2 .inner {
@@ -461,7 +464,7 @@ function screenClick(e) {
     return;
   }
   const topLeft = dgid("cell1_1").getBoundingClientRect();
-  const bottomRight = dgid("cell64_16").getBoundingClientRect();
+  const bottomRight = dgid("cell" + TILES_MAX_WIDTH + "_" + TILES_MAX_HEIGHT).getBoundingClientRect();
   const scWidth = (bottomRight.x - topLeft.x);
   const scHeight = (bottomRight.y - topLeft.y);
   const scX = 100*(e.x/scWidth - 0.1);
@@ -541,8 +544,8 @@ function loadLevel(level) {
     var lines = 0;
     data = "";
 
-    while (lines < 16) {
-      for (var i = 0; i < 64; ++i) {
+    while (lines < TILES_MAX_HEIGHT) {
+      for (var i = 0; i < TILES_MAX_WIDTH; ++i) {
         data += expandLoader(params.game.charAt(i));
       }
       data += "\n";
@@ -629,10 +632,10 @@ function screenToCell(x, y, neighbor) {
 // -----------------------------------------------------------------------------------------------------------
 // @fn coordsToCell
 //
-// Selects the given cell from our 64x16 matrix.
+// Selects the given cell from our game matrix.
 //
-// @param x  the column number (1-64)
-// @param y  the row number (1-16)
+// @param x  the column number (1 to TILES_MAX_WIDTH)
+// @param y  the row number (1 to TILES_MAX_HEIGHT)
 // -----------------------------------------------------------------------------------------------------------
 function coordsToCell(x, y) {
   return dgid("cell" + x + "_" + y);
@@ -758,6 +761,7 @@ function timingLoop() {
     var enemyCell = screenToCell(ex, ey, orbitals[o]);
     if (cell) {
       cell.style.backgroundColor = getShadowColor(orbitals[o], vx, vy);
+      cell.style.minHeight = "22px";
       cell.style.border = '1px solid white';      
       lastCell = cell;
       setTimeout(() => {
@@ -1031,19 +1035,19 @@ levels[1] = `
 ================= =========================== ==================
 =                                                    =        ==
 =                                                    =        ==
-     =====     =     =   =======   =     =   =======           
-     =     =   =     =   =          =   =       =              
-     =     =   =     =   =           = =        =              
-     =====     =======   =====        =         =              
-     =         =     =   =           = =        =              
-     =         =     =   =          =   =       =              
-     =         =     =   =======   =     =      =              
+     =====     =     =   =======   =     =   =======            
+     =     =   =     =   =          =   =       =               
+     =     =   =     =   =           = =        =               
+     =====     =======   =====        =         =               
+     =         =     =   =           = =        =               
+     =         =     =   =          =   =       =               
+     =         =     =   =======   =     =      =               
 =                                                    =        ==
 =                                                    =        ==
-                                                     =         
+                                                     =          
 =                                                             ==
 =                                                             ==
-=================== ========================= ==================
+=                                                             ==
 `;
 carts[1] = `
 
