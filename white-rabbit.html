@@ -165,6 +165,7 @@ div.floor .inner {
 }
 #scoreLabel, #gamescore,
 #livesLabel, #gamelives,
+#healthLabel, #hp,
 #soundLabel, #soundControl {
   float: left;
 }
@@ -193,7 +194,13 @@ div.floor .inner {
 }
 #gamelives {
   padding-left: 20px;
-  padding-right: 400px;
+  padding-right: 10px;
+}
+#hp {
+  margin-left: 30px;
+  padding-right: 200px;
+  margin-right: 100px;
+  background-color: red;
 }
 #timer {
   padding-left: 20px;
@@ -301,6 +308,8 @@ var go = false; // gameOver
 var sc = false; // soundControl
 var gt = false;  // game timer
 var gs = false;  // game score
+var gl = false;  // game lives
+var hp = false;  // health
 var player = false;
 var enemy = false;
 
@@ -327,6 +336,12 @@ function loadVarsForNovaFox() {
   }
   if (!enemy) {
     enemy = dgid("enemy");
+  }
+  if (!gl) {
+    gl = dgid("gamelives");
+  }
+  if (!hp) {
+    hp = dgid("hp");
   }
 }
 
@@ -377,8 +392,9 @@ function updateScore() {
   co.innerHTML = nuggets + " 🐔 " + spheres + " 📍";
 }
 
+const SMALL = 0.1;
 var ai = 0.5;    // max impulse
-var di = 0.1;    // drag
+var di = SMALL;  // drag
 
 var minx = 5;    // minimum X for player
 var maxx = 93;   // maximum x for player
@@ -398,7 +414,7 @@ var evx = 0.5;   // enemy velocity X
 var evy = 0;     // enemy velocity Y
 var ex = 40;     // enemy position X
 var ey = 40;     // enemy position Y
-var epsilon = 0.01;
+const EPSILON = 0.01;
 var clock = 60;
 
 function playAudio(mp3) {
@@ -449,8 +465,8 @@ var doubleTap = new Audio('double-tap.mp3');
 var action = new Audio('action.mp3');
 var warp = new Audio('warp.mp3');
 doubleTap.volume = 0.2;
-action.volume = 0.1;
-warp.volume = 0.1;
+action.volume = SMALL;
+warp.volume = SMALL;
 
 // -----------------------------------------------------------------------------------------------------------
 // @fn screenClick
@@ -467,8 +483,8 @@ function screenClick(e) {
   const bottomRight = dgid("cell" + TILES_MAX_WIDTH + "_" + TILES_MAX_HEIGHT).getBoundingClientRect();
   const scWidth = (bottomRight.x - topLeft.x);
   const scHeight = (bottomRight.y - topLeft.y);
-  const scX = 100*(e.x/scWidth - 0.1);
-  const scY = 100*(e.y/scHeight - 0.2);
+  const scX = 100*(e.x/scWidth - SMALL);
+  const scY = 100*(e.y/scHeight - 2*SMALL);
 
   const deltaX = scX - px;
   const deltaY = scY - py;
@@ -669,6 +685,10 @@ function coordinatesToIndex(x, y) {
 // @return a color representing the risk/reward of traveling through a cell
 // -----------------------------------------------------------------------------------------------------------
 function getShadowColor(orbital, vx, vy) {
+  if (regenerating) {
+    return "#20fe80";
+  }
+
   // red green blue
   var red = "74";
   var green = "82";
@@ -690,8 +710,15 @@ function getShadowColor(orbital, vx, vy) {
   return "#3a3a" + blue;
 }
 
+const ENEMY_CRIT = 10;
+const ENEMY_HIT = 30;
+const DAMAGE = 1;
+const CRIT_DAMAGE = 5;
+var lives = 3;
+var health = 100;
 var lastCell = false;
 var enemyCell = false;
+var regenerating = false;
 var orbitals = Array(
   'nw', 'n', 'ne',
   'w',  '',   'e',
@@ -708,6 +735,12 @@ function timingLoop() {
   var velocity = Math.sqrt(vx*vx + vy*vy);
   gt.innerHTML = Math.round(clock) + " v: " + velocity.toFixed(2);
   gs.innerHTML = getGameScore();
+  gl.innerHTML = lives;
+  if (regenerating) { health = 100; }
+  if (health < EPSILON) { health = 0; }
+  hp.innerHTML = health.toFixed(0);
+  hp.style.paddingRight = health * 2 + "px";
+  hp.style.marginRight = (100 + (100-health)) + "px";
   gameLog += "\ntl {ax: " + ax + ", ay: " + ay + ", vx: " + vx + ", vy: " + vy + ", px: " + px + ", py: " + py + "};";
 
   evx += (Math.random() - 0.5)/2;
@@ -726,14 +759,14 @@ function timingLoop() {
   if (ey < 20) { evy += my; }
   if (ey > 80) { evy -= my; }
 
-  if (ax > epsilon)  { ax -= di; }
-  if (ax < -epsilon) { ax += di; }
-  if (ay > epsilon)  { ay -= di; }
-  if (ay < -epsilon) { ay += di; }
-  if (vx > epsilon)  { vx -= di; }
-  if (vx < -epsilon) { vx += di; }
-  if (vy > epsilon)  { vy -= di; }
-  if (vy < -epsilon) { vy += di; }
+  if (ax > EPSILON)  { ax -= di; }
+  if (ax < -EPSILON) { ax += di; }
+  if (ay > EPSILON)  { ay -= di; }
+  if (ay < -EPSILON) { ay += di; }
+  if (vx > EPSILON)  { vx -= di; }
+  if (vx < -EPSILON) { vx += di; }
+  if (vy > EPSILON)  { vy -= di; }
+  if (vy < -EPSILON) { vy += di; }
 
   vx += ax;
   vy += ay;
@@ -756,13 +789,50 @@ function timingLoop() {
   enemy.style.top   = ey + "%";
   enemy.style.left  = ex + "%";
 
+  const enemyDistance = Math.sqrt((px-ex)*(px-ex) + (py-ey)*(py-ey));
+  if (regenerating == false) {
+    if (enemyDistance < ENEMY_HIT) {
+      if (enemyDistance < ENEMY_CRIT) {
+        health -= CRIT_DAMAGE;
+        playAudio(doubleTap);
+      }
+      health -= DAMAGE;
+    }
+
+    if (health < EPSILON) {
+      --lives;
+      if (lives < 1) {
+        clock = 0;
+        gameResult = "You Died";
+      } else {
+        playAudio(warp);
+        regenerating = true;
+        setTimeout(() => {
+          regenerating = false;
+          clock += 10;
+        }, 5000);
+      }
+    }
+  }
+
   for (var o = 0; o < orbitals.length; ++o) {
     var cell = screenToCell(px, py, orbitals[o]);
     var enemyCell = screenToCell(ex, ey, orbitals[o]);
     if (cell) {
       cell.style.backgroundColor = getShadowColor(orbitals[o], vx, vy);
       cell.style.minHeight = "22px";
-      cell.style.border = '1px solid white';      
+      cell.style.border = '1px solid white';
+      if (health < 99) {
+        health += 0.05;
+      }
+      if (enemyDistance < ENEMY_HIT) {
+        cell.style.border = '1px solid yellow';
+        cell.style.backgroundColor = 'grey';
+      }
+      if (enemyDistance < ENEMY_CRIT) {
+        cell.style.border = '1px solid red';
+        cell.style.backgroundColor = 'red';
+      }
       lastCell = cell;
       setTimeout(() => {
         if (lastCell != cell && enemyCell != cell && cell) {
@@ -779,8 +849,8 @@ function timingLoop() {
     }
   }
   
-  clock -= 0.1;
-  if (clock > 0.4) {
+  clock -= SMALL;
+  if (clock > 4*SMALL) {
     setTimeout(timingLoop, 100);
   } else {
     gameOver();
@@ -827,15 +897,22 @@ function getGameScore() {
 //
 // Renders the final score board.
 // -----------------------------------------------------------------------------------------------------------
+var gameResult = "Game Over";
 function gameOver() {
   go.style.display = 'block';
   var score = getGameScore().toLocaleString();
 
   digestGame().then((gameHash) => {
-    playAudio(doubleTap);
-    const displayHash = gameHash.replace(/(.{16})/g, "$1\n");
-    console.log("Game Hash: " + displayHash);
-    go.innerHTML = "<h1>Game Over</h1><p>Score: " + score + "</p><p><a href='white-rabbit.html?m=unlocked&game=" + gameHash + "'>Next Level</a></p>";
+      playAudio(doubleTap);
+      const displayHash = gameHash.replace(/(.{16})/g, "$1\n");
+      console.log("Game Hash: " + displayHash);
+      var result = "<h1>" + gameResult + "</h1><p>Score: " + score + "</p>";
+      if (gameResult == "You Died") {
+        result += "<p>Try Again!</p>";
+      } else {
+        result += "<p><a href='white-rabbit.html?m=unlocked&game=" + gameHash + "'>Next Level</a></p>";
+      }
+      go.innerHTML = result;
     }
   );
 }
@@ -896,6 +973,7 @@ function startGame() {
     <div id="top">
       <div id="scoreLabel">score:</div><div id="gamescore">0</div>
       <div id="livesLabel">lives:</div><div id="gamelives">3</div>
+      <div id="healthLabel">hp:</div><div id="hp">100</div>
       <div id="soundLabel">sound:</div><div id="soundControl" onclick="toggleSound();">ON</div>
       <div id="timer">1,000,000</div><div id="timerLabel">time:</div>
     </div>
