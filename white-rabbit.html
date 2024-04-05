@@ -119,6 +119,7 @@ body {
   margin: 0;
   padding: 0;
   float: left;
+  transition: all 2s;
 }
 #board br {
   height: 0px;
@@ -822,6 +823,7 @@ function timingLoop() {
       cell.style.backgroundColor = getShadowColor(orbitals[o], vx, vy);
       cell.style.minHeight = "22px";
       cell.style.border = '1px solid white';
+      cell.style.scale = "1.1";
       if (health < 99) {
         health += 0.05;
       }
@@ -830,13 +832,14 @@ function timingLoop() {
         cell.style.backgroundColor = 'grey';
       }
       if (enemyDistance < ENEMY_CRIT) {
-        cell.style.border = '1px solid red';
+        cell.style.border = '1px solid white';
         cell.style.backgroundColor = 'red';
       }
       lastCell = cell;
       setTimeout(() => {
         if (lastCell != cell && enemyCell != cell && cell) {
           cell.style.backgroundColor = '';
+          cell.style.scale = '';
         }    
       }, 200);
 
