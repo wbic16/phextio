@@ -129,6 +129,11 @@ var tab_scrolls = Array();
 var phextCoordinate = "1.1.1/1.1.1/1.1.1";
 
 // -----------------------------------------------------------------------------------------------------------
+function dgid(id) {
+  return document.getElementById(id);
+}
+
+// -----------------------------------------------------------------------------------------------------------
 function loadVars() {
   if (!gl) { gl = dgid("goal"); }
   if (!ns) { ns = dgid("nodes"); }
@@ -562,19 +567,26 @@ function copyUrl() {
   lts.innerHTML = "URL copied!";
 }
 
+function setValue(id, text) {
+  var handle = dgid(id);
+  if (handle && handle.value) {
+    handle.value = text;
+  }
+}
+
 // -----------------------------------------------------------------------------------------------------------
 // @fn startup
 // -----------------------------------------------------------------------------------------------------------
 function startup() {
-  dgid("pscrollbreak").value = SCROLL_BREAK;
-  dgid("psectionbreak").value = SECTION_BREAK;
-  dgid("pchapterbreak").value = CHAPTER_BREAK;
-  dgid("pbookbreak").value = BOOK_BREAK;
-  dgid("pvolumebreak").value = VOLUME_BREAK;
-  dgid("pcollectionbreak").value = COLLECTION_BREAK;
-  dgid("pseriesbreak").value = SERIES_BREAK;
-  dgid("pshelfbreak").value = SHELF_BREAK;
-  dgid("plibrarybreak").value = LIBRARY_BREAK;
+  setValue("pscrollbreak", SCROLL_BREAK);
+  setValue("psectionbreak", SECTION_BREAK);
+  setValue("pchapterbreak", CHAPTER_BREAK);
+  setValue("pbookbreak", BOOK_BREAK);
+  setValue("pvolumebreak", VOLUME_BREAK);
+  setValue("pcollectionbreak", COLLECTION_BREAK);
+  setValue("pseriesbreak", SERIES_BREAK);
+  setValue("pshelfbreak", SHELF_BREAK);
+  setValue("plibrarybreak", LIBRARY_BREAK);
   loadVars();
   edit('tabs');  
 
@@ -614,7 +626,9 @@ function startup() {
     raw = localStorage.raw;
   }
 
-  ls.value = raw;
+  if (ls) {
+    ls.value = raw;
+  }
 
   if (params.r) {
     raw = params.r.replaceAll("%27", "'");
@@ -725,37 +739,37 @@ function removeSeed() {
 // @fn edit
 // -----------------------------------------------------------------------------------------------------------
 function edit(mode) {
-  sd.style.display = 'block';
-  cp.style.display = 'block';
+  if (sd) { sd.style.display = 'block'; }
+  if (cp) { cp.style.display = 'block'; }
 
   var tab_mode = mode == 'tabs';
   var tab_item = tab_mode ? 'block' : 'none';
-  tb.style.display = tab_item;
-  mnt.style.border = tab_mode ? "2px solid" : "";
+  if (tb) { tb.style.display = tab_item; }
+  if (mnt) { mnt.style.border = tab_mode ? "2px solid" : ""; }
 
   var tile_mode = mode == 'tiles';
   var tile_item = tile_mode ? 'block' : 'none';
-  te.style.display = tile_item;
+  if (te) { te.style.display = tile_item; }
   if (mte) {
     mte.style.border = tile_mode ? "2px solid" : "";
   }
 
   var subspace_mode = mode == 'subspace';
   var subspace_item = subspace_mode ? 'block' : 'none';
-  mss.style.border = subspace_mode ? "2px solid" : "";
-  ls.style.display = subspace_item;
-  st.style.display = subspace_item;  
-  ta.style.display = subspace_item;
-  cb.style.display = subspace_item;
+  if (mss) { mss.style.border = subspace_mode ? "2px solid" : ""; }
+  if (ls) { ls.style.display = subspace_item; }
+  if (st) { st.style.display = subspace_item; }
+  if (ta) { ta.style.display = subspace_item; }
+  if (cb) { cb.style.display = subspace_item; }
 
-  tbsf.style.display = 'none';
-  tbsr.style.display = 'none';
-  tbcn.style.display = 'none';
-  tbvm.style.display = 'none';
-  tbbk.style.display = 'none';
-  tbch.style.display = 'none';
-  tbsn.style.display = 'none';
-  tbsc.style.display = 'none';
+  if (tbsf) { tbsf.style.display = 'none'; }
+  if (tbsr) { tbsr.style.display = 'none'; }
+  if (tbcn) { tbcn.style.display = 'none'; } 
+  if (tbvm) { tbvm.style.display = 'none'; }
+  if (tbbk) { tbbk.style.display = 'none'; }
+  if (tbch) { tbch.style.display = 'none'; }
+  if (tbsn) { tbsn.style.display = 'none'; }
+  if (tbsc) { tbsc.style.display = 'none'; }
 }
 
 function tab_break(level) {
