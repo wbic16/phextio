@@ -1,0 +1,202 @@
+<html>
+    <head>
+        <title>sub.spaceship</title>
+        <link rel="text/css" href="homepage.css?version=5.0.0" />
+        <style media="all">
+            body {
+                background: black;
+                font-family: arial, sans-serif;
+                font-size: 75%;
+                font-weight: bold;
+            }
+            #game {
+                position: absolute;
+                top: 10%; right: 50%;
+                left: 5%; bottom: 10%;
+                border-radius: 7px;
+                border: 1px solid grey;
+                background-color: skyblue;
+            }
+            #board {
+                position: absolute;
+                top: 5px; right: 5px;                
+                left: 5px; bottom: 5px;
+                border-radius: 11px;
+                border: 3px solid darkgrey;
+                background-color: black;
+            }
+            #opponent {
+                position: absolute;
+                top: 10%; right: 10%;
+                left: 60%; bottom: 50%;
+                width: 24%; height: 24%;
+                border-radius: 9px;
+                border: 9px solid red;
+                background-color: darkred;
+                z-index: 1;
+                padding-left: 3%;
+                padding-right: 3%;
+                padding-top: 1%;
+                min-width: 100px;
+            }
+            #opponent a, #opponent a:visited {
+                color: whitesmoke;
+            }
+            #player {
+                position: absolute;
+                top: 45%;
+                left: 60%;
+                width: 24%; height: 37%;
+                border-radius: 9px;
+                border: 9px solid blue;
+                background-color: darkgrey;
+                z-index: 1;
+                padding-left: 3%;
+                padding-right: 3%;
+                padding-top: 1%;
+                min-width: 100px;
+            }
+            #buttons {
+                position: absolute;
+                top: 37.25%; left: 60%;
+                width: 24%; height: 7%;
+                z-index: 2;
+                margin: 0; padding: 0;
+            }
+            #buttons input {
+                position: relative;
+                top: 7.5%;
+                font-size: 200%;
+                font-weight: bold;
+                width: 22%; height: 95%;
+                margin: 0; padding: 0;
+                background-color: orange;
+                transition: all 0.25s;
+                border-radius: 10px;
+
+            }
+            #buttons input:hover {
+                background-color: yellow;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="opponent">
+            <h1 id="news">Ship at <a href="/sub.html?coord=42.15.17;30.12.19;24.19.55">42.15.17/30.12.19/24.19.55</a> destroyed.</h1>
+        </div>
+        <div id="player">
+            <h1 id="status">Ship at <a href="/sub.html?coord=42.15.18;31.12.19;24.19.55">42.15.18/31.12.19/24.19.55</a> took 10 damage.</h1>
+        </div>
+        <div id="buttons">
+            <input type="button" value="Fire" />
+            <input type="button" value="Scan" />
+            <input type="button" value="Drop" />
+            <input type="button" value="Pin" />
+        </div>
+        <div id="game">            
+            <div id="board">
+                <div id="a1"></div>
+                <div id="a2"></div>
+                <div id="a3"></div>
+                <div id="a4"></div>
+                <div id="a5"></div>
+                <div id="a6"></div>
+                <div id="a7"></div>
+                <div id="a8"></div>
+                <div id="a9"></div>
+                <div id="aa"></div>
+                <div id="b1"></div>
+                <div id="b2"></div>
+                <div id="b3"></div>
+                <div id="b4"></div>
+                <div id="b5"></div>
+                <div id="b6"></div>
+                <div id="b7"></div>
+                <div id="b8"></div>
+                <div id="b9"></div>
+                <div id="ba"></div>
+                <div id="c1"></div>
+                <div id="c2"></div>
+                <div id="c3"></div>
+                <div id="c4"></div>
+                <div id="c5"></div>
+                <div id="c6"></div>
+                <div id="c7"></div>
+                <div id="c8"></div>
+                <div id="c9"></div>
+                <div id="ca"></div>
+                <div id="d1"></div>
+                <div id="d2"></div>
+                <div id="d3"></div>
+                <div id="d4"></div>
+                <div id="d5"></div>
+                <div id="d6"></div>
+                <div id="d7"></div>
+                <div id="d8"></div>
+                <div id="d9"></div>
+                <div id="da"></div>
+                <div id="e1"></div>
+                <div id="e2"></div>
+                <div id="e3"></div>
+                <div id="e4"></div>
+                <div id="e5"></div>
+                <div id="e6"></div>
+                <div id="e7"></div>
+                <div id="e8"></div>
+                <div id="e9"></div>
+                <div id="ea"></div>
+                <div id="f1"></div>
+                <div id="f2"></div>
+                <div id="f3"></div>
+                <div id="f4"></div>
+                <div id="f5"></div>
+                <div id="f6"></div>
+                <div id="f7"></div>
+                <div id="f8"></div>
+                <div id="f9"></div>
+                <div id="fa"></div>
+                <div id="g1"></div>
+                <div id="g2"></div>
+                <div id="g3"></div>
+                <div id="g4"></div>
+                <div id="g5"></div>
+                <div id="g6"></div>
+                <div id="g7"></div>
+                <div id="g8"></div>
+                <div id="g9"></div>
+                <div id="ga"></div>
+                <div id="h1"></div>
+                <div id="h2"></div>
+                <div id="h3"></div>
+                <div id="h4"></div>
+                <div id="h5"></div>
+                <div id="h6"></div>
+                <div id="h7"></div>
+                <div id="h8"></div>
+                <div id="h9"></div>
+                <div id="ha"></div>
+                <div id="i1"></div>
+                <div id="i2"></div>
+                <div id="i3"></div>
+                <div id="i4"></div>
+                <div id="i5"></div>
+                <div id="i6"></div>
+                <div id="i7"></div>
+                <div id="i8"></div>
+                <div id="i9"></div>
+                <div id="ia"></div>
+                <div id="j1"></div>
+                <div id="j2"></div>
+                <div id="j3"></div>
+                <div id="j4"></div>
+                <div id="j5"></div>
+                <div id="j6"></div>
+                <div id="j7"></div>
+                <div id="j8"></div>
+                <div id="j9"></div>
+                <div id="ja"></div>
+            </div>
+        </div>
+    </body>
+</html>
