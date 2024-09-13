@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>sub.spaceship</title>
+        <title>sub.space.ship</title>
         <link rel="text/css" href="homepage.css?version=5.0.0" />
         <style media="all">
             body {
@@ -24,12 +24,14 @@
                 border-radius: 11px;
                 border: 3px solid darkgrey;
                 background-color: black;
+                padding-left: 5%;
+                padding-top: 5%;
             }
             #opponent {
                 position: absolute;
-                top: 10%; right: 10%;
-                left: 60%; bottom: 50%;
-                width: 24%; height: 24%;
+                top: 10%;
+                left: 55%;
+                width: 24%; height: 22%;
                 border-radius: 9px;
                 border: 9px solid red;
                 background-color: darkred;
@@ -44,9 +46,9 @@
             }
             #player {
                 position: absolute;
-                top: 45%;
-                left: 60%;
-                width: 24%; height: 37%;
+                top: 47%;
+                left: 55%;
+                width: 24%; height: 36%;
                 border-radius: 9px;
                 border: 9px solid blue;
                 background-color: darkgrey;
@@ -65,19 +67,150 @@
             }
             #buttons input {
                 position: relative;
-                top: 7.5%;
+                top: 0%;
                 font-size: 200%;
                 font-weight: bold;
-                width: 22%; height: 95%;
-                margin: 0; padding: 0;
-                background-color: orange;
+                width: 19%; height: 95%;
+                margin: 1%; padding: 0;
+                background-color: grey;
                 transition: all 0.25s;
                 border-radius: 10px;
-
             }
             #buttons input:hover {
-                background-color: yellow;
+                background-color: whitesmoke;
                 cursor: pointer;
+            }
+            #board div {
+                position: absolute;
+                width: 4%;
+                height: 4%;
+                border: 9px solid #5342af;
+                border-radius: 10%;
+                padding: 10px;
+                z-index: 3;
+                transition: all 0.5s;
+                background-color: #0f110e;
+                color: limegreen;
+                font-weight: bold;
+                font-size: 3em;
+                font-family: 'Cascadia Code', monospace;
+                text-align: center;
+                vertical-align: center;                
+            }
+            #board #a1 { top: 1%; left: 1%; }
+            #board #a2 { top: 1%; left: 11%; }
+            #board #a3 { top: 1%; left: 21%; }
+            #board #a4 { top: 1%; left: 31%; }
+            #board #a5 { top: 1%; left: 41%; }
+            #board #a6 { top: 1%; left: 51%; }
+            #board #a7 { top: 1%; left: 61%; }
+            #board #a8 { top: 1%; left: 71%; }
+            #board #a9 { top: 1%; left: 81%; }
+            #board #aa { top: 1%; left: 91%; }
+
+            #board #b1 { top: 11%; left: 1%; }
+            #board #b2 { top: 11%; left: 11%; }
+            #board #b3 { top: 11%; left: 21%; }
+            #board #b4 { top: 11%; left: 31%; }
+            #board #b5 { top: 11%; left: 41%; }
+            #board #b6 { top: 11%; left: 51%; }
+            #board #b7 { top: 11%; left: 61%; }
+            #board #b8 { top: 11%; left: 71%; }
+            #board #b9 { top: 11%; left: 81%; }
+            #board #ba { top: 11%; left: 91%; }
+
+            #board #c1 { top: 21%; left: 1%; }
+            #board #c2 { top: 21%; left: 11%; }
+            #board #c3 { top: 21%; left: 21%; }
+            #board #c4 { top: 21%; left: 31%; }
+            #board #c5 { top: 21%; left: 41%; }
+            #board #c6 { top: 21%; left: 51%; }
+            #board #c7 { top: 21%; left: 61%; }
+            #board #c8 { top: 21%; left: 71%; }
+            #board #c9 { top: 21%; left: 81%; }
+            #board #ca { top: 21%; left: 91%; }
+
+            #board #d1 { top: 31%; left: 1%; }
+            #board #d2 { top: 31%; left: 11%; }
+            #board #d3 { top: 31%; left: 21%; }
+            #board #d4 { top: 31%; left: 31%; }
+            #board #d5 { top: 31%; left: 41%; }
+            #board #d6 { top: 31%; left: 51%; }
+            #board #d7 { top: 31%; left: 61%; }
+            #board #d8 { top: 31%; left: 71%; }
+            #board #d9 { top: 31%; left: 81%; }
+            #board #da { top: 31%; left: 91%; }
+
+            #board #e1 { top: 41%; left: 1%; }
+            #board #e2 { top: 41%; left: 11%; }
+            #board #e3 { top: 41%; left: 21%; }
+            #board #e4 { top: 41%; left: 31%; }
+            #board #e5 { top: 41%; left: 41%; }
+            #board #e6 { top: 41%; left: 51%; }
+            #board #e7 { top: 41%; left: 61%; }
+            #board #e8 { top: 41%; left: 71%; }
+            #board #e9 { top: 41%; left: 81%; }
+            #board #ea { top: 41%; left: 91%; }
+
+            #board #f1 { top: 51%; left: 1%; }
+            #board #f2 { top: 51%; left: 11%; }
+            #board #f3 { top: 51%; left: 21%; }
+            #board #f4 { top: 51%; left: 31%; }
+            #board #f5 { top: 51%; left: 41%; }
+            #board #f6 { top: 51%; left: 51%; }
+            #board #f7 { top: 51%; left: 61%; }
+            #board #f8 { top: 51%; left: 71%; }
+            #board #f9 { top: 51%; left: 81%; }
+            #board #fa { top: 51%; left: 91%; }
+
+            #board #g1 { top: 61%; left: 1%; }
+            #board #g2 { top: 61%; left: 11%; }
+            #board #g3 { top: 61%; left: 21%; }
+            #board #g4 { top: 61%; left: 31%; }
+            #board #g5 { top: 61%; left: 41%; }
+            #board #g6 { top: 61%; left: 51%; }
+            #board #g7 { top: 61%; left: 61%; }
+            #board #g8 { top: 61%; left: 71%; }
+            #board #g9 { top: 61%; left: 81%; }
+            #board #ga { top: 61%; left: 91%; }
+
+            #board #h1 { top: 71%; left: 1%; }
+            #board #h2 { top: 71%; left: 11%; }
+            #board #h3 { top: 71%; left: 21%; }
+            #board #h4 { top: 71%; left: 31%; }
+            #board #h5 { top: 71%; left: 41%; }
+            #board #h6 { top: 71%; left: 51%; }
+            #board #h7 { top: 71%; left: 61%; }
+            #board #h8 { top: 71%; left: 71%; }
+            #board #h9 { top: 71%; left: 81%; }
+            #board #ha { top: 71%; left: 91%; }
+
+            #board #i1 { top: 81%; left: 1%; }
+            #board #i2 { top: 81%; left: 11%; }
+            #board #i3 { top: 81%; left: 21%; }
+            #board #i4 { top: 81%; left: 31%; }
+            #board #i5 { top: 81%; left: 41%; }
+            #board #i6 { top: 81%; left: 51%; }
+            #board #i7 { top: 81%; left: 61%; }
+            #board #i8 { top: 81%; left: 71%; }
+            #board #i9 { top: 81%; left: 81%; }
+            #board #ia { top: 81%; left: 91%; }
+
+            #board #j1 { top: 91%; left: 1%; }
+            #board #j2 { top: 91%; left: 11%; }
+            #board #j3 { top: 91%; left: 21%; }
+            #board #j4 { top: 91%; left: 31%; }
+            #board #j5 { top: 91%; left: 41%; }
+            #board #j6 { top: 91%; left: 51%; }
+            #board #j7 { top: 91%; left: 61%; }
+            #board #j8 { top: 91%; left: 71%; }
+            #board #j9 { top: 91%; left: 81%; }
+            #board #ja { top: 91%; left: 91%; }
+
+            #board div:hover {
+                border: 9px solid skyblue;
+                cursor: pointer;
+                border-radius: 50%;
             }
         </style>
     </head>
@@ -89,113 +222,113 @@
             <h1 id="status">Ship at <a href="/sub.html?coord=42.15.18;31.12.19;24.19.55">42.15.18/31.12.19/24.19.55</a> took 10 damage.</h1>
         </div>
         <div id="buttons">
-            <input type="button" value="Fire" />
             <input type="button" value="Scan" />
+            <input type="button" value="Mark" />
             <input type="button" value="Drop" />
-            <input type="button" value="Pin" />
+            <input type="button" value="Fire" />
         </div>
         <div id="game">            
             <div id="board">
-                <div id="a1"></div>
-                <div id="a2"></div>
-                <div id="a3"></div>
-                <div id="a4"></div>
-                <div id="a5"></div>
-                <div id="a6"></div>
-                <div id="a7"></div>
-                <div id="a8"></div>
-                <div id="a9"></div>
-                <div id="aa"></div>
-                <div id="b1"></div>
-                <div id="b2"></div>
-                <div id="b3"></div>
-                <div id="b4"></div>
-                <div id="b5"></div>
-                <div id="b6"></div>
-                <div id="b7"></div>
-                <div id="b8"></div>
-                <div id="b9"></div>
-                <div id="ba"></div>
-                <div id="c1"></div>
-                <div id="c2"></div>
-                <div id="c3"></div>
-                <div id="c4"></div>
-                <div id="c5"></div>
-                <div id="c6"></div>
-                <div id="c7"></div>
-                <div id="c8"></div>
-                <div id="c9"></div>
-                <div id="ca"></div>
-                <div id="d1"></div>
-                <div id="d2"></div>
-                <div id="d3"></div>
-                <div id="d4"></div>
-                <div id="d5"></div>
-                <div id="d6"></div>
-                <div id="d7"></div>
-                <div id="d8"></div>
-                <div id="d9"></div>
-                <div id="da"></div>
-                <div id="e1"></div>
-                <div id="e2"></div>
-                <div id="e3"></div>
-                <div id="e4"></div>
-                <div id="e5"></div>
-                <div id="e6"></div>
-                <div id="e7"></div>
-                <div id="e8"></div>
-                <div id="e9"></div>
-                <div id="ea"></div>
-                <div id="f1"></div>
-                <div id="f2"></div>
-                <div id="f3"></div>
-                <div id="f4"></div>
-                <div id="f5"></div>
-                <div id="f6"></div>
-                <div id="f7"></div>
-                <div id="f8"></div>
-                <div id="f9"></div>
-                <div id="fa"></div>
-                <div id="g1"></div>
-                <div id="g2"></div>
-                <div id="g3"></div>
-                <div id="g4"></div>
-                <div id="g5"></div>
-                <div id="g6"></div>
-                <div id="g7"></div>
-                <div id="g8"></div>
-                <div id="g9"></div>
-                <div id="ga"></div>
-                <div id="h1"></div>
-                <div id="h2"></div>
-                <div id="h3"></div>
-                <div id="h4"></div>
-                <div id="h5"></div>
-                <div id="h6"></div>
-                <div id="h7"></div>
-                <div id="h8"></div>
-                <div id="h9"></div>
-                <div id="ha"></div>
-                <div id="i1"></div>
-                <div id="i2"></div>
-                <div id="i3"></div>
-                <div id="i4"></div>
-                <div id="i5"></div>
-                <div id="i6"></div>
-                <div id="i7"></div>
-                <div id="i8"></div>
-                <div id="i9"></div>
-                <div id="ia"></div>
-                <div id="j1"></div>
-                <div id="j2"></div>
-                <div id="j3"></div>
-                <div id="j4"></div>
-                <div id="j5"></div>
-                <div id="j6"></div>
-                <div id="j7"></div>
-                <div id="j8"></div>
-                <div id="j9"></div>
-                <div id="ja"></div>
+                <div id="a1">A1</div>
+                <div id="a2">A2</div>
+                <div id="a3">A3</div>
+                <div id="a4">A4</div>
+                <div id="a5">A5</div>
+                <div id="a6">A6</div>
+                <div id="a7">A7</div>
+                <div id="a8">A8</div>
+                <div id="a9">A9</div>
+                <div id="aa">AA</div>
+                <div id="b1">B1</div>
+                <div id="b2">B2</div>
+                <div id="b3">B3</div>
+                <div id="b4">B4</div>
+                <div id="b5">B5</div>
+                <div id="b6">B6</div>
+                <div id="b7">B7</div>
+                <div id="b8">B8</div>
+                <div id="b9">B9</div>
+                <div id="ba">BA</div>
+                <div id="c1">C1</div>
+                <div id="c2">C2</div>
+                <div id="c3">C3</div>
+                <div id="c4">C4</div>
+                <div id="c5">C5</div>
+                <div id="c6">C6</div>
+                <div id="c7">C7</div>
+                <div id="c8">C8</div>
+                <div id="c9">C9</div>
+                <div id="ca">CA</div>
+                <div id="d1">D1</div>
+                <div id="d2">D2</div>
+                <div id="d3">D3</div>
+                <div id="d4">D4</div>
+                <div id="d5">D5</div>
+                <div id="d6">D6</div>
+                <div id="d7">D7</div>
+                <div id="d8">D8</div>
+                <div id="d9">D9</div>
+                <div id="da">DA</div>
+                <div id="e1">E1</div>
+                <div id="e2">E2</div>
+                <div id="e3">E3</div>
+                <div id="e4">E4</div>
+                <div id="e5">E5</div>
+                <div id="e6">E6</div>
+                <div id="e7">E7</div>
+                <div id="e8">E8</div>
+                <div id="e9">E9</div>
+                <div id="ea">EA</div>
+                <div id="f1">F1</div>
+                <div id="f2">F2</div>
+                <div id="f3">F3</div>
+                <div id="f4">F4</div>
+                <div id="f5">F5</div>
+                <div id="f6">F6</div>
+                <div id="f7">F7</div>
+                <div id="f8">F8</div>
+                <div id="f9">F9</div>
+                <div id="fa">FA</div>
+                <div id="g1">G1</div>
+                <div id="g2">G2</div>
+                <div id="g3">G3</div>
+                <div id="g4">G4</div>
+                <div id="g5">G5</div>
+                <div id="g6">G6</div>
+                <div id="g7">G7</div>
+                <div id="g8">G8</div>
+                <div id="g9">G9</div>
+                <div id="ga">GA</div>
+                <div id="h1">H1</div>
+                <div id="h2">H2</div>
+                <div id="h3">H3</div>
+                <div id="h4">H4</div>
+                <div id="h5">H5</div>
+                <div id="h6">H6</div>
+                <div id="h7">H7</div>
+                <div id="h8">H8</div>
+                <div id="h9">H9</div>
+                <div id="ha">HA</div>
+                <div id="i1">I1</div>
+                <div id="i2">I2</div>
+                <div id="i3">I3</div>
+                <div id="i4">I4</div>
+                <div id="i5">I5</div>
+                <div id="i6">I6</div>
+                <div id="i7">I7</div>
+                <div id="i8">I8</div>
+                <div id="i9">I9</div>
+                <div id="ia">IA</div>
+                <div id="j1">J1</div>
+                <div id="j2">J2</div>
+                <div id="j3">J3</div>
+                <div id="j4">J4</div>
+                <div id="j5">J5</div>
+                <div id="j6">J6</div>
+                <div id="j7">J7</div>
+                <div id="j8">J8</div>
+                <div id="j9">J9</div>
+                <div id="ja">JA</div>
             </div>
         </div>
     </body>
