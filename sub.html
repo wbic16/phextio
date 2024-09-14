@@ -24,6 +24,7 @@
                 border-radius: 11px;
                 border: 3px solid darkgrey;
                 background-color: black;
+                user-select: none;
             }
             #coordinate {
                 position: absolute;
@@ -249,6 +250,19 @@
         var phext = new Phext();
         function dgid(e) { return document.getElementById(e); }
         function prep(board_coordinate) {
+            var bc = dgid(board_coordinate.toLowerCase());            
+            if (bc) {
+                bc.style.borderRadius = "50%";
+                bc.style.borderColor = "yellow";
+                if (board_coordinate.endsWith("3")) {
+                    bc.style.borderColor = "red";
+                    bc.style.borderBlockColor = "orange";
+                }
+                if (board_coordinate.endsWith("7")) {
+                    bc.style.borderColor = "green";
+                    bc.style.borderBlockColor = "darkgreen";
+                }
+            }
             if (board_coordinate == "A1") { coord.z.library = 1; }
             if (board_coordinate == "A2") { coord.z.library = 2; }
             if (board_coordinate == "A3") { coord.z.library = 3; }
@@ -343,7 +357,6 @@
             var ss = dgid('subspace');
             if (co) {
                 co.value = coord.to_string();
-                co.style.borderRadius = "50%";
             }
             if (ss) {
                 ss.value = world.length + " parsecs";
