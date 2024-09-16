@@ -253,15 +253,7 @@
             var bc = dgid(board_coordinate.toLowerCase());            
             if (bc) {
                 bc.style.borderRadius = "50%";
-                bc.style.borderColor = "yellow";
-                if (board_coordinate.endsWith("3")) {
-                    bc.style.borderColor = "red";
-                    bc.style.borderBlockColor = "orange";
-                }
-                if (board_coordinate.endsWith("7")) {
-                    bc.style.borderColor = "green";
-                    bc.style.borderBlockColor = "darkgreen";
-                }
+                bc.style.borderColor = "yellow";                
             }
             if (board_coordinate == "A1") { coord.z.library = 1; }
             if (board_coordinate == "A2") { coord.z.library = 2; }
@@ -361,10 +353,140 @@
             if (ss) {
                 ss.value = world.length + " parsecs";
             }
-        }        
+
+            serializeBoardState();
+        }
+        var a1,a2,a3,a4,a5,a6,a7,a8,a9;
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9;
+        var c1,c2,c3,c4,c5,c6,c7,c8,c9;
+        var d1,d2,d3,d4,d5,d6,d7,d8,d9;
+        var e1,e2,e3,e4,e5,e6,e7,e8,e9;
+        var f1,f2,f3,f4,f5,f6,f7,f8,f9;
+        var g1,g2,g3,g4,g5,g6,g7,g8,g9;
+        var h1,h2,h3,h4,h5,h6,h7,h8,h9;
+        var i1,i2,i3,i4,i5,i6,i7,i8,i9;
+
+        var av1,av2,av3,av4,av5,av6,av7,av8,av9;
+        var bv1,bv2,bv3,bv4,bv5,bv6,bv7,bv8,bv9;
+        var cv1,cv2,cv3,cv4,cv5,cv6,cv7,cv8,cv9;
+        var dv1,dv2,dv3,dv4,dv5,dv6,dv7,dv8,dv9;
+        var ev1,ev2,ev3,ev4,ev5,ev6,ev7,ev8,ev9;
+        var fv1,fv2,fv3,fv4,fv5,fv6,fv7,fv8,fv9;
+        var gv1,gv2,gv3,gv4,gv5,gv6,gv7,gv8,gv9;
+        var hv1,hv2,hv3,hv4,hv5,hv6,hv7,hv8,hv9;
+        var iv1,iv2,iv3,iv4,iv5,iv6,iv7,iv8,iv9;
+        function grabCells() {
+            a1=dgid("a1");a2=dgid("a2");a3=dgid("a3");a4=dgid("a4");a5=dgid("a5");a6=dgid("a6");a7=dgid("a7");a8=dgid("a8");a9=dgid("a9");
+            b1=dgid("b1");b2=dgid("b2");b3=dgid("b3");b4=dgid("b4");b5=dgid("b5");b6=dgid("b6");b7=dgid("b7");b8=dgid("b8");b9=dgid("b9");
+            c1=dgid("c1");c2=dgid("c2");c3=dgid("c3");c4=dgid("c4");c5=dgid("c5");c6=dgid("c6");c7=dgid("c7");c8=dgid("c8");c9=dgid("c9");
+            d1=dgid("d1");d2=dgid("d2");d3=dgid("d3");d4=dgid("d4");d5=dgid("d5");d6=dgid("d6");d7=dgid("d7");d8=dgid("d8");d9=dgid("d9");
+            e1=dgid("e1");e2=dgid("e2");e3=dgid("e3");e4=dgid("e4");e5=dgid("e5");e6=dgid("e6");e7=dgid("e7");e8=dgid("e8");e9=dgid("e9");
+            f1=dgid("f1");f2=dgid("f2");f3=dgid("f3");f4=dgid("f4");f5=dgid("f5");f6=dgid("f6");f7=dgid("f7");f8=dgid("f8");f9=dgid("f9");
+            g1=dgid("g1");g2=dgid("g2");g3=dgid("g3");g4=dgid("g4");g5=dgid("g5");g6=dgid("g6");g7=dgid("g7");g8=dgid("g8");g9=dgid("g9");
+            h1=dgid("h1");h2=dgid("h2");h3=dgid("h3");h4=dgid("h4");h5=dgid("h5");h6=dgid("h6");h7=dgid("h7");h8=dgid("h8");h9=dgid("h9");
+            i1=dgid("i1");i2=dgid("i2");i3=dgid("i3");i4=dgid("i4");i5=dgid("i5");i6=dgid("i6");i7=dgid("i7");i8=dgid("i8");i9=dgid("i9");
+        }
+
+        function serializeBoardState() {
+            const activatedColor = 'yellow';
+            av1 = a1.style.borderColor == activatedColor ? 'X' : 'Y';
+            av2 = a2.style.borderColor == activatedColor ? 'X' : 'Y';
+            av3 = a3.style.borderColor == activatedColor ? 'X' : 'Y';
+            av4 = a4.style.borderColor == activatedColor ? 'X' : 'Y';
+            av5 = a5.style.borderColor == activatedColor ? 'X' : 'Y';
+            av6 = a6.style.borderColor == activatedColor ? 'X' : 'Y';
+            av7 = a7.style.borderColor == activatedColor ? 'X' : 'Y';
+            av8 = a8.style.borderColor == activatedColor ? 'X' : 'Y';
+            av9 = a9.style.borderColor == activatedColor ? 'X' : 'Y';
+
+            bv1 = b1.style.borderColor == activatedColor ? 'X' : 'Y';
+            bv2 = b2.style.borderColor == activatedColor ? 'X' : 'Y';
+            bv3 = b3.style.borderColor == activatedColor ? 'X' : 'Y';
+            bv4 = b4.style.borderColor == activatedColor ? 'X' : 'Y';
+            bv5 = b5.style.borderColor == activatedColor ? 'X' : 'Y';
+            bv6 = b6.style.borderColor == activatedColor ? 'X' : 'Y';
+            bv7 = b7.style.borderColor == activatedColor ? 'X' : 'Y';
+            bv8 = b8.style.borderColor == activatedColor ? 'X' : 'Y';
+            bv9 = b9.style.borderColor == activatedColor ? 'X' : 'Y';
+
+            cv1 = c1.style.borderColor == activatedColor ? 'X' : 'Y';
+            cv2 = c2.style.borderColor == activatedColor ? 'X' : 'Y';
+            cv3 = c3.style.borderColor == activatedColor ? 'X' : 'Y';
+            cv4 = c4.style.borderColor == activatedColor ? 'X' : 'Y';
+            cv5 = c5.style.borderColor == activatedColor ? 'X' : 'Y';
+            cv6 = c6.style.borderColor == activatedColor ? 'X' : 'Y';
+            cv7 = c7.style.borderColor == activatedColor ? 'X' : 'Y';
+            cv8 = c8.style.borderColor == activatedColor ? 'X' : 'Y';
+            cv9 = c9.style.borderColor == activatedColor ? 'X' : 'Y';
+
+            dv1 = d1.style.borderColor == activatedColor ? 'X' : 'Y';
+            dv2 = d2.style.borderColor == activatedColor ? 'X' : 'Y';
+            dv3 = d3.style.borderColor == activatedColor ? 'X' : 'Y';
+            dv4 = d4.style.borderColor == activatedColor ? 'X' : 'Y';
+            dv5 = d5.style.borderColor == activatedColor ? 'X' : 'Y';
+            dv6 = d6.style.borderColor == activatedColor ? 'X' : 'Y';
+            dv7 = d7.style.borderColor == activatedColor ? 'X' : 'Y';
+            dv8 = d8.style.borderColor == activatedColor ? 'X' : 'Y';
+            dv9 = d9.style.borderColor == activatedColor ? 'X' : 'Y';
+
+            ev1 = e1.style.borderColor == activatedColor ? 'X' : 'Y';
+            ev2 = e2.style.borderColor == activatedColor ? 'X' : 'Y';
+            ev3 = e3.style.borderColor == activatedColor ? 'X' : 'Y';
+            ev4 = e4.style.borderColor == activatedColor ? 'X' : 'Y';
+            ev5 = e5.style.borderColor == activatedColor ? 'X' : 'Y';
+            ev6 = e6.style.borderColor == activatedColor ? 'X' : 'Y';
+            ev7 = e7.style.borderColor == activatedColor ? 'X' : 'Y';
+            ev8 = e8.style.borderColor == activatedColor ? 'X' : 'Y';
+            ev9 = e9.style.borderColor == activatedColor ? 'X' : 'Y';
+
+            fv1 = f1.style.borderColor == activatedColor ? 'X' : 'Y';
+            fv2 = f2.style.borderColor == activatedColor ? 'X' : 'Y';
+            fv3 = f3.style.borderColor == activatedColor ? 'X' : 'Y';
+            fv4 = f4.style.borderColor == activatedColor ? 'X' : 'Y';
+            fv5 = f5.style.borderColor == activatedColor ? 'X' : 'Y';
+            fv6 = f6.style.borderColor == activatedColor ? 'X' : 'Y';
+            fv7 = f7.style.borderColor == activatedColor ? 'X' : 'Y';
+            fv8 = f8.style.borderColor == activatedColor ? 'X' : 'Y';
+            fv9 = f9.style.borderColor == activatedColor ? 'X' : 'Y';
+
+            gv1 = g1.style.borderColor == activatedColor ? 'X' : 'Y';
+            gv2 = g2.style.borderColor == activatedColor ? 'X' : 'Y';
+            gv3 = g3.style.borderColor == activatedColor ? 'X' : 'Y';
+            gv4 = g4.style.borderColor == activatedColor ? 'X' : 'Y';
+            gv5 = g5.style.borderColor == activatedColor ? 'X' : 'Y';
+            gv6 = g6.style.borderColor == activatedColor ? 'X' : 'Y';
+            gv7 = g7.style.borderColor == activatedColor ? 'X' : 'Y';
+            gv8 = g8.style.borderColor == activatedColor ? 'X' : 'Y';
+            gv9 = g9.style.borderColor == activatedColor ? 'X' : 'Y';
+
+            hv1 = h1.style.borderColor == activatedColor ? 'X' : 'Y';
+            hv2 = h2.style.borderColor == activatedColor ? 'X' : 'Y';
+            hv3 = h3.style.borderColor == activatedColor ? 'X' : 'Y';
+            hv4 = h4.style.borderColor == activatedColor ? 'X' : 'Y';
+            hv5 = h5.style.borderColor == activatedColor ? 'X' : 'Y';
+            hv6 = h6.style.borderColor == activatedColor ? 'X' : 'Y';
+            hv7 = h7.style.borderColor == activatedColor ? 'X' : 'Y';
+            hv8 = h8.style.borderColor == activatedColor ? 'X' : 'Y';
+            hv9 = h9.style.borderColor == activatedColor ? 'X' : 'Y';
+
+            iv1 = i1.style.borderColor == activatedColor ? 'X' : 'Y';
+            iv2 = i2.style.borderColor == activatedColor ? 'X' : 'Y';
+            iv3 = i3.style.borderColor == activatedColor ? 'X' : 'Y';
+            iv4 = i4.style.borderColor == activatedColor ? 'X' : 'Y';
+            iv5 = i5.style.borderColor == activatedColor ? 'X' : 'Y';
+            iv6 = i6.style.borderColor == activatedColor ? 'X' : 'Y';
+            iv7 = i7.style.borderColor == activatedColor ? 'X' : 'Y';
+            iv8 = i8.style.borderColor == activatedColor ? 'X' : 'Y';
+            iv9 = i9.style.borderColor == activatedColor ? 'X' : 'Y';
+
+            const output = `${av1}${av2}${av3}${av4}${av5}${av6}${av7}${av8}${av9}\n${bv1}${bv2}${bv3}${bv4}${bv5}${bv6}${bv7}${bv8}${bv9}\n${cv1}${cv2}${cv3}${cv4}${cv5}${cv6}${cv7}${cv8}${cv9}\n${dv1}${dv2}${dv3}${dv4}${dv5}${dv6}${dv7}${dv8}${dv9}\n${ev1}${ev2}${ev3}${ev4}${ev5}${ev6}${ev7}${ev8}${ev9}\n${fv1}${fv2}${fv3}${fv4}${fv5}${fv6}${fv7}${fv8}${fv9}\n${gv1}${gv2}${gv3}${gv4}${gv5}${gv6}${gv7}${gv8}${gv9}\n${hv1}${hv2}${hv3}${hv4}${hv5}${hv6}${hv7}${hv8}${hv9}\n${iv1}${iv2}${iv3}${iv4}${iv5}${iv6}${iv7}${iv8}${iv9}`;
+            world = phext.replace(world, coord, output);
+            localStorage.world = world;
+        }
+
         </script>
     </head>
-    <body>
+    <body onload="grabCells();">
         <div id="coordinate">
             Jump Coordinate: <input type="text" id="coordinate_text" value="1.1.1/1.1.1/1.1.1" /><br />
             Entropy: <input type="text" id="subspace" value="" />
