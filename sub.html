@@ -247,6 +247,7 @@
         <script type="text/javascript">
         var world = localStorage.world ? localStorage.world : default_world;
         var coord = new Coordinate();
+        var last_jump = new Coordinate();
         var phext = new Phext();
         function dgid(e) { return document.getElementById(e); }
         function prep(board_coordinate) {
@@ -255,7 +256,6 @@
                 bc.style.borderRadius = "50%";
                 bc.style.borderColor = "yellow";                
             }
-            const prior_coord = new Coordinate(coord.to_string());
             if (board_coordinate == "A1") { coord.z.library = 1; }
             if (board_coordinate == "A2") { coord.z.library = 2; }
             if (board_coordinate == "A3") { coord.z.library = 3; }
@@ -353,10 +353,7 @@
             }
             if (ss) {
                 ss.value = world.length + " parsecs";
-            }
-
-            serializeBoardState();
-            loadNextBoardstate(prior_coord);
+            }            
         }
         var a1,a2,a3,a4,a5,a6,a7,a8,a9;
         var b1,b2,b3,b4,b5,b6,b7,b8,b9;
@@ -367,6 +364,7 @@
         var g1,g2,g3,g4,g5,g6,g7,g8,g9;
         var h1,h2,h3,h4,h5,h6,h7,h8,h9;
         var i1,i2,i3,i4,i5,i6,i7,i8,i9;
+        var all_cells = Array();
 
         var av1,av2,av3,av4,av5,av6,av7,av8,av9;
         var bv1,bv2,bv3,bv4,bv5,bv6,bv7,bv8,bv9;
@@ -387,108 +385,139 @@
             g1=dgid("g1");g2=dgid("g2");g3=dgid("g3");g4=dgid("g4");g5=dgid("g5");g6=dgid("g6");g7=dgid("g7");g8=dgid("g8");g9=dgid("g9");
             h1=dgid("h1");h2=dgid("h2");h3=dgid("h3");h4=dgid("h4");h5=dgid("h5");h6=dgid("h6");h7=dgid("h7");h8=dgid("h8");h9=dgid("h9");
             i1=dgid("i1");i2=dgid("i2");i3=dgid("i3");i4=dgid("i4");i5=dgid("i5");i6=dgid("i6");i7=dgid("i7");i8=dgid("i8");i9=dgid("i9");
+            all_cells[0] =a1;all_cells[1] =a2;all_cells[2] =a3;all_cells[3] =a4;all_cells[4] =a5;all_cells[5] =a6;all_cells[6] =a7;all_cells[7] =a8;all_cells[8] =a9;
+            all_cells[9] =b1;all_cells[10]=b2;all_cells[11]=b3;all_cells[12]=b4;all_cells[13]=b5;all_cells[14]=b6;all_cells[15]=b7;all_cells[16]=b8;all_cells[17]=b9;
+            all_cells[18]=c1;all_cells[19]=c2;all_cells[20]=c3;all_cells[21]=c4;all_cells[22]=c5;all_cells[23]=c6;all_cells[24]=c7;all_cells[25]=c8;all_cells[26]=c9;
+            all_cells[27]=d1;all_cells[28]=d2;all_cells[29]=d3;all_cells[30]=d4;all_cells[31]=d5;all_cells[32]=d6;all_cells[33]=d7;all_cells[34]=d8;all_cells[35]=d9;
+            all_cells[36]=e1;all_cells[37]=e2;all_cells[38]=e3;all_cells[39]=e4;all_cells[40]=e5;all_cells[41]=e6;all_cells[42]=e7;all_cells[43]=e8;all_cells[44]=e9;
+            all_cells[45]=f1;all_cells[46]=f2;all_cells[47]=f3;all_cells[48]=f4;all_cells[49]=f5;all_cells[50]=f6;all_cells[51]=f7;all_cells[52]=f8;all_cells[53]=f9;
+            all_cells[54]=g1;all_cells[55]=g2;all_cells[56]=g3;all_cells[57]=g4;all_cells[58]=g5;all_cells[59]=g6;all_cells[60]=g7;all_cells[61]=g8;all_cells[62]=g9;
+            all_cells[63]=h1;all_cells[64]=h2;all_cells[65]=h3;all_cells[66]=h4;all_cells[67]=h5;all_cells[68]=h6;all_cells[69]=h7;all_cells[70]=h8;all_cells[71]=h9;
+            all_cells[72]=i1;all_cells[73]=i2;all_cells[74]=i3;all_cells[75]=i4;all_cells[76]=i5;all_cells[77]=i6;all_cells[78]=i7;all_cells[79]=i8;all_cells[80]=i9;
         }
 
-        function serializeBoardState() {
+        function serializeBoardState(save_coordinate) {
             const activatedColor = 'yellow';
-            av1 = a1.style.borderColor == activatedColor ? 'X' : 'Y';
-            av2 = a2.style.borderColor == activatedColor ? 'X' : 'Y';
-            av3 = a3.style.borderColor == activatedColor ? 'X' : 'Y';
-            av4 = a4.style.borderColor == activatedColor ? 'X' : 'Y';
-            av5 = a5.style.borderColor == activatedColor ? 'X' : 'Y';
-            av6 = a6.style.borderColor == activatedColor ? 'X' : 'Y';
-            av7 = a7.style.borderColor == activatedColor ? 'X' : 'Y';
-            av8 = a8.style.borderColor == activatedColor ? 'X' : 'Y';
-            av9 = a9.style.borderColor == activatedColor ? 'X' : 'Y';
+            av1 = a1.style.borderColor != activatedColor ? 'X' : 'Y';
+            av2 = a2.style.borderColor != activatedColor ? 'X' : 'Y';
+            av3 = a3.style.borderColor != activatedColor ? 'X' : 'Y';
+            av4 = a4.style.borderColor != activatedColor ? 'X' : 'Y';
+            av5 = a5.style.borderColor != activatedColor ? 'X' : 'Y';
+            av6 = a6.style.borderColor != activatedColor ? 'X' : 'Y';
+            av7 = a7.style.borderColor != activatedColor ? 'X' : 'Y';
+            av8 = a8.style.borderColor != activatedColor ? 'X' : 'Y';
+            av9 = a9.style.borderColor != activatedColor ? 'X' : 'Y';
 
-            bv1 = b1.style.borderColor == activatedColor ? 'X' : 'Y';
-            bv2 = b2.style.borderColor == activatedColor ? 'X' : 'Y';
-            bv3 = b3.style.borderColor == activatedColor ? 'X' : 'Y';
-            bv4 = b4.style.borderColor == activatedColor ? 'X' : 'Y';
-            bv5 = b5.style.borderColor == activatedColor ? 'X' : 'Y';
-            bv6 = b6.style.borderColor == activatedColor ? 'X' : 'Y';
-            bv7 = b7.style.borderColor == activatedColor ? 'X' : 'Y';
-            bv8 = b8.style.borderColor == activatedColor ? 'X' : 'Y';
-            bv9 = b9.style.borderColor == activatedColor ? 'X' : 'Y';
+            bv1 = b1.style.borderColor != activatedColor ? 'X' : 'Y';
+            bv2 = b2.style.borderColor != activatedColor ? 'X' : 'Y';
+            bv3 = b3.style.borderColor != activatedColor ? 'X' : 'Y';
+            bv4 = b4.style.borderColor != activatedColor ? 'X' : 'Y';
+            bv5 = b5.style.borderColor != activatedColor ? 'X' : 'Y';
+            bv6 = b6.style.borderColor != activatedColor ? 'X' : 'Y';
+            bv7 = b7.style.borderColor != activatedColor ? 'X' : 'Y';
+            bv8 = b8.style.borderColor != activatedColor ? 'X' : 'Y';
+            bv9 = b9.style.borderColor != activatedColor ? 'X' : 'Y';
 
-            cv1 = c1.style.borderColor == activatedColor ? 'X' : 'Y';
-            cv2 = c2.style.borderColor == activatedColor ? 'X' : 'Y';
-            cv3 = c3.style.borderColor == activatedColor ? 'X' : 'Y';
-            cv4 = c4.style.borderColor == activatedColor ? 'X' : 'Y';
-            cv5 = c5.style.borderColor == activatedColor ? 'X' : 'Y';
-            cv6 = c6.style.borderColor == activatedColor ? 'X' : 'Y';
-            cv7 = c7.style.borderColor == activatedColor ? 'X' : 'Y';
-            cv8 = c8.style.borderColor == activatedColor ? 'X' : 'Y';
-            cv9 = c9.style.borderColor == activatedColor ? 'X' : 'Y';
+            cv1 = c1.style.borderColor != activatedColor ? 'X' : 'Y';
+            cv2 = c2.style.borderColor != activatedColor ? 'X' : 'Y';
+            cv3 = c3.style.borderColor != activatedColor ? 'X' : 'Y';
+            cv4 = c4.style.borderColor != activatedColor ? 'X' : 'Y';
+            cv5 = c5.style.borderColor != activatedColor ? 'X' : 'Y';
+            cv6 = c6.style.borderColor != activatedColor ? 'X' : 'Y';
+            cv7 = c7.style.borderColor != activatedColor ? 'X' : 'Y';
+            cv8 = c8.style.borderColor != activatedColor ? 'X' : 'Y';
+            cv9 = c9.style.borderColor != activatedColor ? 'X' : 'Y';
 
-            dv1 = d1.style.borderColor == activatedColor ? 'X' : 'Y';
-            dv2 = d2.style.borderColor == activatedColor ? 'X' : 'Y';
-            dv3 = d3.style.borderColor == activatedColor ? 'X' : 'Y';
-            dv4 = d4.style.borderColor == activatedColor ? 'X' : 'Y';
-            dv5 = d5.style.borderColor == activatedColor ? 'X' : 'Y';
-            dv6 = d6.style.borderColor == activatedColor ? 'X' : 'Y';
-            dv7 = d7.style.borderColor == activatedColor ? 'X' : 'Y';
-            dv8 = d8.style.borderColor == activatedColor ? 'X' : 'Y';
-            dv9 = d9.style.borderColor == activatedColor ? 'X' : 'Y';
+            dv1 = d1.style.borderColor != activatedColor ? 'X' : 'Y';
+            dv2 = d2.style.borderColor != activatedColor ? 'X' : 'Y';
+            dv3 = d3.style.borderColor != activatedColor ? 'X' : 'Y';
+            dv4 = d4.style.borderColor != activatedColor ? 'X' : 'Y';
+            dv5 = d5.style.borderColor != activatedColor ? 'X' : 'Y';
+            dv6 = d6.style.borderColor != activatedColor ? 'X' : 'Y';
+            dv7 = d7.style.borderColor != activatedColor ? 'X' : 'Y';
+            dv8 = d8.style.borderColor != activatedColor ? 'X' : 'Y';
+            dv9 = d9.style.borderColor != activatedColor ? 'X' : 'Y';
 
-            ev1 = e1.style.borderColor == activatedColor ? 'X' : 'Y';
-            ev2 = e2.style.borderColor == activatedColor ? 'X' : 'Y';
-            ev3 = e3.style.borderColor == activatedColor ? 'X' : 'Y';
-            ev4 = e4.style.borderColor == activatedColor ? 'X' : 'Y';
-            ev5 = e5.style.borderColor == activatedColor ? 'X' : 'Y';
-            ev6 = e6.style.borderColor == activatedColor ? 'X' : 'Y';
-            ev7 = e7.style.borderColor == activatedColor ? 'X' : 'Y';
-            ev8 = e8.style.borderColor == activatedColor ? 'X' : 'Y';
-            ev9 = e9.style.borderColor == activatedColor ? 'X' : 'Y';
+            ev1 = e1.style.borderColor != activatedColor ? 'X' : 'Y';
+            ev2 = e2.style.borderColor != activatedColor ? 'X' : 'Y';
+            ev3 = e3.style.borderColor != activatedColor ? 'X' : 'Y';
+            ev4 = e4.style.borderColor != activatedColor ? 'X' : 'Y';
+            ev5 = e5.style.borderColor != activatedColor ? 'X' : 'Y';
+            ev6 = e6.style.borderColor != activatedColor ? 'X' : 'Y';
+            ev7 = e7.style.borderColor != activatedColor ? 'X' : 'Y';
+            ev8 = e8.style.borderColor != activatedColor ? 'X' : 'Y';
+            ev9 = e9.style.borderColor != activatedColor ? 'X' : 'Y';
 
-            fv1 = f1.style.borderColor == activatedColor ? 'X' : 'Y';
-            fv2 = f2.style.borderColor == activatedColor ? 'X' : 'Y';
-            fv3 = f3.style.borderColor == activatedColor ? 'X' : 'Y';
-            fv4 = f4.style.borderColor == activatedColor ? 'X' : 'Y';
-            fv5 = f5.style.borderColor == activatedColor ? 'X' : 'Y';
-            fv6 = f6.style.borderColor == activatedColor ? 'X' : 'Y';
-            fv7 = f7.style.borderColor == activatedColor ? 'X' : 'Y';
-            fv8 = f8.style.borderColor == activatedColor ? 'X' : 'Y';
-            fv9 = f9.style.borderColor == activatedColor ? 'X' : 'Y';
+            fv1 = f1.style.borderColor != activatedColor ? 'X' : 'Y';
+            fv2 = f2.style.borderColor != activatedColor ? 'X' : 'Y';
+            fv3 = f3.style.borderColor != activatedColor ? 'X' : 'Y';
+            fv4 = f4.style.borderColor != activatedColor ? 'X' : 'Y';
+            fv5 = f5.style.borderColor != activatedColor ? 'X' : 'Y';
+            fv6 = f6.style.borderColor != activatedColor ? 'X' : 'Y';
+            fv7 = f7.style.borderColor != activatedColor ? 'X' : 'Y';
+            fv8 = f8.style.borderColor != activatedColor ? 'X' : 'Y';
+            fv9 = f9.style.borderColor != activatedColor ? 'X' : 'Y';
 
-            gv1 = g1.style.borderColor == activatedColor ? 'X' : 'Y';
-            gv2 = g2.style.borderColor == activatedColor ? 'X' : 'Y';
-            gv3 = g3.style.borderColor == activatedColor ? 'X' : 'Y';
-            gv4 = g4.style.borderColor == activatedColor ? 'X' : 'Y';
-            gv5 = g5.style.borderColor == activatedColor ? 'X' : 'Y';
-            gv6 = g6.style.borderColor == activatedColor ? 'X' : 'Y';
-            gv7 = g7.style.borderColor == activatedColor ? 'X' : 'Y';
-            gv8 = g8.style.borderColor == activatedColor ? 'X' : 'Y';
-            gv9 = g9.style.borderColor == activatedColor ? 'X' : 'Y';
+            gv1 = g1.style.borderColor != activatedColor ? 'X' : 'Y';
+            gv2 = g2.style.borderColor != activatedColor ? 'X' : 'Y';
+            gv3 = g3.style.borderColor != activatedColor ? 'X' : 'Y';
+            gv4 = g4.style.borderColor != activatedColor ? 'X' : 'Y';
+            gv5 = g5.style.borderColor != activatedColor ? 'X' : 'Y';
+            gv6 = g6.style.borderColor != activatedColor ? 'X' : 'Y';
+            gv7 = g7.style.borderColor != activatedColor ? 'X' : 'Y';
+            gv8 = g8.style.borderColor != activatedColor ? 'X' : 'Y';
+            gv9 = g9.style.borderColor != activatedColor ? 'X' : 'Y';
 
-            hv1 = h1.style.borderColor == activatedColor ? 'X' : 'Y';
-            hv2 = h2.style.borderColor == activatedColor ? 'X' : 'Y';
-            hv3 = h3.style.borderColor == activatedColor ? 'X' : 'Y';
-            hv4 = h4.style.borderColor == activatedColor ? 'X' : 'Y';
-            hv5 = h5.style.borderColor == activatedColor ? 'X' : 'Y';
-            hv6 = h6.style.borderColor == activatedColor ? 'X' : 'Y';
-            hv7 = h7.style.borderColor == activatedColor ? 'X' : 'Y';
-            hv8 = h8.style.borderColor == activatedColor ? 'X' : 'Y';
-            hv9 = h9.style.borderColor == activatedColor ? 'X' : 'Y';
+            hv1 = h1.style.borderColor != activatedColor ? 'X' : 'Y';
+            hv2 = h2.style.borderColor != activatedColor ? 'X' : 'Y';
+            hv3 = h3.style.borderColor != activatedColor ? 'X' : 'Y';
+            hv4 = h4.style.borderColor != activatedColor ? 'X' : 'Y';
+            hv5 = h5.style.borderColor != activatedColor ? 'X' : 'Y';
+            hv6 = h6.style.borderColor != activatedColor ? 'X' : 'Y';
+            hv7 = h7.style.borderColor != activatedColor ? 'X' : 'Y';
+            hv8 = h8.style.borderColor != activatedColor ? 'X' : 'Y';
+            hv9 = h9.style.borderColor != activatedColor ? 'X' : 'Y';
 
-            iv1 = i1.style.borderColor == activatedColor ? 'X' : 'Y';
-            iv2 = i2.style.borderColor == activatedColor ? 'X' : 'Y';
-            iv3 = i3.style.borderColor == activatedColor ? 'X' : 'Y';
-            iv4 = i4.style.borderColor == activatedColor ? 'X' : 'Y';
-            iv5 = i5.style.borderColor == activatedColor ? 'X' : 'Y';
-            iv6 = i6.style.borderColor == activatedColor ? 'X' : 'Y';
-            iv7 = i7.style.borderColor == activatedColor ? 'X' : 'Y';
-            iv8 = i8.style.borderColor == activatedColor ? 'X' : 'Y';
-            iv9 = i9.style.borderColor == activatedColor ? 'X' : 'Y';
+            iv1 = i1.style.borderColor != activatedColor ? 'X' : 'Y';
+            iv2 = i2.style.borderColor != activatedColor ? 'X' : 'Y';
+            iv3 = i3.style.borderColor != activatedColor ? 'X' : 'Y';
+            iv4 = i4.style.borderColor != activatedColor ? 'X' : 'Y';
+            iv5 = i5.style.borderColor != activatedColor ? 'X' : 'Y';
+            iv6 = i6.style.borderColor != activatedColor ? 'X' : 'Y';
+            iv7 = i7.style.borderColor != activatedColor ? 'X' : 'Y';
+            iv8 = i8.style.borderColor != activatedColor ? 'X' : 'Y';
+            iv9 = i9.style.borderColor != activatedColor ? 'X' : 'Y';
 
             const output = `${av1}${av2}${av3}${av4}${av5}${av6}${av7}${av8}${av9}\n${bv1}${bv2}${bv3}${bv4}${bv5}${bv6}${bv7}${bv8}${bv9}\n${cv1}${cv2}${cv3}${cv4}${cv5}${cv6}${cv7}${cv8}${cv9}\n${dv1}${dv2}${dv3}${dv4}${dv5}${dv6}${dv7}${dv8}${dv9}\n${ev1}${ev2}${ev3}${ev4}${ev5}${ev6}${ev7}${ev8}${ev9}\n${fv1}${fv2}${fv3}${fv4}${fv5}${fv6}${fv7}${fv8}${fv9}\n${gv1}${gv2}${gv3}${gv4}${gv5}${gv6}${gv7}${gv8}${gv9}\n${hv1}${hv2}${hv3}${hv4}${hv5}${hv6}${hv7}${hv8}${hv9}\n${iv1}${iv2}${iv3}${iv4}${iv5}${iv6}${iv7}${iv8}${iv9}`;
-            world = phext.replace(world, coord, output);
+            const prior = phext.fetch(world, save_coordinate);
+            world = phext.replace(world, save_coordinate, output);
+            
             localStorage.world = world;
         }
 
-        function loadNextBoardstate(coord) {
-            const board = phext.fetch(world, coord).split('\n');
+        function jump() {
+            serializeBoardState(last_jump);
+            last_jump = new Coordinate(coord.to_string());
+            const board = phext.fetch(world, coord).split('\n');            
+            const parsed_size = board.length;
+            if (parsed_size < 9) { board[8] = 'XXXXXXXXX'; }
+            if (parsed_size < 8) { board[7] = 'XXXXXXXXX'; }
+            if (parsed_size < 7) { board[6] = 'XXXXXXXXX'; }
+            if (parsed_size < 6) { board[5] = 'XXXXXXXXX'; }
+            if (parsed_size < 5) { board[4] = 'XXXXXXXXX'; }
+            if (parsed_size < 4) { board[3] = 'XXXXXXXXX'; }
+            if (parsed_size < 3) { board[2] = 'XXXXXXXXX'; }
+            if (parsed_size < 2) { board[1] = 'XXXXXXXXX'; }
+            while (board[0].length < 9) {
+                board[0] += 'X';
+            }
+
             const color = 'yellow';
+            for (var i = 0; i < all_cells.length; ++i)
+            {
+                all_cells[i].style.borderRadius = "3px";
+            }
+
             a1.style.borderColor = board[0].at(0) == 'Y' ? color : "";
             a2.style.borderColor = board[0].at(1) == 'Y' ? color : "";
             a3.style.borderColor = board[0].at(2) == 'Y' ? color : "";
@@ -519,64 +548,64 @@
             c8.style.borderColor = board[2].at(7) == 'Y' ? color : "";
             c9.style.borderColor = board[2].at(8) == 'Y' ? color : "";
 
-            d1.style.borderColor = board[1].at(0) == 'Y' ? color : "";
-            d2.style.borderColor = board[2].at(1) == 'Y' ? color : "";
+            d1.style.borderColor = board[3].at(0) == 'Y' ? color : "";
+            d2.style.borderColor = board[3].at(1) == 'Y' ? color : "";
             d3.style.borderColor = board[3].at(2) == 'Y' ? color : "";
-            d4.style.borderColor = board[4].at(3) == 'Y' ? color : "";
-            d5.style.borderColor = board[5].at(4) == 'Y' ? color : "";
-            d6.style.borderColor = board[6].at(5) == 'Y' ? color : "";
-            d7.style.borderColor = board[7].at(6) == 'Y' ? color : "";
-            d8.style.borderColor = board[8].at(7) == 'Y' ? color : "";
-            d9.style.borderColor = board[9].at(8) == 'Y' ? color : "";
+            d4.style.borderColor = board[3].at(3) == 'Y' ? color : "";
+            d5.style.borderColor = board[3].at(4) == 'Y' ? color : "";
+            d6.style.borderColor = board[3].at(5) == 'Y' ? color : "";
+            d7.style.borderColor = board[3].at(6) == 'Y' ? color : "";
+            d8.style.borderColor = board[3].at(7) == 'Y' ? color : "";
+            d9.style.borderColor = board[3].at(8) == 'Y' ? color : "";
 
-            e1.style.borderColor = board[0].at(0) == 'Y' ? color : "";
-            e2.style.borderColor = board[1].at(1) == 'Y' ? color : "";
-            e3.style.borderColor = board[2].at(2) == 'Y' ? color : "";
-            e4.style.borderColor = board[3].at(3) == 'Y' ? color : "";
+            e1.style.borderColor = board[4].at(0) == 'Y' ? color : "";
+            e2.style.borderColor = board[4].at(1) == 'Y' ? color : "";
+            e3.style.borderColor = board[4].at(2) == 'Y' ? color : "";
+            e4.style.borderColor = board[4].at(3) == 'Y' ? color : "";
             e5.style.borderColor = board[4].at(4) == 'Y' ? color : "";
-            e6.style.borderColor = board[5].at(5) == 'Y' ? color : "";
-            e7.style.borderColor = board[6].at(6) == 'Y' ? color : "";
-            e8.style.borderColor = board[7].at(7) == 'Y' ? color : "";
-            e9.style.borderColor = board[8].at(8) == 'Y' ? color : "";
+            e6.style.borderColor = board[4].at(5) == 'Y' ? color : "";
+            e7.style.borderColor = board[4].at(6) == 'Y' ? color : "";
+            e8.style.borderColor = board[4].at(7) == 'Y' ? color : "";
+            e9.style.borderColor = board[4].at(8) == 'Y' ? color : "";
 
-            f1.style.borderColor = board[0].at(0) == 'Y' ? color : "";
-            f2.style.borderColor = board[1].at(1) == 'Y' ? color : "";
-            f3.style.borderColor = board[2].at(2) == 'Y' ? color : "";
-            f4.style.borderColor = board[3].at(3) == 'Y' ? color : "";
-            f5.style.borderColor = board[4].at(4) == 'Y' ? color : "";
+            f1.style.borderColor = board[5].at(0) == 'Y' ? color : "";
+            f2.style.borderColor = board[5].at(1) == 'Y' ? color : "";
+            f3.style.borderColor = board[5].at(2) == 'Y' ? color : "";
+            f4.style.borderColor = board[5].at(3) == 'Y' ? color : "";
+            f5.style.borderColor = board[5].at(4) == 'Y' ? color : "";
             f6.style.borderColor = board[5].at(5) == 'Y' ? color : "";
-            f7.style.borderColor = board[6].at(6) == 'Y' ? color : "";
-            f8.style.borderColor = board[7].at(7) == 'Y' ? color : "";
-            f9.style.borderColor = board[8].at(8) == 'Y' ? color : "";
+            f7.style.borderColor = board[5].at(6) == 'Y' ? color : "";
+            f8.style.borderColor = board[5].at(7) == 'Y' ? color : "";
+            f9.style.borderColor = board[5].at(8) == 'Y' ? color : "";
 
-            g1.style.borderColor = board[0].at(0) == 'Y' ? color : "";
-            g2.style.borderColor = board[1].at(1) == 'Y' ? color : "";
-            g3.style.borderColor = board[2].at(2) == 'Y' ? color : "";
-            g4.style.borderColor = board[3].at(3) == 'Y' ? color : "";
-            g5.style.borderColor = board[4].at(4) == 'Y' ? color : "";
-            g6.style.borderColor = board[5].at(5) == 'Y' ? color : "";
+            g1.style.borderColor = board[6].at(0) == 'Y' ? color : "";
+            g2.style.borderColor = board[6].at(1) == 'Y' ? color : "";
+            g3.style.borderColor = board[6].at(2) == 'Y' ? color : "";
+            g4.style.borderColor = board[6].at(3) == 'Y' ? color : "";
+            g5.style.borderColor = board[6].at(4) == 'Y' ? color : "";
+            g6.style.borderColor = board[6].at(5) == 'Y' ? color : "";
             g7.style.borderColor = board[6].at(6) == 'Y' ? color : "";
-            g8.style.borderColor = board[7].at(7) == 'Y' ? color : "";
-            g9.style.borderColor = board[8].at(8) == 'Y' ? color : "";
+            g8.style.borderColor = board[6].at(7) == 'Y' ? color : "";
+            g9.style.borderColor = board[6].at(8) == 'Y' ? color : "";
 
-            h1.style.borderColor = board[0].at(0) == 'Y' ? color : "";
-            h2.style.borderColor = board[1].at(1) == 'Y' ? color : "";
-            h3.style.borderColor = board[2].at(2) == 'Y' ? color : "";
-            h4.style.borderColor = board[3].at(3) == 'Y' ? color : "";
-            h5.style.borderColor = board[4].at(4) == 'Y' ? color : "";
-            h6.style.borderColor = board[5].at(5) == 'Y' ? color : "";
-            h7.style.borderColor = board[6].at(6) == 'Y' ? color : "";
+            h1.style.borderColor = board[7].at(0) == 'Y' ? color : "";
+            h2.style.borderColor = board[7].at(1) == 'Y' ? color : "";
+            h3.style.borderColor = board[7].at(2) == 'Y' ? color : "";
+            h4.style.borderColor = board[7].at(3) == 'Y' ? color : "";
+            h5.style.borderColor = board[7].at(4) == 'Y' ? color : "";
+            h6.style.borderColor = board[7].at(5) == 'Y' ? color : "";
+            h7.style.borderColor = board[7].at(6) == 'Y' ? color : "";
             h8.style.borderColor = board[7].at(7) == 'Y' ? color : "";
-            h9.style.borderColor = board[8].at(8) == 'Y' ? color : "";
+            h9.style.borderColor = board[7].at(8) == 'Y' ? color : "";
 
-            i1.style.borderColor = board[0].at(0) == 'Y' ? color : "";
-            i2.style.borderColor = board[1].at(1) == 'Y' ? color : "";
-            i3.style.borderColor = board[2].at(2) == 'Y' ? color : "";
-            i4.style.borderColor = board[3].at(3) == 'Y' ? color : "";
-            i5.style.borderColor = board[4].at(4) == 'Y' ? color : "";
-            i6.style.borderColor = board[5].at(5) == 'Y' ? color : "";
-            i7.style.borderColor = board[6].at(6) == 'Y' ? color : "";
-            i8.style.borderColor = board[7].at(7) == 'Y' ? color : "";
+            i1.style.borderColor = board[8].at(0) == 'Y' ? color : "";
+            i2.style.borderColor = board[8].at(1) == 'Y' ? color : "";
+            i3.style.borderColor = board[8].at(2) == 'Y' ? color : "";
+            i4.style.borderColor = board[8].at(3) == 'Y' ? color : "";
+            i5.style.borderColor = board[8].at(4) == 'Y' ? color : "";
+            i6.style.borderColor = board[8].at(5) == 'Y' ? color : "";
+            i7.style.borderColor = board[8].at(6) == 'Y' ? color : "";
+            i8.style.borderColor = board[8].at(7) == 'Y' ? color : "";
             i9.style.borderColor = board[8].at(8) == 'Y' ? color : "";
         }
 
@@ -596,7 +625,7 @@
         <div id="buttons">
             <input type="button" value="Scan" />
             <input type="button" value="Mark" />
-            <input type="button" value="Jump" />
+            <input type="button" value="Jump" onclick="jump();" />
             <input type="button" value="Fire" />
         </div>
         <div id="game">            
