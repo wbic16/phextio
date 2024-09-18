@@ -48,6 +48,44 @@
                 border: 0;
                 margin-left: 40px;
             }
+            #minimap {
+                float: right;
+                clear: both;
+                margin-top: 0%;
+                width: 16%;
+                color: lightgray;
+                font-size: 3em;
+                font-family: monospace;
+                font-weight: 200;
+                color: lightyellow;
+                padding-left: 5%;
+            }
+            #minimap ul {
+                list-style-type: none;
+            }
+            #minimap li {
+                float: left;
+                position: relative;
+                width: 320px;
+                height: 32px;
+                margin: 10px;
+                padding: 10px;
+                text-align: center;
+            }
+            #minimap a, #minimap a:visited {
+                display: block;
+                width: 100%;
+                height: 100%;
+                color: lightyellow;                
+                transition: 0.4s all;
+                font-weight: bold;
+                border-radius: 4px;
+                padding: 20px;
+            }
+            #minimap a:hover, #minimap a:visited:hover {
+                background-color: rgb(59, 103, 235);
+                color: rgb(240, 237, 237);
+            }
             #opponent {
                 position: absolute;
                 top: 18%;
@@ -391,6 +429,25 @@
             all_cells[54]=g1;all_cells[55]=g2;all_cells[56]=g3;all_cells[57]=g4;all_cells[58]=g5;all_cells[59]=g6;all_cells[60]=g7;all_cells[61]=g8;all_cells[62]=g9;
             all_cells[63]=h1;all_cells[64]=h2;all_cells[65]=h3;all_cells[66]=h4;all_cells[67]=h5;all_cells[68]=h6;all_cells[69]=h7;all_cells[70]=h8;all_cells[71]=h9;
             all_cells[72]=i1;all_cells[73]=i2;all_cells[74]=i3;all_cells[75]=i4;all_cells[76]=i5;all_cells[77]=i6;all_cells[78]=i7;all_cells[79]=i8;all_cells[80]=i9;
+
+            const qs = new URLSearchParams(window.location.search);
+            const restart = qs.get('restart');
+            if (restart) {
+                world = "";
+            }
+            const user_coord = qs.get('coord');
+            if (user_coord) {
+                coord = new Coordinate(user_coord);
+                load(coord);
+            }
+
+            updateMinimap();
+        }
+
+        function updateMinimap() {
+            const map = phext.submap("sub.html?coord=", world);
+            var handle = dgid("minimap");
+            handle.innerHTML = map;
         }
 
         function serializeBoardState(save_coordinate) {
@@ -495,7 +552,16 @@
         function jump() {
             serializeBoardState(last_jump);
             last_jump = new Coordinate(coord.to_string());
-            const board = phext.fetch(world, coord).split('\n');            
+            load(coord);
+            updateMinimap();
+        }
+
+        function load(jump_coordinate) {
+            const board = phext.fetch(world, jump_coordinate).split('\n');
+            var ct = dgid("coordinate_text");
+            if (ct) {
+                ct.value = jump_coordinate.to_string();
+            }
             const parsed_size = board.length;
             if (parsed_size < 9) { board[8] = 'XXXXXXXXX'; }
             if (parsed_size < 8) { board[7] = 'XXXXXXXXX'; }
@@ -614,16 +680,19 @@
             Entropy: <input type="text" id="subspace" value="" />
         </div>
         <div id="opponent">
-            <h1 id="news">Ship at <a href="/sub.html?coord=42.15.17;30.12.19;24.19.55">42.15.17/30.12.19/24.19.55</a> destroyed.</h1>
+            <h1 id="news"><!-- Ship at <a href="/sub.html?coord=42.15.17;30.12.19;24.19.55">42.15.17/30.12.19/24.19.55</a> destroyed.--></h1>
         </div>
         <div id="player">
-            <h1 id="status">Ship at <a href="/sub.html?coord=42.15.18;31.12.19;24.19.55">42.15.18/31.12.19/24.19.55</a> took 10 damage.</h1>
+            <h1 id="status"><!-- Ship at <a href="/sub.html?coord=42.15.18;31.12.19;24.19.55">42.15.18/31.12.19/24.19.55</a> took 10 damage.--></h1>
         </div>
         <div id="buttons">
             <input type="button" value="Scan" />
             <input type="button" value="Mark" />
             <input type="button" value="Jump" onclick="jump();" />
             <input type="button" value="Fire" />
+        </div>
+        <div id="minimap">
+
         </div>
         <div id="game">            
             <div id="board">

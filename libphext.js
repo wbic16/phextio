@@ -147,6 +147,24 @@ var Phext = /** @class */ (function () {
             }
             return result;
         };
+        this.submap = function (urlbase, phext) {
+            var phokens = _this.phokenize(phext);
+            var result = "";
+            var max = phokens.length;
+            if (max > 0) {
+                result += "<ul><li><a href=\"sub.html?restart=true\">Restart</a></li>\n";
+            }
+            for (var i = 0; i < max; ++i) {
+                var phoken = phokens[i];
+                var urle = phoken.coord.to_urlencoded();
+                var address = phoken.coord.to_string();
+                result += "<li><a href=\"".concat(urlbase).concat(urle, "\">").concat(address, "</a></li>\n");
+            }
+            if (max > 0) {
+                result += "</ul>\n";
+            }
+            return result;
+        };
         this.textmap = function (phext) {
             var phokens = _this.phokenize(phext);
             var result = '';
