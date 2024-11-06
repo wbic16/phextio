@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>phext.io - infinite wiki</title>
+<link rel="stylesheet" href="homepage.css?rev=4.3.2" />
+<style type="text/css">
+body {
+    height: 3000px;
+}
+#root {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  margin: 0 auto;
+}
+#root #infinite {
+  position: absolute;
+  left: 10%;
+  top: 3%;
+  width: 80%;
+  height: 80%;
+  z-index: 1;
+}
+#root #subspace_traveler {
+  position: absolute;
+  left: 10%;
+  top: 40%;
+  width: 80%;
+  height: 10%;
+  z-index: 2;
+  border: 4px solid grey;
+  border-radius: 8px;
+  cursor: grab;
+}
+#subspace_traveler_left,
+#subspace_traveler_right {
+  position: absolute;
+  width: 6%;
+  height: 85%;
+  top: 3%;
+  border: 10px solid white;
+  border-radius: 10px;
+}
+#subspace_traveler_left {
+  left: 10%;
+}
+#subspace_traveler_right {
+  left: 80%;
+}
+#root #logo {
+  left: 95%;
+  cursor: pointer;
+}
+#root #logo a {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#root #copyright {
+  position: absolute;
+  bottom: 3%;
+  left: 3%;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body onload="infinite_start();">
+
+<div id="root">
+  <div id="logo"><a href="https://phext.io/infinite.html" title="Infinite Content"></a></div>
+
+  <div id="infinite">
+
+  </div>
+  <div id="subspace_traveler">
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----
+    <div id="subspace_traveler_left"></div>
+    <div id="subspace_traveler_right"></div>
+  </div>
+
+  <div id="copyright">Copyright 2023-2024 Phext, Inc. License: MIT. Version 5.0.</div>
+</div>
+
+<script type="application/javascript" src="phextio.min.ts"></script>
+<script type="application/javascript">
+let lDrag = false;
+let rDrag = false;
+let firstLX = 0, firstRX = 0;
+let initialLX;
+let initialRX;
+
+function infinite_start() {
+  const stl = document.querySelector("#subspace_traveler_left");  
+
+  stl.addEventListener("pointerdown", (event) => {
+    lDrag = true;
+    initialLX = parseFloat(stl.style.left) || 0;
+    if (firstLX == 0) { firstLX = initialLX; }
+    stl.style.cursor = 'grabbing';
+    stl.setPointerCapture(event.pointerId);
+    stl.style.borderColor = 'green';
+    event.preventDefault();
+  });
+  
+  stl.addEventListener("pointermove", (event) => {
+    if (lDrag) {
+      const deltaX = (event.clientX - firstLX - 450);
+      let posX = initialLX + deltaX;
+      if (posX < firstLX) { posX = firstLX; }
+      stl.style.left = `${posX}px`;
+    }
+  });
+  
+  stl.addEventListener("pointerup", () => {
+    lDrag = false;
+    stl.style.cursor = 'grab';
+    stl.style.borderColor = '';
+  });
+
+  const str = document.querySelector("#subspace_traveler_right");
+  str.addEventListener("pointerdown", (event) => {
+    rDrag = true;
+    initialRX = parseFloat(str.style.left) || 0;
+    if (firstRX == 0) { firstRX = initialRX; }
+    str.style.cursor = 'grabbing';
+    str.setPointerCapture(event.pointerId);
+    str.style.borderColor = 'green';
+    event.preventDefault();
+  });
+  
+  str.addEventListener("pointermove", (event) => {
+    if (rDrag) {
+      const deltaX = (event.clientX - firstRX - 450);
+      let posX = initialRX + deltaX;
+      if (posX < firstRX) { posX = firstRX; }
+      str.style.left = `${posX}px`;
+    }
+  });
+  
+  str.addEventListener("pointerup", () => {
+    rDrag = false;
+    str.style.cursor = 'grab';
+    str.style.borderColor = '';
+  });
+}
+</script>
+
+</body>
+</html>
