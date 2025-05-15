@@ -10,63 +10,46 @@
 <div id="root">
   <div id="logo">Phext, Inc.</div>
 
-  <div id="goal">    
+  <div id="goal"> 
     <h1>The Personal Exocortex</h1>
 
     <div id="phext">
-      <p>Below is a list of upcoming features for the Personal Exocortex. Reach out to <a href="https://x.com/wbic16">@wbic16</a> on X to submit ideas.</p>
-      <h2>Roadmap</h2>
-      <table class="standard">
-        <tr>
-          <th>Feature</th>
-          <th>Version</th>
-          <th>Status</th>
-        </tr>
-        <tr>
-          <td><a href="https://hello.phext.io/">Personal Exocortex</a></td>
-          <td>0.1.x</td>
-          <td>Q4 2024</td>
-        </tr>
-        <tr>
-          <td>Give Me Quests</td>
-          <td>0.2.x</td>
-          <td>Q1 2025</td>
-        </tr>
-        <tr>
-          <td>Problem Dissolver</td>
-          <td>0.3.x</td>
-          <td>Q2 2025</td>
-        </tr>
-        <tr>
-          <td>Know My Brain</td>
-          <td>0.4.x</td>
-          <td>Q3 2025</td>
-        </tr>
-        <tr>
-          <td>Task Sharing</td>
-          <td>0.5.x</td>
-          <td>Q4 2025</td>
-        </tr>
-      </table>
-      <h2>WIP</h2>
-      <ul>
-        <li><a href="https://x.com/codexeditor">@codexeditor</a> - <a href="https://hello.phext.io/api/v1/index/standoff/1.1.1;1.1.1;1.1.1">Standoff integration</a>
-          <ul>
-            <li><a href="https://github.com/wbic16/speedy-ts">speedy-ts + phext</a></li>
-            <li><a href="https://github.com/wbic16/libphext-node">libphext-node</a></li>
-          </ul>
-        </li>
-        <li><a href="https://x.com/viemccoy">@viemccoy</a> - <a href="https://hello.phext.io/api/v1/index/nixos/1.1.1;1.1.1;1.1.1">NixOS Integration for phext-shell, hello-phext, and phext-notepad</a>
-          <ul>
-            <li><a href="https://github.com/wbic16/nixpkgs">https://github.com/wbic16/nixpkgs</a></li>
-            <li><a href="https://github.com/wbic16/quickfork/commit/8b6ffcde1380c8a76fe2b2ea78818f0d0aadec33">quickfork bootstrapping</a></li>
-            <li><a href="https://github.com/wbic16/phext-shell/commit/a7280fc1519fafc2865cfed70ef109ed38e48781">nix configs</a></li>
-          </ul>
-        </li>
-      </ul>
-      <p>
-        <a href="https://x.com/wbic16/status/1832613568706961901">September Feature Poll Results (31 votes)</a>
-      </p>
+    <h1>Welcome, To the Exocortex</h1>
+
+    <h2><strong>Phext</strong>: An Overview for Developers</h2>
+    <ol>
+      <li>Phext extends the concept of plain text from 2D (lines and columns) into an 11-dimensional space. Each additional dimension allows for richer, nested, and non-linear data expression.</li>
+      <li>It’s designed to scale the natural flow of text to Internet-wide knowledge systems—ideal for distributed cognition projects like The Exocortex.</li>
+      <li>A phext file is a container for scrolls of plain text, similar in spirit to a .tar archive, but inherently structured by position and dimension.</li>
+      <li>The Phext format is frozen—its delimiters and addressing rules will not change. You can build on it with full confidence.</li>
+      <li>Internally, a phext is a sparse matrix of scrolls, each scroll being a plain text document—Markdown, JSON, poetry, anything.</li>
+      <li>Scrolls are arranged in a 9-dimensional coordinate system, and can be navigated using a method akin to dead reckoning.</li>
+      <li>Addresses in Phext emerge from content placement. They are written in 9D triplets, e.g., 1.2.3/4.5.6/7.8.9, ordered highest-dimension first.</li>
+      <li>Coordinate labels follow a naming scheme (see below), making them easier to reason about than raw numbers—like rows and columns in a spreadsheet, but extended across nine dimensions.</li>
+      <li>When a higher dimension increments (e.g., from Book to Volume), lower dimensions reset to 1—this is a structural convention, not an arbitrary rule.</li>
+      <li>Official implementations (with full unit test coverage) include:
+        <ul>
+          <li>libphext-rs (Rust)</li>
+          <li>libphext-node (Node.js)</li>
+        </ul>
+      </li>
+      <li><a href="https://github.com/wbic16/phext-notepad/tree/master/bin/Release/net6.0-windows">Phext Notepad</a> (C#) is a reference editor for exploring and editing phexts visually.</li>
+      <li><a href="https://crates.io/crates/phext-shell/0.1.12">phext-shell</a> (Rust) is a command-line interface for advanced navigation, scripting, and editing.</li>
+      <li><a href="https://crates.io/crates/sq">SQ</a> is a REST API and daemon for hosting and interacting with phexts programmatically.</li>
+    </ol>
+
+    <h2>Phext Details</h2>
+    <ol>
+      <li>Library = 10D Delimiter, ASCII Byte: 0x01</li>
+      <li>Shelf = 9D Delimiter, ASCII Byte: 0x1F</li>
+      <li>Series = 8D Delimiter, ASCII Byte: 0x1E</li>
+      <li>Collection = 7D Delimiter, ASCII Byte: 0x1D</li>
+      <li>Volume = 6D Delimiter, ASCII Byte: 0x1C</li>
+      <li>Book = 5D Delimiter, ASCII Byte: 0x1A</li>
+      <li>Chapter = 4D Delimiter, ASCII Byte: 0x19</li>
+      <li>Section = 3D Delimiter, ASCII Byte: 0x18</li>
+      <li>Scroll = 2D Delimiter, ASCII Byte: 0x17</li>
+    </ol>
     </div>
 
     <ul id="discovery">
