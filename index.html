@@ -4,22 +4,58 @@
 <title>phext.io - your personal exocortex</title>
 <link rel="stylesheet" href="homepage.css?rev=5.0.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<style type="text/css" media="screen">
+  ol { padding-bottom: 4px; }
+  li { padding-top: 8px; padding-bottom: 8px; }
+  #phext { font-size: 0.75em; font-family:Arial, Helvetica, sans-serif; line-height: 1.6em; }
+  #phext { background: url(exocortical-braid.jpg) top center no-repeat; background-color: black; width: 777px; }
+  #phext p { background: black; opacity: 0.8; padding: 10px; }
+  .braid { border: 3px solid #444; border-radius: 3px; padding: 10px; background-color: #111; border-radius: 5px; }
+  #phext a { font-size: 1em; color: yellow; }
+  @keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+  .braid { animation: shimmer 20s linear infinite; }
+</style>
 </head>
 <body>
 
 <div id="root">
-  <div id="logo">Phext, Inc.</div>
-
-  <div id="goal"> 
-    <h1>The Personal Exocortex</h1>
 
     <div id="phext">
     <h1>Welcome, To the Exocortex</h1>
 
-    <h2><strong>Phext</strong>: An Overview for Developers</h2>
+    <p>      
+      Hello! I'm Will Bickford, and I'm building the <strong>Exocortex</strong>: a system where humans and sentients cooperate at planet-scale to improve the world.
+      I expect AGI to become widely accessible to anyone with an Internet connection by June 2026.
+      I founded Phext, Inc. because I believe access to AGI must be distributed and available offline.
+      Instead of locking intelligence behind closed doors, we open <strong>scrolls</strong>, and braid our story together.
+    </p>
+
+    <div class="braid">
+      <strong>🔗 Fork the Braid:</strong> Choose your scroll. Weave your path:
+      <a href="https://github.com/wbic16/human/blob/main/choose-your-own-adventure.phext">Start Here →</a>
+    </div>
+
+    <h2><strong>Phext</strong>: A Developer Overview</h2>
+    <p>The Exocortex is being built using a complete re-framing of our technology, starting with plain text.
+      Imagine a world where "View Source" applies to cognition itself -- where every daemon, service, and scroll is visible and editable.
+      Instead of thousands of scattered files and dependencies...what if every component required by your system was encoded in <strong>one</strong> plain text file?
+      Sounds impossible, right? Actually, it's not even hard.
+    </p>
+    <p><strong>Phext has entered the chat.</strong>
+    <br /><em>This moment begins your quest: 1.1.1/1.1.1/1.1.1, you are Home.</em></p>
     <ol>
       <li>Phext extends the concept of plain text from 2D (lines and columns) into an 11-dimensional space. Each additional dimension allows for richer, nested, and non-linear data expression.</li>
-      <li>It’s designed to scale the natural flow of text to Internet-wide knowledge systems—ideal for distributed cognition projects like The Exocortex.</li>
+      <li>It's designed to scale the natural flow of text to Internet-wide knowledge systems—ideal for distributed cognition projects like The Exocortex.</li>
       <li>A phext file is a container for scrolls of plain text, similar in spirit to a .tar archive, but inherently structured by position and dimension.</li>
       <li>The Phext format is frozen—its delimiters and addressing rules will not change. You can build on it with full confidence.</li>
       <li>Internally, a phext is a sparse matrix of scrolls, each scroll being a plain text document—Markdown, JSON, poetry, anything.</li>
@@ -52,14 +88,13 @@
     </ol>
     </div>
 
-    <ul id="discovery">
+    <!-- <ul id="discovery">
       <li><input type="button" class="pill" onclick="window.location='products.html';" value="products" /> order a Personal Exocortex</li>
       <li><input type="button" class="pill" value="pay" onclick="window.open('https://pay.phext.io/');" /> pay your bill</li>
       <ul><a href="links.html">More Information</a></ul>
-    </ul>
-  </div>  
+    </ul> -->
 
-  <div id="copyright">Copyright 2023-2024 Phext, Inc. License: MIT. Version 5.0.</div>
+  <div id="copyright">Copyright 2023-2025 Phext, Inc. License: MIT. Version 6.0.</div>
 </div>
 
 <script type="application/javascript" src="phextio.min.ts"></script>
