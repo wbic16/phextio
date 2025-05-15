@@ -13,17 +13,16 @@
   .braid { border: 3px solid #444; border-radius: 3px; padding: 10px; background-color: #111; border-radius: 5px; }
   #phext a { font-size: 1em; color: yellow; }
   @keyframes shimmer {
-  0% {
-    background-position: 0% 50%;
+    0%   { background-position: 0% -5%; }
+    50%  { background-position: 100% -5%; }
+    100% { background-position: 0% -5%; }
   }
-  50% {
-    background-position: 100% 50%;
+  #phext {    
+    animation:
+    shimmer 180s linear infinite;
+    transition: filter 0.25s ease;
+    position: relative;
   }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-  .braid { animation: shimmer 20s linear infinite; }
 </style>
 </head>
 <body>
