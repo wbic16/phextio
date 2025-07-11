@@ -282,3 +282,6 @@ table tr td {
   margin: 0px;
 }
 th { text-align: left; font-size: 1.1em; text-decoration: underline; }
+#phext .braid ul {
+  margin-left: 1em;
+}
