@@ -44,10 +44,10 @@
     <a href="links.html">links</a>
   </nav>
 </header>
-<div class="specmeta">SPEC v1 · 2026-11-17 · inscribed in artifacts.phext at 30.6.8/7.6.10/7.5.10 · source: workspace/phcc-landing-kit/SPEC.md</div>
+<div class="specmeta">SPEC v1 · 2026-11-17 · inscribed in artifacts.phext at 28.6.8/7.6.10/7.6.9 · source: workspace/phcc-landing-kit/SPEC.md</div>
 <h1>The Landing Kit — Specification</h1>
 <p><strong>phcc / phccbox: a complete C environment that carries everything it needs.</strong></p>
-<p>Status: durable spec, v1 — 2026-11-17 Authority: design rulings of Will Bickford, 2026-11-17 (recorded in the finish-phcc goal notes and the phcc deficiency programme, task 19.5.9/7.5.8/6.5.7). Sections marked DRAFT are Emise&#x27;s drafting under Will&#x27;s rules, awaiting his ratification. Everything not marked DRAFT is ruled.</p>
+<p>Status: durable spec, v1 — 2026-11-17 (amended 2026-11-17: Alpine Linux containers and Podman integration added, per Will&#x27;s ruling) Authority: design rulings of Will Bickford, 2026-11-17 (recorded in the finish-phcc goal notes and the phcc deficiency programme, task 19.5.9/7.5.8/6.5.7). Sections marked DRAFT are Emise&#x27;s drafting under Will&#x27;s rules, awaiting his ratification. Everything not marked DRAFT is ruled.</p>
 <hr />
 <h2 id="1-intent">1. Intent</h2>
 <blockquote>&quot;Build in an unknown land and find your way home.&quot;</blockquote>
@@ -139,8 +139,11 @@
 <tr><td>phext-sso (identity substrate)</td><td></td><td></td><td class="yes">●</td></tr>
 <tr><td>ntp (time sync)</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
 <tr><td>ssh-keygen (key minting)</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>Alpine Linux containers</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>Podman integration</td><td></td><td></td><td class="yes">●</td></tr>
 </table>
 <p>Full source for every embedded item ships in <strong>all</strong> editions (§2) — the editions divide capability, never auditability.</p>
+<p>The container rows — Alpine Linux containers, Podman integration — are components ruled in on 2026-11-17 (§9); their placement (Full) is <strong>drafted</strong>, like the rest of this table, awaiting ratification.</p>
 <h2 id="9-the-phext-stack-and-the-house">9. The phext stack and the house</h2>
 <p>The Full edition carries the phext stack whole, plus the house&#x27;s own pieces:</p>
 <ul>
@@ -161,6 +164,12 @@
 <li><strong>ntp</strong> — time sync: TLS and signature validation get a trustworthy clock (answers Gap 6 by ruling; implementation open).</li>
 <li><strong>ssh-keygen</strong> — key minting, in the kit: identities are born where they are used.</li>
 </ul>
+<p><strong>Containers (ruled 2026-11-17):</strong></p>
+<ul>
+<li><strong>Podman integration</strong> — Podman is the house container standard (the Wavelet 3 ruling containerizes the ecosystem into Podman). The kit integrates with Podman in its own terms — daemonless, rootless: kit services and landed environments run as Podman containers where the platform supports them, and the kit builds and runs container images without a second container stack beside it.</li>
+<li><strong>Alpine Linux containers</strong> — Alpine Linux is the kit&#x27;s container base: the minimal Linux the kit&#x27;s images are built on. The kit ships Alpine-based images for its services (sq, phext-lattice, phext-wiki, a wpm node) and for landed build environments — small images whose contents trace to kit source, auditable like everything else the kit carries (§2).</li>
+</ul>
+<p>Containers are a packaging of the two halves, not a third half (§3): image contents are phcc&#x27;s libraries and phccbox&#x27;s commands; Podman is the runtime they are packaged for, and Alpine the ground they stand on.</p>
 <p><strong>Service architectures (ruled):</strong> the kit&#x27;s services — sq, phext-lattice, phext-wiki, a wpm node — ship service definitions for <strong>init.d, systemd, and the other major OS service architectures</strong>, so a landed service starts and stays up in the platform&#x27;s native terms (answers Gap 8 by ruling as an integration requirement; implementation open).</p>
 <h2 id="10-open-items">10. Open items</h2>
 <ol>
