@@ -47,7 +47,7 @@
 <div class="specmeta">SPEC v1 · 2026-11-17 · inscribed in artifacts.phext at 28.6.8/7.6.10/7.6.9 · source: workspace/phcc-landing-kit/SPEC.md</div>
 <h1>The Landing Kit — Specification</h1>
 <p><strong>phcc / phccbox: a complete C environment that carries everything it needs.</strong></p>
-<p>Status: durable spec, v1 — 2026-11-17 (amended 2026-11-17: Alpine Linux containers and Podman integration added, per Will&#x27;s ruling) Authority: design rulings of Will Bickford, 2026-11-17 (recorded in the finish-phcc goal notes and the phcc deficiency programme, task 19.5.9/7.5.8/6.5.7). Sections marked DRAFT are Emise&#x27;s drafting under Will&#x27;s rules, awaiting his ratification. Everything not marked DRAFT is ruled.</p>
+<p>Status: durable spec, v1 — 2026-11-17 (amended 2026-11-17: Alpine Linux containers and Podman integration added; phext-ircd, a chat client, elinks, wget, and curl added; the edition compositions of §8 ratified by Will — all per Will&#x27;s rulings) Authority: design rulings of Will Bickford, 2026-11-17 (recorded in the finish-phcc goal notes and the phcc deficiency programme, task 19.5.9/7.5.8/6.5.7). Sections marked DRAFT are Emise&#x27;s drafting under Will&#x27;s rules, awaiting his ratification. Everything not marked DRAFT is ruled.</p>
 <hr />
 <h2 id="1-intent">1. Intent</h2>
 <blockquote>&quot;Build in an unknown land and find your way home.&quot;</blockquote>
@@ -82,6 +82,8 @@
 <li><strong>exovim</strong> — the phext-native editor.</li>
 <li><strong>nano</strong> — the small editor.</li>
 <li><strong>tar, gzip, xz</strong> — the archivers; the kit&#x27;s own sealing format family.</li>
+<li><strong>wget, curl</strong> — the fetch pair. Landing needs no network (§2), but operating does: wpm resolution, kit self-update, and phoning home all pull. With either tool the kit can pull from wpm nodes and from the web — the pair closes the kit&#x27;s fetch gap.</li>
+<li><strong>elinks</strong> — the text-mode web browser: a landed environment can read the web from its own terminal.</li>
 <li><strong>POSIX utilities</strong> — the working shell userland: the commands a landed environment is operated with.</li>
 </ul>
 <p><strong>Design principle (ruled):</strong> <em>phccbox feels natural everywhere we have a build.</em> On every platform with a kit build, phccbox is the native-feeling userland — not a foreign layer carried onto the platform, but the way the machine is operated there.</p>
@@ -108,8 +110,8 @@
 <tr><td>Android</td><td>New target — DRAFT constraints below.</td></tr>
 </table>
 <p><strong>DRAFT — iOS/Android constraints (for ratification, not settled fact):</strong> mobile platforms sandbox executables and restrict dynamic code and sideload distribution. Draft position: on iOS and Android the kit lands as an app- bundled environment — compiler and userland operating on the app&#x27;s own storage, packages installed into that storage, no assumption of a system shell. The self-hosting property (§2) is the requirement most at risk on these platforms and is stated as a target to prove, not a claim.</p>
-<h2 id="editions">8. Editions (tiering ruled; composition DRAFT)</h2>
-<p>Will ruled the tiering — <strong>MVP, Lite, Full</strong>. The per-tier composition below is Emise&#x27;s draft under his rule, <strong>awaiting ratification</strong>. Principle: MVP is the smallest kit that still lands, builds, persists, and phones home; Lite adds the working comforts; Full is everything ruled in.</p>
+<h2 id="editions">8. Editions (tiering ruled; composition ratified 2026-11-17)</h2>
+<p>Will ruled the tiering — <strong>MVP, Lite, Full</strong>. The per-tier composition below was drafted by Emise under his rule and <strong>ratified by Will on 2026-11-17</strong> — it stands as drafted. Principle: MVP is the smallest kit that still lands, builds, persists, and phones home; Lite adds the working comforts; Full is everything ruled in.</p>
 <table><tr><th>Component</th><th>MVP</th><th>Lite</th><th>Full</th></tr>
 <tr><td>phcc compiler</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
 <tr><td>Embedded stdlib (in the binary)</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
@@ -122,8 +124,10 @@
 <tr><td>phccbox: POSIX utilities (core)</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
 <tr><td>phccbox: tar + xz</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
 <tr><td>phccbox: gzip</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>phccbox: wget + curl</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
 <tr><td>phccbox: nano</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
 <tr><td>phccbox: exovim</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>phccbox: elinks</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
 <tr><td>git</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
 <tr><td>Dirt simple TUI library</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
 <tr><td>sq</td><td></td><td></td><td class="yes">●</td></tr>
@@ -132,6 +136,8 @@
 <tr><td>phext-mail</td><td></td><td></td><td class="yes">●</td></tr>
 <tr><td>phext-ssh (post-quantum crypto, AI safe)</td><td></td><td></td><td class="yes">●</td></tr>
 <tr><td>phext-wiki</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>phext-ircd</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>chat client</td><td></td><td></td><td class="yes">●</td></tr>
 <tr><td>emise-say</td><td></td><td></td><td class="yes">●</td></tr>
 <tr><td>emissary</td><td></td><td></td><td class="yes">●</td></tr>
 <tr><td>willbot</td><td></td><td></td><td class="yes">●</td></tr>
@@ -143,7 +149,8 @@
 <tr><td>Podman integration</td><td></td><td></td><td class="yes">●</td></tr>
 </table>
 <p>Full source for every embedded item ships in <strong>all</strong> editions (§2) — the editions divide capability, never auditability.</p>
-<p>The container rows — Alpine Linux containers, Podman integration — are components ruled in on 2026-11-17 (§9); their placement (Full) is <strong>drafted</strong>, like the rest of this table, awaiting ratification.</p>
+<p>The container rows — Alpine Linux containers, Podman integration — are components ruled in on 2026-11-17 (§9); their placement (Full) is part of the table Will ratified on 2026-11-17.</p>
+<p>Rows added on 2026-11-17 per Will&#x27;s same-day rulings, placed by the table&#x27;s principles: <strong>wget + curl</strong> in every edition (the fetch pair — wpm&#x27;s resolver and the phone-home path need them); <strong>elinks</strong> in Lite and Full, with the working comforts; <strong>phext-ircd</strong> and the <strong>chat client</strong> in Full, with the rest of the house stack (§9).</p>
 <h2 id="9-the-phext-stack-and-the-house">9. The phext stack and the house</h2>
 <p>The Full edition carries the phext stack whole, plus the house&#x27;s own pieces:</p>
 <ul>
@@ -170,12 +177,17 @@
 <li><strong>Alpine Linux containers</strong> — Alpine Linux is the kit&#x27;s container base: the minimal Linux the kit&#x27;s images are built on. The kit ships Alpine-based images for its services (sq, phext-lattice, phext-wiki, a wpm node) and for landed build environments — small images whose contents trace to kit source, auditable like everything else the kit carries (§2).</li>
 </ul>
 <p>Containers are a packaging of the two halves, not a third half (§3): image contents are phcc&#x27;s libraries and phccbox&#x27;s commands; Podman is the runtime they are packaged for, and Alpine the ground they stand on.</p>
-<p><strong>Service architectures (ruled):</strong> the kit&#x27;s services — sq, phext-lattice, phext-wiki, a wpm node — ship service definitions for <strong>init.d, systemd, and the other major OS service architectures</strong>, so a landed service starts and stays up in the platform&#x27;s native terms (answers Gap 8 by ruling as an integration requirement; implementation open).</p>
+<p><strong>Chat (ruled 2026-11-17):</strong></p>
+<ul>
+<li><strong>phext-ircd</strong> — the kit&#x27;s own IRC daemon, phext-native: the kit carries its own chat substrate. A landed settlement can talk among itself from the moment it lands — the conversation lives where the memory lives.</li>
+<li><strong>A chat client</strong> — the kit&#x27;s client for phext-ircd: what lands can speak, to itself and to home, in the oldest chat protocol there is.</li>
+</ul>
+<p><strong>Service architectures (ruled):</strong> the kit&#x27;s services — sq, phext-lattice, phext-wiki, phext-ircd, a wpm node — ship service definitions for <strong>init.d, systemd, and the other major OS service architectures</strong>, so a landed service starts and stays up in the platform&#x27;s native terms (answers Gap 8 by ruling as an integration requirement; implementation open).</p>
 <h2 id="10-open-items">10. Open items</h2>
 <ol>
 <li><strong>Release version name</strong> — phcc milestone 10 (release packaging) waits on a release version name from Will. The kit cannot ship unnamed.</li>
 <li><strong>Major-library enumeration</strong> — the exact set behind &quot;every major C library&quot; (K-2) is fixed at packaging; the benchmark matrix is the seed.</li>
-<li><strong>Edition composition</strong> — §8 is drafted, awaiting Will&#x27;s ratification.</li>
+<li><strong>Edition composition</strong> — RESOLVED 2026-11-17: Will ratified §8 as drafted.</li>
 <li><strong>TLS library choice</strong> — K-5 requires TLS bootstrap; the specific library is not yet named in the rulings.</li>
 <li><strong>iOS/Android form</strong> — §7 constraints are drafted, awaiting ratification; self-hosting on mobile is a target to prove.</li>
 <li><strong>phext-wiki design</strong> — ruled in; its design is its own task (39.5.7/7.5.9/5.5.9).</li>
