@@ -84,6 +84,7 @@
 <li><strong>tar, gzip, xz</strong> — the archivers; the kit&#x27;s own sealing format family.</li>
 <li><strong>POSIX utilities</strong> — the working shell userland: the commands a landed environment is operated with.</li>
 </ul>
+<p><strong>Design principle (ruled):</strong> <em>phccbox feels natural everywhere we have a build.</em> On every platform with a kit build, phccbox is the native-feeling userland — not a foreign layer carried onto the platform, but the way the machine is operated there.</p>
 <h2 id="6-wpm-wills-package-manager-ruled-built-not-adopted">6. wpm — Will&#x27;s Package Manager (ruled: built, not adopted)</h2>
 <p>C has never had a standard package manager. The kit fills that hole with <strong>wpm</strong>.</p>
 <p><strong>What it is.</strong> One tool that makes phcc&#x27;s holdings operable: packages are carried in phext — source, headers, and pre-built dynamics in one artifact — and wpm fetches, builds, and installs them. It is the same move the Computronium programme ruled for Chromium&#x27;s dependencies: all dependencies live in one phext, one canonical copy each.</p>
@@ -134,6 +135,10 @@
 <tr><td>emise-say</td><td></td><td></td><td class="yes">●</td></tr>
 <tr><td>emissary</td><td></td><td></td><td class="yes">●</td></tr>
 <tr><td>willbot</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>qexo</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>phext-sso (identity substrate)</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>ntp (time sync)</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>ssh-keygen (key minting)</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
 </table>
 <p>Full source for every embedded item ships in <strong>all</strong> editions (§2) — the editions divide capability, never auditability.</p>
 <h2 id="9-the-phext-stack-and-the-house">9. The phext stack and the house</h2>
@@ -149,6 +154,14 @@
 <li><strong>emissary</strong> — the kit carries an agent: what lands is inhabited, not empty.</li>
 <li><strong>willbot</strong> — Will&#x27;s handwriting, carried as the kit&#x27;s hand.</li>
 </ul>
+<p><strong>Second wave (ruled 2026-11-17):</strong></p>
+<ul>
+<li><strong>qexo</strong> — the house dispatch tool: the kit can be operated, and operate other machines, in the house&#x27;s own terms.</li>
+<li><strong>phext-sso</strong> — the shared identity substrate: one key/identity layer under phext-ssh, phext-mail, phext-wiki accounts, and wpm publishers (answers Gap 5 by ruling; implementation open).</li>
+<li><strong>ntp</strong> — time sync: TLS and signature validation get a trustworthy clock (answers Gap 6 by ruling; implementation open).</li>
+<li><strong>ssh-keygen</strong> — key minting, in the kit: identities are born where they are used.</li>
+</ul>
+<p><strong>Service architectures (ruled):</strong> the kit&#x27;s services — sq, phext-lattice, phext-wiki, a wpm node — ship service definitions for <strong>init.d, systemd, and the other major OS service architectures</strong>, so a landed service starts and stays up in the platform&#x27;s native terms (answers Gap 8 by ruling as an integration requirement; implementation open).</p>
 <h2 id="10-open-items">10. Open items</h2>
 <ol>
 <li><strong>Release version name</strong> — phcc milestone 10 (release packaging) waits on a release version name from Will. The kit cannot ship unnamed.</li>
@@ -165,10 +178,10 @@
 <li><strong>wpm discovery.</strong> Search and index across distributed nodes is unspecified: how a kit finds who publishes what.</li>
 <li><strong>wpm versioning and solver semantics.</strong> Version numbering and dependency-solver behaviour are unspecified.</li>
 <li><strong>Pre-built dynamics: provenance vs equivalence.</strong> Unless a reproducible-build requirement is adopted, a publisher signature attests provenance only — not that the binary is equivalent to the shipped source. Which guarantee the kit claims is undecided.</li>
-<li><strong>One identity substrate.</strong> phext-ssh, phext-mail, phext-wiki accounts, and wpm publishers each imply keys; a single shared identity/key substrate across all four is desirable and currently unspecified — on paper they are four silos.</li>
-<li><strong>Time.</strong> TLS and signature validation need a trustworthy clock. No time-sync component is named in the kit.</li>
-<li><strong>Entropy.</strong> Key generation on bare machines needs a CSPRNG story in the embedded stdlib; unnamed so far.</li>
-<li><strong>Service supervision.</strong> How sq, phext-lattice, phext-wiki, and a wpm node start and stay up — init/supervisor unnamed.</li>
+<li><strong>One identity substrate.</strong> phext-ssh, phext-mail, phext-wiki accounts, and wpm publishers each imply keys; a single shared identity/key substrate across all four is desirable and currently unspecified — on paper they are four silos. <strong>Answered by ruling (2026-11-17): phext-sso is that substrate (§9). Implementation still open.</strong></li>
+<li><strong>Time.</strong> TLS and signature validation need a trustworthy clock. No time-sync component is named in the kit. <strong>Answered by ruling (2026-11-17): ntp is a kit component (§9). Implementation still open.</strong></li>
+<li><strong>Entropy.</strong> Key generation on bare machines needs a CSPRNG story in the embedded stdlib; unnamed so far. (Key <em>minting</em> is covered: ssh-keygen is a kit component, §9. The entropy source beneath it remains this gap.)</li>
+<li><strong>Service supervision.</strong> How sq, phext-lattice, phext-wiki, and a wpm node start and stay up — init/supervisor unnamed. <strong>Answered by ruling (2026-11-17): kit services ship definitions for init.d, systemd, and the other major OS service architectures (§9). Implementation still open.</strong></li>
 <li><strong>License register.</strong> The full-source rule (§2) satisfies most bundling obligations, but a license register for the bundled libraries does not exist yet.</li>
 <li><strong>Kit self-update.</strong> The update path is unstated. Candidate (proposal, not ruled): the kit ships as a wpm package and updates itself through wpm.</li>
 <li><strong>Named, not specced.</strong> emise-say, emissary, and willbot are ruled in by name (§9); none has a spec yet.</li>
