@@ -1,0 +1,158 @@
+/* phext.io — Phext, Inc. design language v1
+   Domain coordinate: 60.7.7/8.7.10/8.10.10
+   Variations: gold hue +4deg · header rule 4px · measure 752px · filled tags · gold leads */
+
+:root {
+  --ground: #ffffff;
+  --ink: #191919;
+  --gold: hsl(47, 89%, 38%);
+  --gold-soft: hsl(47, 89%, 92%);
+  --accent: #1447a8;
+  --panel: #fdfcf8;
+  --rule: #d8d2c0;
+}
+html[data-theme="dark"] {
+  --ground: #000000;
+  --ink: #f0ead8;
+  --gold: hsl(47, 95%, 55%);
+  --gold-soft: #241d05;
+  --accent: #ffd21f;
+  --panel: #0a0a0a;
+  --rule: #4a4230;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.15em;
+  line-height: 1.55;
+  margin: 0;
+}
+main {
+  max-width: 752px;
+  margin: 0 auto;
+  padding: 0 20px 40px 20px;
+}
+a, a:visited { color: var(--accent); }
+a:hover { color: var(--gold); }
+
+header.site {
+  border-bottom: 4px solid var(--gold);
+  padding: 18px 0 10px 0;
+  margin-bottom: 28px;
+}
+.wordmark {
+  font-size: 2em;
+  font-weight: bold;
+  letter-spacing: 0.01em;
+}
+.wordmark .tld { color: var(--gold); }
+.stamp {
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 0.78em;
+  color: var(--gold);
+  text-transform: lowercase;
+}
+nav.site { margin-top: 8px; font-size: 0.92em; }
+nav.site a { margin-right: 14px; }
+
+.themebar {
+  float: right;
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 0.72em;
+}
+.themebar button {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--gold);
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 1em;
+  padding: 2px 8px;
+  margin-left: 4px;
+  cursor: pointer;
+}
+.themebar button[aria-pressed="true"] {
+  background: var(--gold);
+  color: #000;
+}
+
+h1 {
+  font-size: 2.1em;
+  line-height: 1.2;
+  margin: 0.4em 0 0.5em 0;
+}
+h2 {
+  font-size: 1.45em;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 4px;
+  margin-top: 1.6em;
+}
+h3 { font-size: 1.15em; margin-top: 1.4em; }
+p { margin: 0.7em 0; }
+.coord {
+  font-family: ui-monospace, "Courier New", monospace;
+  color: var(--gold);
+  font-size: 0.95em;
+}
+.panel {
+  border: 2px solid var(--gold);
+  border-radius: 3px;
+  background: var(--panel);
+  padding: 16px 20px;
+  margin: 24px 0;
+}
+.panel h2, .panel h3 { border-bottom: none; margin-top: 0.2em; }
+.tag {
+  display: inline-block;
+  background: var(--gold);
+  color: #000;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 0.62em;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+ol, ul { padding-left: 1.4em; }
+li { margin: 0.45em 0; }
+table {
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 0.92em;
+}
+th, td {
+  border: 1px solid var(--rule);
+  padding: 6px 10px;
+  text-align: left;
+}
+th { border-bottom: 2px solid var(--gold); }
+td.yes { text-align: center; color: var(--gold); font-weight: bold; }
+blockquote {
+  border-left: 4px solid var(--gold);
+  margin: 16px 0;
+  padding: 4px 16px;
+  background: var(--gold-soft);
+}
+code {
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 0.88em;
+}
+hr { border: none; border-top: 2px solid var(--gold); margin: 28px 0; }
+footer.site {
+  border-top: 4px solid var(--gold);
+  margin-top: 40px;
+  padding-top: 10px;
+  font-size: 0.85em;
+}
+footer.site .stamp { display: block; margin-top: 4px; }
+.specmeta {
+  font-family: ui-monospace, "Courier New", monospace;
+  font-size: 0.8em;
+  border: 1px solid var(--rule);
+  padding: 10px 14px;
+  margin: 16px 0;
+}

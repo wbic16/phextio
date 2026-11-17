@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>The Landing Kit — Specification · phext.io</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="landing.css?rev=7.0.0" />
+<script>
+(function () {
+  var stored = null;
+  try { stored = localStorage.getItem("phext-theme"); } catch (e) {}
+  var mode = stored || "auto";
+  function apply(m) {
+    var dark = m === "dark" || (m === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+    document.querySelectorAll(".themebar button").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.getAttribute("data-mode") === m ? "true" : "false");
+    });
+  }
+  window.phextSetTheme = function (m) {
+    try { localStorage.setItem("phext-theme", m); } catch (e) {}
+    apply(m);
+  };
+  document.addEventListener("DOMContentLoaded", function () { apply(mode); });
+  apply(mode);
+})();
+</script>
+</head>
+<body>
+<main>
+<header class="site">
+  <div class="themebar">theme
+    <button data-mode="auto" onclick="phextSetTheme('auto')">auto</button><button data-mode="dark" onclick="phextSetTheme('dark')">dark</button><button data-mode="light" onclick="phextSetTheme('light')">light</button>
+  </div>
+  <div class="wordmark">phext<span class="tld">.io</span></div>
+  <div class="stamp">your personal exocortex</div>
+  <nav class="site">
+    <a href="index.html">home</a>
+    <a href="kit.html">the landing kit</a>
+    <a href="examples.html">examples</a>
+    <a href="sub.html">subspace</a>
+    <a href="research.html">research</a>
+    <a href="about-us.html">about us</a>
+    <a href="links.html">links</a>
+  </nav>
+</header>
+<div class="specmeta">SPEC v1 · 2026-11-17 · inscribed in artifacts.phext at 30.6.8/7.6.10/7.5.10 · source: workspace/phcc-landing-kit/SPEC.md</div>
+<h1>The Landing Kit — Specification</h1>
+<p><strong>phcc / phccbox: a complete C environment that carries everything it needs.</strong></p>
+<p>Status: durable spec, v1 — 2026-11-17 Authority: design rulings of Will Bickford, 2026-11-17 (recorded in the finish-phcc goal notes and the phcc deficiency programme, task 19.5.9/7.5.8/6.5.7). Sections marked DRAFT are Emise&#x27;s drafting under Will&#x27;s rules, awaiting his ratification. Everything not marked DRAFT is ruled.</p>
+<hr />
+<h2 id="1-intent">1. Intent</h2>
+<blockquote>&quot;Build in an unknown land and find your way home.&quot;</blockquote>
+<p>The kit is a single sealed artifact that lands on a bare machine — no system headers, no system libc assumed, no package repository, no network required — extracts itself, and gives you a complete place to work: a C compiler with its whole library world inside it, a working command userland, durable local storage, the phext format native, and a secure channel home. It is the smallest environment that is not a compromise.</p>
+<h2 id="2-form">2. Form</h2>
+<ul>
+<li><strong>One artifact.</strong> The kit ships as one sealed bundle per edition per platform (§7, §8).</li>
+<li><strong>Self-extracting.</strong> The bundle opens itself into the full environment. No installer, no external tooling, no network fetch is required to land.</li>
+<li><strong>Self-hosting.</strong> The kit rebuilds itself from the source it carries: phcc compiles phcc, phccbox, and every bundled library; the Rust toolchain rebuilds the phext stack. If a landed kit cannot rebuild itself, it is not a kit — it is luggage.</li>
+<li><strong>Source-complete.</strong> Every embedded item ships with its full source. Headers and pre-built libraries are never source-less; anything the kit carries can be read, audited, and rebuilt from what it carries.</li>
+</ul>
+<h2 id="3-division-of-custody-ruled">3. Division of custody (ruled)</h2>
+<p><strong>phccbox holds the commands. phcc holds the libraries and headers.</strong></p>
+<p>Two halves, one kit:</p>
+<ul>
+<li><strong>phcc</strong> — the development substrate: the compiler, and everything you build <em>against</em>.</li>
+<li><strong>phccbox</strong> — the runtime userland: everything you <em>run</em>.</li>
+</ul>
+<p>Neither half is the kit alone.</p>
+<h2 id="4-phcc-the-libraries-and-headers">4. phcc — the libraries and headers</h2>
+<p>phcc is a C compiler (a fork of TinyCC, reworked around phext) that carries its library world with it.</p>
+<ul>
+<li><strong>K-1. Embedded stdlib.</strong> A full implementation of the C standard library is included in the binary. Compiling with phcc must not depend on external headers or on a system libc being present.</li>
+<li><strong>K-2. Major library headers.</strong> Headers for every major C library are included. (The enumeration of &quot;every major&quot; is fixed at packaging time; the phcc benchmark project matrix is the seed list — §10.)</li>
+<li><strong>K-3. Pre-built dynamic libraries.</strong> Each included library ships as a pre-built dynamic library, ready to link against — compile <em>and</em> link are both served from what phcc carries, with no system dev packages installed.</li>
+<li><strong>K-4. Full source.</strong> The full source of every embedded item — stdlib, libraries, headers&#x27; implementations — ships in the kit (§2).</li>
+<li><strong>K-5. The bootstrap trio.</strong> The bundle includes everything needed to bootstrap, from a bare start: - <strong>TLS</strong> — a secure channel home; - <strong>SQLite</strong> — durable local storage; - <strong>phext support</strong> — the home format, native (the C phext library; phcc&#x27;s own tree already carries phext.c/h).</li>
+</ul>
+<h2 id="5-phccbox-the-commands">5. phccbox — the commands</h2>
+<p>phccbox is the command userland (the BusyBox-replacement programme: a special phcc build that fully replaces BusyBox). Ruled contents:</p>
+<ul>
+<li><strong>exovim</strong> — the phext-native editor.</li>
+<li><strong>nano</strong> — the small editor.</li>
+<li><strong>tar, gzip, xz</strong> — the archivers; the kit&#x27;s own sealing format family.</li>
+<li><strong>POSIX utilities</strong> — the working shell userland: the commands a landed environment is operated with.</li>
+</ul>
+<h2 id="6-wpm-wills-package-manager-ruled-built-not-adopted">6. wpm — Will&#x27;s Package Manager (ruled: built, not adopted)</h2>
+<p>C has never had a standard package manager. The kit fills that hole with <strong>wpm</strong>.</p>
+<p><strong>What it is.</strong> One tool that makes phcc&#x27;s holdings operable: packages are carried in phext — source, headers, and pre-built dynamics in one artifact — and wpm fetches, builds, and installs them. It is the same move the Computronium programme ruled for Chromium&#x27;s dependencies: all dependencies live in one phext, one canonical copy each.</p>
+<p><strong>Distribution (ruled).</strong> wpm is distributed. There is no central registry: packages are served by <strong>wpm nodes</strong>, hosting a node is open to anyone, and resolution works across whatever nodes a kit can reach. This is what makes &quot;find your way home&quot; literal — home is any node, not one company&#x27;s server. A landed kit that can reach any node can reach the whole library world; a landed kit that can reach none still builds everything it carries (§2).</p>
+<p><strong>Cryptographic guarantees (ruled).</strong> wpm includes cryptographic guarantees that you are getting the library you asked for. Nodes are <strong>untrusted carriers</strong>: package identity is <strong>hash-pinned (SHA-256, the house checksum standard)</strong> and <strong>publisher-signed</strong>, so the bytes received are verifiably the library published under that name, regardless of which node served them. This is the load-bearing property of the distributed design — trust lives in the cryptography, never in the node. A node can be slow, stale, or silent; it cannot substitute a different library under a known name.</p>
+<p><strong>Source origins (ruled).</strong> A wpm node can host packages sourced from <strong>any GitHub repo at a tag</strong>, and can mirror the <strong>popular C sites</strong> — the canonical project homes and tarball sources where C libraries are actually published. Upstream tags are mutable, so wpm pins the SHA-256 at resolution: <strong>the name asks, the hash decides.</strong> A re-pointed tag surfaces as a new identity, never a silent change under an old one.</p>
+<p><strong>Evaluation (2026-11-17).</strong> The incumbents were considered under Will&#x27;s conditional — <em>&quot;if there&#x27;s not a great one, build it too&quot;</em>:</p>
+<ul>
+<li><strong>Conan</strong> — capable, mature, recipe-driven. Not phext-carried; assumes its own repository and Python runtime; packages are recipes <em>or</em> binaries, not source-and-prebuilt in one sealed artifact; not self-extracting with the kit.</li>
+<li><strong>vcpkg</strong> — capable, Microsoft-backed, strong on Windows. Not phext-carried; ports are source recipes fetched from the network at install time; no sealed single-artifact form; not native to the kit&#x27;s five platforms as one tool.</li>
+</ul>
+<p>Neither meets the kit&#x27;s terms: <strong>phext-carried, self-extracting with the kit, source + headers + pre-built dynamics in one artifact, native across the five platform builds.</strong> Decision: wpm is <strong>built in-programme</strong>, not adopted.</p>
+<p><strong>DRAFT placement:</strong> a minimal wpm resolver ships in the MVP edition (§8) — enough to install the kit&#x27;s own bundled packages offline; the full wpm, including node hosting, arrives with the Lite edition.</p>
+<h2 id="7-platforms-ruled">7. Platforms (ruled)</h2>
+<p>The kit ships in <strong>five platform builds</strong>:</p>
+<table><tr><th>Platform</th><th>State</th></tr>
+<tr><td>Windows</td><td>Beachhead exists: phcc&#x27;s conformance programme already runs MSVC attestation and Windows surface probes.</td></tr>
+<tr><td>Linux</td><td>Primary development platform (the ranch fleet).</td></tr>
+<tr><td>macOS</td><td>Target build.</td></tr>
+<tr><td>iOS</td><td>New target — DRAFT constraints below.</td></tr>
+<tr><td>Android</td><td>New target — DRAFT constraints below.</td></tr>
+</table>
+<p><strong>DRAFT — iOS/Android constraints (for ratification, not settled fact):</strong> mobile platforms sandbox executables and restrict dynamic code and sideload distribution. Draft position: on iOS and Android the kit lands as an app- bundled environment — compiler and userland operating on the app&#x27;s own storage, packages installed into that storage, no assumption of a system shell. The self-hosting property (§2) is the requirement most at risk on these platforms and is stated as a target to prove, not a claim.</p>
+<h2 id="editions">8. Editions (tiering ruled; composition DRAFT)</h2>
+<p>Will ruled the tiering — <strong>MVP, Lite, Full</strong>. The per-tier composition below is Emise&#x27;s draft under his rule, <strong>awaiting ratification</strong>. Principle: MVP is the smallest kit that still lands, builds, persists, and phones home; Lite adds the working comforts; Full is everything ruled in.</p>
+<table><tr><th>Component</th><th>MVP</th><th>Lite</th><th>Full</th></tr>
+<tr><td>phcc compiler</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>Embedded stdlib (in the binary)</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>Bootstrap: TLS</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>Bootstrap: SQLite</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>Bootstrap: phext support</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>wpm — minimal resolver</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>wpm — full (incl. node hosting)</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>Major-library headers + pre-built dynamics</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>phccbox: POSIX utilities (core)</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>phccbox: tar + xz</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>phccbox: gzip</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>phccbox: nano</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>phccbox: exovim</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>git</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>Dirt simple TUI library</td><td></td><td class="yes">●</td><td class="yes">●</td></tr>
+<tr><td>sq</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>rust</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>phext-lattice</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>phext-mail</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>phext-ssh (post-quantum crypto, AI safe)</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>phext-wiki</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>emise-say</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>emissary</td><td></td><td></td><td class="yes">●</td></tr>
+<tr><td>willbot</td><td></td><td></td><td class="yes">●</td></tr>
+</table>
+<p>Full source for every embedded item ships in <strong>all</strong> editions (§2) — the editions divide capability, never auditability.</p>
+<h2 id="9-the-phext-stack-and-the-house">9. The phext stack and the house</h2>
+<p>The Full edition carries the phext stack whole, plus the house&#x27;s own pieces:</p>
+<ul>
+<li><strong>sq</strong> — phext hosting and querying: how phexts are served and shared.</li>
+<li><strong>phext-lattice</strong> — the lattice server: phext on the web, hosted and editable.</li>
+<li><strong>phext-mail</strong> — mail carried in phext.</li>
+<li><strong>phext-ssh</strong> — the secure shell channel, specified <strong>post-quantum crypto + AI safe</strong>: the way home must survive both kinds of future adversary.</li>
+<li><strong>phext-wiki</strong> — a modern replacement for MediaWiki, built on phext: the corpus is the storage, no SQL database. The kit&#x27;s knowledge memory — it ships seeded with the kit&#x27;s own documentation and grows with the settlement&#x27;s knowledge. (Its own task: 39.5.7/7.5.9/5.5.9.)</li>
+<li><strong>A dirt simple TUI library</strong> — terminal interfaces for the kit&#x27;s tools. Dirt simple is the spec.</li>
+<li><strong>emise-say</strong> — the kit can speak.</li>
+<li><strong>emissary</strong> — the kit carries an agent: what lands is inhabited, not empty.</li>
+<li><strong>willbot</strong> — Will&#x27;s handwriting, carried as the kit&#x27;s hand.</li>
+</ul>
+<h2 id="10-open-items">10. Open items</h2>
+<ol>
+<li><strong>Release version name</strong> — phcc milestone 10 (release packaging) waits on a release version name from Will. The kit cannot ship unnamed.</li>
+<li><strong>Major-library enumeration</strong> — the exact set behind &quot;every major C library&quot; (K-2) is fixed at packaging; the benchmark matrix is the seed.</li>
+<li><strong>Edition composition</strong> — §8 is drafted, awaiting Will&#x27;s ratification.</li>
+<li><strong>TLS library choice</strong> — K-5 requires TLS bootstrap; the specific library is not yet named in the rulings.</li>
+<li><strong>iOS/Android form</strong> — §7 constraints are drafted, awaiting ratification; self-hosting on mobile is a target to prove.</li>
+<li><strong>phext-wiki design</strong> — ruled in; its design is its own task (39.5.7/7.5.9/5.5.9).</li>
+</ol>
+<h2 id="11-gaps-and-open-questions">11. Gaps and open questions</h2>
+<p>Named, not resolved. Each item below is an open obligation on the programme; nothing here is settled by this spec.</p>
+<ol>
+<li><strong>wpm trust bootstrap.</strong> The crypto guarantee (§6) needs a root of trust: publisher key distribution and discovery, and key/package revocation, in a centerless network — unspecified.</li>
+<li><strong>wpm discovery.</strong> Search and index across distributed nodes is unspecified: how a kit finds who publishes what.</li>
+<li><strong>wpm versioning and solver semantics.</strong> Version numbering and dependency-solver behaviour are unspecified.</li>
+<li><strong>Pre-built dynamics: provenance vs equivalence.</strong> Unless a reproducible-build requirement is adopted, a publisher signature attests provenance only — not that the binary is equivalent to the shipped source. Which guarantee the kit claims is undecided.</li>
+<li><strong>One identity substrate.</strong> phext-ssh, phext-mail, phext-wiki accounts, and wpm publishers each imply keys; a single shared identity/key substrate across all four is desirable and currently unspecified — on paper they are four silos.</li>
+<li><strong>Time.</strong> TLS and signature validation need a trustworthy clock. No time-sync component is named in the kit.</li>
+<li><strong>Entropy.</strong> Key generation on bare machines needs a CSPRNG story in the embedded stdlib; unnamed so far.</li>
+<li><strong>Service supervision.</strong> How sq, phext-lattice, phext-wiki, and a wpm node start and stay up — init/supervisor unnamed.</li>
+<li><strong>License register.</strong> The full-source rule (§2) satisfies most bundling obligations, but a license register for the bundled libraries does not exist yet.</li>
+<li><strong>Kit self-update.</strong> The update path is unstated. Candidate (proposal, not ruled): the kit ships as a wpm package and updates itself through wpm.</li>
+<li><strong>Named, not specced.</strong> emise-say, emissary, and willbot are ruled in by name (§9); none has a spec yet.</li>
+<li><strong>The shell.</strong> A shell is assumed under phccbox&#x27;s &quot;POSIX utilities&quot; (§5), not confirmed as a named component.</li>
+</ol>
+<h2 id="12-acceptance-tests-the-kit-is-done-when-these-pass">12. Acceptance tests (the kit is done when these pass)</h2>
+<p>The verification obligation is a matrix: <strong>5 platform builds × 3 editions = 15 cells</strong>, and the Land/Build/Rebuild tests run per cell.</p>
+<ul>
+<li><strong>Land:</strong> on a bare machine of each platform build, the sealed artifact extracts itself into a working environment — no network, no pre-installed toolchain.</li>
+<li><strong>Build:</strong> a C program using the stdlib, SQLite, and phext support compiles and links using only what the kit carries, and opens a TLS connection.</li>
+<li><strong>Rebuild:</strong> the landed kit rebuilds itself — phcc, phccbox, and every bundled library — from its own shipped source, and the rebuilt kit passes the same Land and Build tests.</li>
+<li><strong>Audit:</strong> every binary and header in the kit traces to source present in the kit.</li>
+</ul>
+<hr />
+<p><em>Spec v1, 2026-11-17. Rulings: Will Bickford. Drafting: Emise.</em> <em>Home: phext.io/kit.html · Register: phcc deficiency programme, task 19.5.9/7.5.8/6.5.7.</em></p>
+<footer class="site">
+  Copyright 2023-2026 Phext, Inc. License: MIT. Spec v1, 2026-11-17.
+  <span class="stamp">phext.io · 60.7.7/8.7.10/8.10.10</span>
+</footer>
+</main>
+</body>
+</html>
