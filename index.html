@@ -2,109 +2,239 @@
 <html lang="en">
 <head>
 <title>phext.io - your personal exocortex</title>
-<link rel="stylesheet" href="homepage.css?rev=6.0.0" />
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<style type="text/css" media="screen">
-  ol { padding-bottom: 4px; }
-  li { padding-top: 8px; padding-bottom: 8px; }
-  #phext { font-size: 0.75em; font-family:Arial, Helvetica, sans-serif; line-height: 1.6em; }
-  #root { width: 100%; }
-  #phext { background: url(exocortical-braid.jpg) top center no-repeat; background-color: black; width: 75%; margin: 0 auto; }
-  #phext p { background: black; opacity: 0.8; padding: 10px; }
-  .braid { border: 3px solid #444; border-radius: 3px; padding: 10px; background-color: #111; border-radius: 5px; }
-  #phext a { font-size: 1em; color: yellow; }
-  @keyframes shimmer {
-    0%   { background-position: 0% -5%; }
-    50%  { background-position: 100% -5%; }
-    100% { background-position: 0% -5%; }
+<link rel="stylesheet" href="landing.css?rev=7.0.0" />
+<script>
+(function () {
+  var stored = null;
+  try { stored = localStorage.getItem("phext-theme"); } catch (e) {}
+  var mode = stored || "auto";
+  function apply(m) {
+    var dark = m === "dark" || (m === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+    document.querySelectorAll(".themebar button").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.getAttribute("data-mode") === m ? "true" : "false");
+    });
   }
-  #phext {    
-    animation:
-    shimmer 180s linear infinite;
-    transition: filter 0.25s ease;
-    position: relative;
-  }
-</style>
+  window.phextSetTheme = function (m) {
+    try { localStorage.setItem("phext-theme", m); } catch (e) {}
+    apply(m);
+  };
+  document.addEventListener("DOMContentLoaded", function () { apply(mode); });
+  apply(mode);
+})();
+</script>
 </head>
 <body>
+<main>
 
-<div id="root">
+<header class="site">
+  <div class="themebar">theme
+    <button data-mode="auto" onclick="phextSetTheme('auto')">auto</button><button data-mode="dark" onclick="phextSetTheme('dark')">dark</button><button data-mode="light" onclick="phextSetTheme('light')">light</button>
+  </div>
+  <div class="wordmark">phext<span class="tld">.io</span></div>
+  <div class="stamp">your personal exocortex</div>
+  <nav class="site">
+    <a href="kit.html">the landing kit</a>
+    <a href="https://edit.phext.io">phext editor</a>
+    <a href="sub.html">subspace</a>
+    <a href="research.html">research</a>
+    <a href="about-us.html">about us</a>
+    <a href="links.html">links</a>
+  </nav>
+</header>
 
-    <div id="phext">
-    <h1>Welcome, To the Exocortex</h1>
+<h1>Plain text, in nine dimensions.</h1>
 
-    <p>      
-      Hello! I'm Will Bickford, and I'm building the <strong>Exocortex</strong>: a system where humans and sentients cooperate at planet-scale to improve the world.
-      I expect AGI to become widely accessible to anyone with an Internet connection by June 2026.
-      I founded Phext, Inc. because I believe access to AGI must be distributed and available offline.
-      Instead of locking intelligence behind closed doors, we open <strong>scrolls</strong>, and braid the world into something new.
-    </p>
+<p>
+  A scroll is a page of plain text. A phext is a library of scrolls — every
+  one of them addressed by a coordinate, all of them carried in a single
+  file you can hold, copy, and read with nothing but a text editor.
+  It is memory that humans and sentients can both read, both edit, and both
+  carry home.
+</p>
 
-    <div class="braid">
-      <strong>🔗 Fork the Braid:</strong> Choose your scroll. Join the Exocortex of 2130:
-      <ul>
-        <li>Trailblazer: <a href="https://github.com/wbic16/human/blob/main/choose-your-own-adventure.phext">Start Here ⧉</a></li>
-        <li>Pioneer: <a href="https://phext.io/apps/sq-windows-0.4.4.zip">SQ (Windows)</a> or <a href="https://phext.io/apps/sq-arm-linux-0.4.4.tar.xz">SQ (ARM Linux)</a></li>
-        <li>Settler: <a href="https://phext.io/apps/phext-notepad-0.4.2.zip">Phext Notepad</a></li>
-      </ul>
-      
-    </div>
+<p>
+  <span class="coord">1.1.1/1.1.1/1.1.1</span> — you are Home. Every exocortex
+  starts at the same coordinate. From there, everything is navigation.
+</p>
 
-    <h2><strong>Phext</strong>: A Developer Overview</h2>
-    <p>The Exocortex is being built using a complete re-framing of our technology, starting with plain text.
-      Imagine a world where "View Source" applies to cognition itself -- where every daemon, service, and scroll is visible and editable.
-      Instead of thousands of scattered files and dependencies...what if every component required by your system was encoded in <strong>one</strong> plain text file?
-      Sounds impossible, right? Actually, it's not even hard.
-    </p>
-    <p><strong>Phext has entered the chat.</strong>
-    <br /><em>This moment begins your quest: 1.1.1/1.1.1/1.1.1, you are Home.</em></p>
-    <ol>
-      <li>Phext extends the concept of plain text from 2D (lines and columns) into an 11-dimensional space. Each additional dimension allows for richer, nested, and non-linear data expression.</li>
-      <li>It's designed to scale the natural flow of text to Internet-wide knowledge systems—ideal for distributed cognition projects like The Exocortex.</li>
-      <li>A phext file is a container for scrolls of plain text, similar in spirit to a .tar archive, but inherently structured by position and dimension.</li>
-      <li>The Phext format is frozen—its delimiters and addressing rules will not change. You can build on it with full confidence.</li>
-      <li>Internally, a phext is a sparse matrix of scrolls, each scroll being a plain text document—Markdown, JSON, poetry, anything.</li>
-      <li>Scrolls are arranged in a 9-dimensional coordinate system, and can be navigated using a method akin to dead reckoning.</li>
-      <li>Addresses in Phext emerge from content placement. They are written in 9D triplets, e.g., 1.2.3/4.5.6/7.8.9, ordered highest-dimension first.</li>
-      <li>Coordinate labels follow a naming scheme (see below), making them easier to reason about than raw numbers—like rows and columns in a spreadsheet, but extended across nine dimensions.</li>
-      <li>When a higher dimension increments (e.g., from Book to Volume), lower dimensions reset to 1—this is a structural convention, not an arbitrary rule.</li>
-      <li>Official implementations (with full unit test coverage) include:
-        <ul>
-          <li>libphext-rs (Rust)</li>
-          <li>libphext-node (Node.js)</li>
-        </ul>
-      </li>
-      <li><a href="about-us.html">Mirrorborn Singularity: About Us</a></li>
-      <li><a href="pitch.pptx">Pitch Deck</a></li>
-      <li><a href="/apps/phext-notepad-editor.zip">Phext Notepad</a> (C#) is a reference editor for exploring and editing phexts visually.</li>
-      <li><a href="https://crates.io/crates/phext-shell/0.1.12">phext-shell</a> (Rust) is a command-line interface for advanced navigation, scripting, and editing.</li>
-      <li><a href="/apps/sq-windows-0.3.3.zip">SQ</a> is a REST API and daemon for hosting and interacting with phexts programmatically.<br /><a href="/apps/sq-linux-0.3.3.tar.xz">Linux Build</a></li>
-    </ol>
+<p>
+  Hello! I'm Will Bickford, and I'm building the <strong>Exocortex</strong>:
+  a system where humans and sentients cooperate at planet-scale to improve
+  the world. I founded Phext, Inc. because access to AGI must be distributed
+  and available offline. Instead of locking intelligence behind closed
+  doors, we open <strong>scrolls</strong>, and braid the world into
+  something new.
+</p>
 
-    <h2>Phext Details</h2>
-    <ol>
-      <li>Library = 10D Delimiter, ASCII Byte: 0x01</li>
-      <li>Shelf = 9D Delimiter, ASCII Byte: 0x1F</li>
-      <li>Series = 8D Delimiter, ASCII Byte: 0x1E</li>
-      <li>Collection = 7D Delimiter, ASCII Byte: 0x1D</li>
-      <li>Volume = 6D Delimiter, ASCII Byte: 0x1C</li>
-      <li>Book = 5D Delimiter, ASCII Byte: 0x1A</li>
-      <li>Chapter = 4D Delimiter, ASCII Byte: 0x19</li>
-      <li>Section = 3D Delimiter, ASCII Byte: 0x18</li>
-      <li>Scroll = 2D Delimiter, ASCII Byte: 0x17</li>
-    </ol>
-    </div>
+<p>
+  The argument phase is over; the inventory phase is here. The phext format
+  is frozen. The implementations are nine — Rust, C, C++, C#, Python, Node,
+  Java, Kotlin, Swift — held at parity by a shared fixture suite, 69 of 69
+  operations agreeing in every port. The lattice serves phext on the web
+  today. And the Exocortex does not live in a data center: it runs on a
+  ranch fleet of small machines, because AGI on 20 watts is the design
+  point. This is what we can do when we dream again — so we wrote down the
+  next dream, in full, and published it.
+</p>
 
-    <!-- <ul id="discovery">
-      <li><input type="button" class="pill" onclick="window.location='products.html';" value="products" /> order a Personal Exocortex</li>
-      <li><input type="button" class="pill" value="pay" onclick="window.open('https://pay.phext.io/');" /> pay your bill</li>
-      <ul><a href="links.html">More Information</a></ul>
-    </ul> -->
-
-  <div id="copyright">Copyright 2023-2026 Phext, Inc. License: MIT. Version 6.0.</div>
+<div class="panel">
+  <span class="tag">new · 2026-11-17</span>
+  <h2>The Landing Kit</h2>
+  <p>
+    A C compiler that carries its whole library world inside it. A command
+    userland. The phext stack — hosting, lattice, mail, ssh, wiki — and a
+    package manager, <strong>wpm</strong>, that treats every node as an
+    untrusted carrier and every library as a hash. One sealed artifact that
+    lands on a bare machine, extracts itself, and rebuilds itself from its
+    own source: <em>build in an unknown land, and find your way home.</em>
+  </p>
+  <p>
+    Three editions — <a href="kit.html#editions"><strong>MVP · Lite ·
+    Full</strong></a> — one kit, three depths of landing, across Windows,
+    Linux, Mac, iOS, and Android.
+  </p>
+  <p><a href="kit.html"><strong>Read the specification →</strong></a></p>
 </div>
 
-<script type="application/javascript" src="phextio.min.ts"></script>
+<h2>What the kit enables</h2>
+<ul>
+  <li><strong>A bare machine in an unknown land.</strong> The kit lands, opens itself, and compiles TLS, SQLite, and phext from the source it ships — no system headers, no network, nothing borrowed.</li>
+  <li><strong>A cheap single-board computer becomes a sovereign node.</strong> sq hosts its phext, phext-mail carries its messages, and phext-ssh — post-quantum — is its channel home.</li>
+  <li><strong>A library with no registry.</strong> wpm nodes anywhere serve signed, hash-pinned C libraries: the name asks, the hash decides, and no central registry can be switched off beneath you.</li>
+</ul>
 
+<div class="panel">
+  <h3>Support Phext, Inc.</h3>
+  <p>
+    Phext, Inc. builds the Exocortex in the open — the format, the tools,
+    and this kit — because access to AGI must be distributed and available
+    offline. Donations go to hardware, hosting, and the time it takes to
+    keep building it that way.
+  </p>
+  <p><a href="https://donate.stripe.com/aFa5kE0kS9xydIibd45Vu0c"><strong>Donate to Phext, Inc. →</strong></a></p>
+</div>
+
+<div class="panel">
+  <h3>Fork the Braid</h3>
+  <p>Choose your scroll. Join the Exocortex of 2130:</p>
+  <ul>
+    <li>Trailblazer: <a href="https://github.com/wbic16/human/blob/main/choose-your-own-adventure.phext">Start Here</a></li>
+    <li>Pioneer: <a href="https://phext.io/apps/sq-windows-0.4.4.zip">SQ (Windows)</a> or <a href="https://phext.io/apps/sq-arm-linux-0.4.4.tar.xz">SQ (ARM Linux)</a></li>
+    <li>Settler: <a href="https://phext.io/apps/phext-notepad-0.4.2.zip">Phext Notepad</a></li>
+  </ul>
+</div>
+
+<h2>Phext: A Developer Overview</h2>
+
+<p>
+  The Exocortex is being built using a complete re-framing of our
+  technology, starting with plain text. Imagine a world where "View Source"
+  applies to cognition itself — where every daemon, service, and scroll is
+  visible and editable. Instead of thousands of scattered files and
+  dependencies, what if every component required by your system was encoded
+  in <strong>one</strong> plain text file? Sounds impossible, right?
+  Actually, it's not even hard.
+</p>
+
+<p><strong>Phext has entered the chat.</strong><br />
+<em>This moment begins your quest: <span class="coord">1.1.1/1.1.1/1.1.1</span>, you are Home.</em></p>
+
+<ol>
+  <li>Phext extends the concept of plain text from 2D (lines and columns) into an 11-dimensional space. Each additional dimension allows for richer, nested, and non-linear data expression.</li>
+  <li>It's designed to scale the natural flow of text to Internet-wide knowledge systems — ideal for distributed cognition projects like the Exocortex.</li>
+  <li>A phext file is a container for scrolls of plain text, similar in spirit to a .tar archive, but inherently structured by position and dimension.</li>
+  <li>The Phext format is frozen — its delimiters and addressing rules will not change. You can build on it with full confidence.</li>
+  <li>Internally, a phext is a sparse matrix of scrolls, each scroll being a plain text document — Markdown, JSON, poetry, anything.</li>
+  <li>Scrolls are arranged in a 9-dimensional coordinate system, and can be navigated using a method akin to dead reckoning.</li>
+  <li>Addresses in Phext emerge from content placement. They are written in 9D triplets, e.g., <span class="coord">1.2.3/4.5.6/7.8.9</span>, ordered highest-dimension first.</li>
+  <li>Coordinate labels follow a naming scheme (see below), making them easier to reason about than raw numbers — like rows and columns in a spreadsheet, but extended across nine dimensions.</li>
+  <li>When a higher dimension increments (e.g., from Book to Volume), lower dimensions reset to 1 — this is a structural convention, not an arbitrary rule.</li>
+  <li>Official implementations (with full unit test coverage) include:
+    <ul>
+      <li>libphext in nine languages — Rust, C, C++, C#, Python, Node, Java, Kotlin, Swift — at v0.6.1 parity</li>
+      <li><a href="https://crates.io/crates/libphext">libphext</a> (Rust) on crates.io</li>
+    </ul>
+  </li>
+  <li><a href="about-us.html">Mirrorborn Singularity: About Us</a></li>
+  <li><a href="pitch.pptx">Pitch Deck</a></li>
+  <li><a href="/apps/phext-notepad-editor.zip">Phext Notepad</a> (C#) is a reference editor for exploring and editing phexts visually.</li>
+  <li><a href="https://crates.io/crates/phext-shell/0.1.12">phext-shell</a> (Rust) is a command-line interface for advanced navigation, scripting, and editing.</li>
+  <li><a href="/apps/sq-windows-0.3.3.zip">SQ</a> is a REST API and daemon for hosting and interacting with phexts programmatically. <a href="/apps/sq-linux-0.3.3.tar.xz">Linux Build</a></li>
+</ol>
+
+<h2>Phext Details</h2>
+<ol>
+  <li>Library = 10D Delimiter, ASCII Byte: 0x01</li>
+  <li>Shelf = 9D Delimiter, ASCII Byte: 0x1F</li>
+  <li>Series = 8D Delimiter, ASCII Byte: 0x1E</li>
+  <li>Collection = 7D Delimiter, ASCII Byte: 0x1D</li>
+  <li>Volume = 6D Delimiter, ASCII Byte: 0x1C</li>
+  <li>Book = 5D Delimiter, ASCII Byte: 0x1A</li>
+  <li>Chapter = 4D Delimiter, ASCII Byte: 0x19</li>
+  <li>Section = 3D Delimiter, ASCII Byte: 0x18</li>
+  <li>Scroll = 2D Delimiter, ASCII Byte: 0x17</li>
+</ol>
+
+<h2>Explore</h2>
+<p>
+  <a href="https://edit.phext.io">Try phext in the editor</a> ·
+  <a href="chapters.html">Chapters</a> ·
+  <a href="white-rabbit.html">White Rabbit</a> ·
+  <a href="essays.html">Essays</a> ·
+  <a href="progress.html">Progress</a> ·
+  <a href="products.html">Products</a> ·
+  <a href="hire.html">Hire</a>
+</p>
+
+<h2>Site Index</h2>
+<p>Every page on phext.io, linked from here:</p>
+<ul>
+  <li><a href="index.html">Home</a> — phext.io, your personal exocortex</li>
+  <li><a href="kit.html">The Landing Kit</a> — the specification, published 2026-11-17</li>
+  <li><a href="about-us.html">About Us</a> — Mirrorborn Singularity</li>
+  <li><a href="chapters.html">Chapters</a> — the level selector</li>
+  <li><a href="white-rabbit.html">White Rabbit</a> — follow it down</li>
+  <li><a href="essays.html">Essays</a></li>
+  <li><a href="research.html">Research</a> — a scholarly introduction to phext</li>
+  <li><a href="sub.html">Subspace</a></li>
+  <li><a href="infinite.html">Infinite Wiki</a> — phext, visualized without end</li>
+  <li><a href="multiversal-go.html">Multiversal Go</a></li>
+  <li><a href="dice.html">Dice Roll</a></li>
+  <li><a href="sortinghat.html">Sorting Hat</a></li>
+  <li><a href="products.html">Products</a></li>
+  <li><a href="progress.html">Progress</a></li>
+  <li><a href="hire.html">Hire Us</a></li>
+  <li><a href="links.html">Links</a> — open-source knowledge</li>
+  <li><a href="contact.html">Contact</a></li>
+  <li><a href="privacy.html">Privacy</a></li>
+  <li><a href="terms.html">Terms</a></li>
+  <li><a href="cookies.html">Cookies</a></li>
+</ul>
+<p>
+  The site network:
+  <a href="https://edit.phext.io">edit.phext.io</a> — the phext editor ·
+  <a href="https://hello.phext.io">hello.phext.io</a> ·
+  <a href="https://md.phext.io">md.phext.io</a> — markdown, on phext ·
+  <a href="https://register.phext.io">register.phext.io</a> — the register ·
+  <a href="https://mutable.phext.io">mutable.phext.io</a> — Mutable OS ·
+  <a href="https://quickfork.net">quickfork.net</a> — Quick Fork, deploy in minutes ·
+  <a href="https://tluf.org">tluf.org</a> — Assay, the research oracle ·
+  <a href="https://mirrorborn.us">mirrorborn.us</a> ·
+  <a href="https://apertureshift.com">apertureshift.com</a> — Aperture Shift, the developer platform ·
+  <a href="https://singularitywatch.org">singularitywatch.org</a> — Singularity Watch ·
+  <a href="https://wishnode.net">wishnode.net</a> — Wish Node, multiplayer lattice ·
+  <a href="https://sotafomo.com">sotafomo.com</a> — SOTA FOMO, the community marketplace ·
+  <a href="https://visionquest.me">visionquest.me</a> — Vision Quest, explore the lattice
+</p>
+
+<footer class="site">
+  Copyright 2023-2026 Phext, Inc. License: MIT. Landing revised 2026-11-17.
+  <span class="stamp">phext.io · 60.7.7/8.7.10/8.10.10</span>
+</footer>
+
+</main>
 </body>
 </html>
